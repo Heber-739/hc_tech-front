@@ -2,19 +2,24 @@
   <!-- Toggle menu -->
   <div class="toogle-btn" (click)="toggleMenu()">
     <i
-      class="pi pi-angle-double-left icon primary-icon text-3xl"
+      class="pi pi-angle-double-left icon primary-icon text-2xl"
       [ngClass]="expanded() ? 'pi-angle-double-left' : 'pi-angle-double-right'"
     ></i>
   </div>
 
   <!-- Header -->
   <div class="flex flex-column py-3 px-3">
-    <div class="flex gap-1 w-fit gap-2">
-      <p-avatar class="mr-2" size="large" shape="circle" [image]="company().img" />
-      <div class="flex-col m-auto">
-        <p class="text-xl text-white bold">{{ company().companyName }}</p>
-        <p class="t-gray">{{ company().userName }}</p>
-      </div>
+    <div class="flex gap-1 w-full gap-2 justify-center">
+      <p-avatar
+       size="large" shape="circle" [image]="company().img"
+       [ngClass]="expanded() ? 'mr-2':'m-auto' "
+       />
+      @if(expanded()){
+        <div class="mr-auto">
+          <p class="text-xl text-white bold">{{ company().companyName }}</p>
+          <p class="t-gray">{{ company().userName }}</p>
+        </div>
+      }
     </div>
     <div class="divider"></div>
 
@@ -22,39 +27,63 @@
 
     <div class="w-full flex flex-column gap-4">
 
-      <a routerLink="/panel/empleados" pButton [severity]="getSeverity('empleados')" class="w-full justify-content-start border-round-sm">
+      <a routerLink="/panel/empleados" pButton [severity]="getSeverity('empleados')"
+      class="w-full justify-content-start border-round-sm"
+      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+      >
       <i class="pi pi-users text-xl" pButtonIcon></i>
-      <p pButtonLabel class="text-xl">Empleados</p>
+      @if(expanded()){ <p pButtonLabel class="text-xl">Empleados</p> }
+
       </a>
 
 
-      <a routerLink="/panel/turnos" pButton [severity]="getSeverity('turnos')" class="w-full justify-content-start border-round-sm">
+      <a routerLink="/panel/turnos" pButton [severity]="getSeverity('turnos')"
+      class="w-full justify-content-start border-round-sm"
+      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+      >
       <i class="pi pi-book text-xl" pButtonIcon></i>
-      <p pButtonLabel class="text-xl">Turnos</p>
+      @if(expanded()){ <p pButtonLabel class="text-xl">Turnos</p> }
+
       </a>
 
 
-      <a routerLink="/panel/horarios" pButton [severity]="getSeverity('horarios')" class="w-full justify-content-start border-round-sm">
+      <a routerLink="/panel/horarios" pButton [severity]="getSeverity('horarios')"
+      class="w-full justify-content-start border-round-sm"
+      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+      >
       <i class="pi pi-clock text-xl" pButtonIcon></i>
-      <p pButtonLabel class="text-xl">Horarios</p>
+      @if(expanded()){ <p pButtonLabel class="text-xl">Horarios</p> }
+
       </a>
 
 
-      <a routerLink="/panel/calendario" pButton [severity]="getSeverity('calendario')" class="w-full justify-content-start border-round-sm">
+      <a routerLink="/panel/calendario" pButton [severity]="getSeverity('calendario')"
+      class="w-full justify-content-start border-round-sm"
+      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+      >
       <i class="pi pi-calendar-clock text-xl" pButtonIcon></i>
-      <p pButtonLabel class="text-xl">Calendario</p>
+      @if(expanded()){ <p pButtonLabel class="text-xl">Calendario</p> }
+
       </a>
 
 
-      <a routerLink="/panel/tramites" pButton [severity]="getSeverity('tramites')" class="w-full justify-content-start border-round-sm">
+      <a routerLink="/panel/tramites" pButton [severity]="getSeverity('tramites')"
+      class="w-full justify-content-start border-round-sm"
+      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+      >
       <i class="pi pi-copy text-xl" pButtonIcon></i>
-      <p pButtonLabel class="text-xl">Tramites</p>
+      @if(expanded()){ <p pButtonLabel class="text-xl">Tramites</p> }
+
       </a>
 
 
-      <a routerLink="/panel/reportes" pButton [severity]="getSeverity('reportes')" class="w-full justify-content-start border-round-sm">
+      <a routerLink="/panel/reportes" pButton [severity]="getSeverity('reportes')"
+      class="w-full border-round-sm"
+      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+      >
       <i class="pi pi-chart-line text-xl" pButtonIcon></i>
-      <p pButtonLabel class="text-xl">Reportes</p>
+      @if(expanded()){ <p pButtonLabel class="text-xl">Reportes</p> }
+
       </a>
 
 
