@@ -14,6 +14,7 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "outputPath": "docs",
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -23,7 +24,7 @@
             ],
             "styles": [
               "primeicons/primeicons.css",
-"primeflex/primeflex.css",
+              "primeflex/primeflex.css",
               "src/styles.css"
             ]
           },
