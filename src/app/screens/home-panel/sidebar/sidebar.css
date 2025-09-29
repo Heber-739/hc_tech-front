@@ -1,0 +1,26 @@
+.aside{
+  position: relative;
+  height: 100vh;
+  background-color: var(--bg_primary);
+}
+.short-aside {
+width: 5dvw;
+}
+.expanded-aside {
+width: 16dvw;
+}
+.toogle-btn {
+  position: absolute;
+  top: 30px;
+  right: -10px;
+}
+
+.btn,.divider {
+  width: 85%;
+
+}
+.divider{
+  height: 1px;
+  margin: 20px auto 50px;
+  background-color: var(--light-gray);
+}

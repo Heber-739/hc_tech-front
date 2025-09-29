@@ -1,0 +1,12 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-empleados',
+  imports: [],
+  templateUrl: './empleados.html',
+  styleUrl: './empleados.css',
+  standalone:true
+})
+export default class Empleados {
+
+}

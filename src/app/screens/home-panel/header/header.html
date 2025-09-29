@@ -1,0 +1,35 @@
+<header class="header w-full flex align-items-center gap-3">
+  <p class="text-4xl flex-grow-1 text-center">{{ title() }}</p>
+  <p-button label="Administración" />
+
+  <i
+    class="pi pi-bell icon notify-icon text-2xl"
+    (click)="toggle($event)"
+    [ngClass]="notifications().length > 0 ? 'primary-icon' : 'secundary-icon'"
+  >
+    @if (notifications().length > 0) {
+    <p class="badge text-center">{{ notifications().length }}</p>
+    }
+  </i>
+  <div class="card flex gap-2 h-fit">
+    <p-avatar class="mr-2" size="xlarge" shape="circle" [image]="user().img" />
+    <div class="flex-col text-center m-auto">
+      <p class="text-xl bold">{{ user().name }}</p>
+      <p class="t-gray">{{ user().rol }}</p>
+    </div>
+  </div>
+
+  <p-popover #op>
+    <div class="flex flex-column gap-4">
+
+
+      @for(not of notifications(); track not) {
+        <p class="font-medium block mb-2 w-16rem"> {{not.description}} </p>
+
+        } @empty {
+          <span class="font-medium block mb-2">No hay notificaciones</span>
+        }
+      </div>
+
+  </p-popover>
+</header>
