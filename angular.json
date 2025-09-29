@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "outputPath": "dist/hc_terch_frontend",
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -23,7 +24,7 @@
             ],
             "styles": [
               "primeicons/primeicons.css",
-"primeflex/primeflex.css",
+              "primeflex/primeflex.css",
               "src/styles.css"
             ]
           },
@@ -80,6 +81,9 @@
               "src/styles.css"
             ]
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
