@@ -1,0 +1,1 @@
+import{Bb as m,Ha as a,eb as s,fb as p}from"./chunk-WOFRKUJ5.js";var t=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=a({type:o,selectors:[["app-empleados"]],decls:2,vars:0,template:function(e,l){e&1&&(s(0,"p"),m(1,"empleados works!"),p())},encapsulation:2})};export{t as default};
