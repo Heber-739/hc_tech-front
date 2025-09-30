@@ -15,7 +15,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
      providePrimeNG({
       ripple: true,
-      theme: { preset: MyPreset }
+      theme: { preset: MyPreset,
+
+       options: {
+            darkModeSelector: false || 'none'
+        }
+      }
     })
   ]
 };

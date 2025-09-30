@@ -1,0 +1,13 @@
+.p-iconfield > input, .p-iconfield > input:active {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid var(--gray);
+  outline: none;
+}
+.div-filters {
+  border: 1px solid var(--gray);
+}
+p {
+  color: var(--gray);
+}

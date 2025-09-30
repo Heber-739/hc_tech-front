@@ -5,6 +5,7 @@
 :root {
   /* ---------------- BOTONES ---------------- */
 
+
   --accent: #009EF7;
   --white: #fff;
   --black: #000;
@@ -30,7 +31,7 @@
   --app-bg-footer:     #263238; */
 }
 
-html, body, p{
+html, body, p, div {
   font-family: Inter, 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   padding: 0;
   margin: 0;
@@ -42,6 +43,13 @@ html {
 }
 a{
   text-decoration: none;
+}
+.grid{
+  box-sizing: content-box;
+
+}
+.p-select:focus {
+  outline: 1px solid #009EF7 !important;
 }
 
 .a-c-c{

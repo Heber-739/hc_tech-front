@@ -1,1 +1,47 @@
-<p>empleados works!</p>
+
+<div class="w-full">
+  <div class="grid m-0 w-full div-filters">
+    <div class="col-3 pl-4">
+      <p-iconfield class="w-full h-full">
+        <input type="text" class="w-full text-sm h-full pl-2" pInputText placeholder="Search" />
+        <p-inputicon class="pi pi-search" />
+      </p-iconfield>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-2 px-5">
+      <p-select class="w-full"  size="small" [options]="['Supervisor','Repositor']" optionLabel="name" placeholder="Puesto" />
+    </div>
+    <div class="col-1"></div>
+    <div class="col-2 px-6">
+      <p-select class="w-full" size="small" [options]="['Activo','Vacaciones']" optionLabel="name" placeholder="Estado" />
+    </div>
+    <div class="col-1"></div>
+    <div class="col-2 flex px-4 align-items-center justify-content-end">
+      <i class="pi pi-trash text-xl mr-5" style="color:red;"></i>
+      <p-button label="Agregar"  />
+    </div>
+  </div>
+
+  <div class="grid m-0 w-full div-filters">
+    <div class="col-1 flex justify-content-left">
+      <p-checkbox [binary]="true" class="ml-5" />
+    </div>
+    <div class="col-3 text-sm text-center">
+      <p>Personal</p>
+    </div>
+    <div class="col-2 text-sm text-center">
+      <p>Puesto</p>
+    </div>
+    <div class="col-1 text-sm text-center">
+      <p>Horario</p>
+    </div>
+    <div class="col-2 text-sm text-center">
+      <p>Estado</p>
+    </div>
+    <div class="col-1 text-sm text-center">
+      <p>Antiguedad</p>
+    </div>
+    <div class="col-2">
+    </div>
+  </div>
+</div>

@@ -22,9 +22,8 @@ export class Sidebar {
   protected route = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
-      map((e)=>e.url.split("/")),
-      map((e)=>e[e.length-1]),
-    ),
+      map((e)=>e.urlAfterRedirects.split("/")),
+      map((e)=>e[e.length-1])),
     { initialValue: "" }
   );
 
