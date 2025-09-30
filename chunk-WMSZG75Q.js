@@ -1,0 +1,1 @@
+import{Db as s,Ja as r,gb as a,hb as i}from"./chunk-VW7GKL7F.js";var o=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=r({type:t,selectors:[["app-horarios"]],decls:2,vars:0,template:function(e,p){e&1&&(a(0,"p"),s(1,"horarios works!"),i())},encapsulation:2})};export{o as default};

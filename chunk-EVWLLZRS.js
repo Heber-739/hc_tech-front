@@ -1,0 +1,1 @@
+import{Db as a,Ja as o,gb as s,hb as r}from"./chunk-VW7GKL7F.js";var t=class n{static \u0275fac=function(e){return new(e||n)};static \u0275cmp=o({type:n,selectors:[["app-turnos"]],decls:2,vars:0,template:function(e,p){e&1&&(s(0,"p"),a(1,"turnos works!"),r())},encapsulation:2})};export{t as default};
