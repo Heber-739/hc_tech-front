@@ -1,1 +1,0 @@
-import{Db as n,Ja as i,gb as s,hb as m}from"./chunk-VW7GKL7F.js";var t=class a{static \u0275fac=function(e){return new(e||a)};static \u0275cmp=i({type:a,selectors:[["app-tramites"]],decls:2,vars:0,template:function(e,r){e&1&&(s(0,"p"),n(1,"tramites works!"),m())},encapsulation:2})};export{t as default};
