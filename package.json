@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "pages":"npx angular-cli-ghpages --dir=dist/hc_terch_frontend",
-    "build": "ng build",
+    "pages":"npx angular-cli-ghpages --dir=dist/hc_terch_frontend/browser",
+    "build": "ng build --base-href /hc_tech-front/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

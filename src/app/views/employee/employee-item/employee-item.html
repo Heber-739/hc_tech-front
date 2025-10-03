@@ -1,0 +1,30 @@
+ <div class="grid m-0 w-full div-filters align-items-center">
+    <div class="col-1 flex justify-content-left">
+      <p-checkbox [binary]="true" class="ml-5" />
+    </div>
+    <div class="col-3 text-base ">
+      <div class="flex items-center align-items-center ">
+        <p-avatar [image]="employee().image" class="mr-2" size="large" shape="circle" />
+        <span >{{ employee().name }}</span>
+    </div>
+  </div>
+  <div class="col-2 text-base text-center">
+      <span>{{ employee().rol }}</span>
+    </div>
+    <div class="col-2 text-base text-center">
+      <span>{{ employee().work_schedule }}</span>
+    </div>
+    <div class="col-2 text-base text-center">
+      <span>{{ employee().status }}</span>
+    </div>
+    <div class="col-1 text-base text-center">
+      <span>{{ employee().time_in_company }}</span>
+    </div>
+    <div class="col-1 flex align-items-center justify-content-center">
+      <p-button label="Editar" type="primary" outlined  />
+    </div>
+
+
+
+
+</div>

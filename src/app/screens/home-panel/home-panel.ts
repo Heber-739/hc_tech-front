@@ -9,8 +9,7 @@ import { Header } from "./header/header";
   selector: 'app-home-panel',
   imports: [DrawerModule, RouterModule, ButtonModule, Sidebar, Header],
   templateUrl: './home-panel.html',
-  styleUrl: './home-panel.css',
-  standalone:true
+  styleUrl: './home-panel.css'
 })
 export default class HomePanel {
   visible = false;

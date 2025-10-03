@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Tramites } from './tramites';
+import Shifts from './shifts';
 
-describe('Tramites', () => {
-  let component: Tramites;
-  let fixture: ComponentFixture<Tramites>;
+describe('Shifts', () => {
+  let component: Shifts;
+  let fixture: ComponentFixture<Shifts>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Tramites]
+      imports: [Shifts]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Tramites);
+    fixture = TestBed.createComponent(Shifts);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

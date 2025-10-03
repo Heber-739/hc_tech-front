@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Horarios } from './horarios';
+import { EmployeeHeader } from './employee-header';
 
-describe('Horarios', () => {
-  let component: Horarios;
-  let fixture: ComponentFixture<Horarios>;
+describe('EmployeeHeader', () => {
+  let component: EmployeeHeader;
+  let fixture: ComponentFixture<EmployeeHeader>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Horarios]
+      imports: [EmployeeHeader]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Horarios);
+    fixture = TestBed.createComponent(EmployeeHeader);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
