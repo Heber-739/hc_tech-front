@@ -1,6 +1,6 @@
 export const user = {
   name: "Pedro Portillo",
-  rol: "Supervisor",
+  workstation: "Desarrollador Frontend",
   img: "datos/avatar.jpg"
 }
 

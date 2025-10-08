@@ -1,0 +1,1 @@
+import{Gb as l,Ma as n,jb as c,kb as o}from"./chunk-5K566BYR.js";var t=class s{static \u0275fac=function(e){return new(e||s)};static \u0275cmp=n({type:s,selectors:[["app-schedules"]],decls:2,vars:0,template:function(e,i){e&1&&(c(0,"p"),l(1,"schedules works!"),o())},encapsulation:2})};export{t as default};
