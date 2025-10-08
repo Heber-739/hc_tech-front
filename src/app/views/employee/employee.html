@@ -1,6 +1,7 @@
 <app-employee-header
-[rols]="rols()"
+[workstations]="workstations()"
 [status]="status()"
+(addEmployee)="openEmployeeModal()"
 (confirmDelete)="deleteEmployees()"
 (filtersSelected)="filterEmployees($event)"
  ></app-employee-header>
@@ -36,3 +37,9 @@
 
 
 </div>
+
+@if (viewEmployeeFormModal()) {
+  <app-add-employee
+  (add)="addEmployee($event)"
+  ></app-add-employee>
+}

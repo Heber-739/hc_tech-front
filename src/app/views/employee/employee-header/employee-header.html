@@ -9,7 +9,7 @@
     </div>
     <div class="col-1"></div>
     <div class="col-2 px-5">
-      <p-select class="w-full" (onChange)="setRolSelected($event)" size="small" [options]="rols()" placeholder="Puesto" showClear />
+      <p-select class="w-full" (onChange)="setWorkstationSelected($event)" size="small" [options]="workstations()" placeholder="Puesto" showClear />
     </div>
     <div class="col-2"></div>
     <div class="col-2 px-6">
@@ -19,7 +19,7 @@
     <div class="col-1 flex px-4 align-items-center justify-content-end">
       <i class="pi pi-trash text-xl mr-5" style="color:red;" (click)="deleteAction($event)"></i>
       <p-confirmdialog />
-      <p-button label="Agregar"  />
+      <p-button (onClick)="add()" label="Agregar"  />
     </div>
   </div>
 

@@ -1,0 +1,41 @@
+<div class="flex justify-content-center align-items-center curtain absolute left-0 top-0 w-screen h-screen z-1">
+  <div class="flex w-6 h-auto bg-white z-2 py-5 px-3">
+    <div class="text-center flex flex-column justify-content-center w-5 h-full gap-3 py-1 px-2" >
+
+      @if (employee().image){
+        <p-avatar [image]="employee().image"  class="m-auto" size="xlarge" shape="circle" />
+      } @else {
+        <p-avatar icon="pi pi-user" class="m-auto" size="xlarge" shape="circle" />
+      }
+      <div class="text-center">
+        <p class="font-bold"> {{employee().name}} </p>
+        <p class="text-xs t-gray"> {{employee().workstation}} </p>
+      </div>
+      <p class="text-sm"> {{employee().email}} </p>
+      <p class="text-sm"> {{ employee().dni ? `DNI ${employee().dni}` : "" }} </p>
+      <p class="text-sm"> {{ employee().birthday ? `${calcularEdad(employee().birthday)} años` : '' }} </p>
+      <p class="text-sm"> {{ employee().phone_number }} </p>
+      <p class="text-sm"> {{ employee().time_in_company }} </p>
+      <p class="text-sm"> {{ employee().address }} </p>
+    </div>
+    <p-divider class="mx-2" layout="vertical" />
+    <div class="w-full flex">
+      <div class="relative w-fit h-fit px-1">
+        <p-avatar icon="pi pi-user" class="mt-0" size="xlarge" shape="circle" />
+        <i class="text-xs p-1 pi pi-pencil absolute bottom-0 right-0 edit-icon border-circle"></i>
+      </div>
+      <form class=" flex flex-column gap-2 px-3 w-full" action="" [formGroup]="employeeForm">
+        <input class="w-full" pSize="small" pInputText formControlName="name" type="text" placeholder="Nombre completo" />
+        <input class="w-full" pSize="small" pInputText formControlName="mail" type="email" placeholder="Email" />
+        <input class="w-full" pSize="small" pInputText formControlName="phone" type="number" placeholder="Teléfono" />
+        <div class="w-full flex gap-1">
+          <p-inputnumber [maxlength]="8" fluid class="w-6" formControlName="dni" placeholder="DNI"/>
+          <p-datepicker class="w-6" formControlName="birthday" fluid placeholder="Cumpleaños" />
+        </div>
+        <input class="w-full" pSize="small" pInputText formControlName="workstation" type="text" placeholder="Puesto" />
+
+      </form>
+    </div>
+  </div>
+
+</div>

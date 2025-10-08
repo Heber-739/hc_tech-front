@@ -18,7 +18,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
   styleUrl: './employee-header.css'
 })
 export class EmployeeHeader {
-  rols = input.required<string[]>();
+  workstations = input.required<string[]>();
   status = input.required<string[]>();
 
   nameInput = new FormControl("");
@@ -26,6 +26,7 @@ export class EmployeeHeader {
 
   filtersSelected = output<EmployeeFilters>();
   confirmDelete = output<void>();
+  addEmployee = output<void>();
 
   constructor(private confirmationService: ConfirmationService){
     this.nameInput.valueChanges.pipe(
@@ -38,8 +39,12 @@ export class EmployeeHeader {
     })
   }
 
-  setRolSelected(e:SelectChangeEvent){
-    this.filters["rol"] = e.value;
+  add(){
+    this.addEmployee.emit()
+  }
+
+  setWorkstationSelected(e:SelectChangeEvent){
+    this.filters["workstation"] = e.value;
     this.filtersSelected.emit(this.filters);
 
   }

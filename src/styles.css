@@ -38,6 +38,10 @@ a{
   padding: 1px 3px;
 }
 
+.t-gray {
+  color: var(--gray);
+}
+
 .primary-icon {
   background-color: var(--accent);
   color: var(--white);

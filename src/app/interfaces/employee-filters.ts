@@ -1,5 +1,5 @@
 export interface EmployeeFilters {
   name?:string;
-  rol?:string;
+  workstation?:string;
   status?:string;
 }

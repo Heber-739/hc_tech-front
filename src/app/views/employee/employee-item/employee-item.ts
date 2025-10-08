@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
-import { EmployeeData } from '../../../interfaces/employee-data';
+import { EmployeeListItemData } from '../../../interfaces/employee-data';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class EmployeeItem {
   protected checked = output<boolean>();
-  employee = input.required<EmployeeData>()
+  employee = input.required<EmployeeListItemData>()
 
   onchecked(e:CheckboxChangeEvent){
     this.checked.emit(e.checked);
