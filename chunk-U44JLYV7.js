@@ -1,1 +1,0 @@
-import{Eb as c,Ja as r,hb as s,ib as n}from"./chunk-EREQHJQL.js";var t=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=r({type:o,selectors:[["app-procedures"]],decls:2,vars:0,template:function(e,a){e&1&&(s(0,"p"),c(1,"procedures works!"),n())},encapsulation:2})};export{t as default};

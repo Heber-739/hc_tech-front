@@ -1,0 +1,1 @@
+import{Gb as n,Ma as s,jb as r,kb as p}from"./chunk-GL3BLS3A.js";var t=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=s({type:o,selectors:[["app-reports"]],decls:2,vars:0,template:function(e,i){e&1&&(r(0,"p"),n(1,"reports works!"),p())},encapsulation:2})};export{t as default};

@@ -1,0 +1,1 @@
+import{Gb as a,Ma as i,jb as n,kb as o}from"./chunk-GL3BLS3A.js";var e=class s{static \u0275fac=function(t){return new(t||s)};static \u0275cmp=i({type:s,selectors:[["app-shifts"]],decls:2,vars:0,template:function(t,p){t&1&&(n(0,"p"),a(1,"shifts works!"),o())},encapsulation:2})};export{e as default};
