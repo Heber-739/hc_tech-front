@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "pages":"npx angular-cli-ghpages --dir=dist/hc_terch_frontend/browser",
+    "pages": "npx angular-cli-ghpages --dir=dist/hc_terch_frontend/browser",
     "build": "ng build --base-href /hc_tech-front/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -48,6 +48,7 @@
     "karma-coverage": "2.2.0",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "uuid": "^13.0.0"
   }
 }

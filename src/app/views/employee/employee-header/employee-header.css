@@ -6,7 +6,9 @@
   outline: none;
 }
 .div-filters {
-  border: 1px solid var(--gray);
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--gray);
+  border-right: 1px solid var(--gray);
 }
 p {
   color: var(--gray);

@@ -1,23 +1,51 @@
-import { Component, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, signal, ViewChild } from '@angular/core';
 import { EmployeeHeader } from './employee-header/employee-header';
 import { EmployeeData } from '../../interfaces/employee-data';
 import { EmployeeItem } from "./employee-item/employee-item";
-import { PaginatorModule } from 'primeng/paginator';
-
+import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { debounceTime, fromEvent, Subscription } from 'rxjs';
+import { v4 } from 'uuid'
+import { EmployeeFilters } from '../../interfaces/employee-filters';
 @Component({
   selector: 'app-employee',
   imports: [EmployeeHeader, EmployeeItem, PaginatorModule],
   templateUrl: './employee.html',
   styleUrl: './employee.css'
 })
-export default class Employee {
+export default class Employee implements OnDestroy {
+protected itemsPage:number = 0;
+protected rols = signal<string[]>([""]);
+protected status = signal<string[]>([""]);
 
-protected employees;
-private employeesData: EmployeeData[] = [];
+protected employees = signal<EmployeeData[]>([]);
+private employeesData = signal<EmployeeData[]>([]);
+protected employeesFiltered = signal<EmployeeData[]>([]);
+
+private currentFilters:PaginatorState = {first:0} ;
+private subscribeResize: Subscription;
+
 
 constructor(){
-  this.employeesData = this.generateEmployeeData()
-  this.employees = signal<EmployeeData[]>([...this.employeesData.slice(0,11)])
+  this.subscribeResize = fromEvent(window,'resize').pipe(
+    debounceTime(300)
+  ).subscribe({
+    next:()=>this.getItemsPeerPage()
+  })
+
+  this.getItemsPeerPage()
+  this.employeesData.set(this.generateEmployeeData());
+  const rols = new Set<string>;
+  const status = new Set<string>;
+  this.employeesData().forEach((e) => rols.add(e.rol) && status.add(e.status))
+  this.rols.set([...rols])
+  this.status.set([...status])
+  this.employeesFiltered.set(this.employeesData());
+  this.onPageChange(this.currentFilters);
+}
+
+private getItemsPeerPage(){
+  const height = window.innerHeight;
+  this.itemsPage = Math.trunc((height  - 170) / 70);
 }
 
 generateEmployeeData(): EmployeeData[] {
@@ -37,12 +65,14 @@ generateEmployeeData(): EmployeeData[] {
 
   for (let i = 1; i <= 300; i++) {
     const employee: EmployeeData = {
+      id: v4(),
       name: ` ${getRandomItem(surnames)} ${getRandomItem(names)}`,
       rol: getRandomItem(roles),
       work_schedule: getRandomItem(schedules),
       status: getRandomItem(statuses),
       time_in_company: getRandomTimeInCompany(),
       image: "https://i.pinimg.com/originals/6a/0d/18/6a0d184b73dc7bf9b47cb755ef8d92cb.png", // Misma URL para todos
+      checked:false
     };
     data.push(employee);
   }
@@ -50,17 +80,31 @@ generateEmployeeData(): EmployeeData[] {
   return data;
 }
 
+checkItem(event:boolean,id:string){
+  this.employees.update((employees)=> employees.map((e)=> e.id === id ? {...e, checked:event} : e ))
+}
 
+filterEmployees(filters:EmployeeFilters){
+  this.employeesFiltered.update(()=>this.employeesData());
+  filters["rol"] && this.employeesFiltered.update((employees)=>employees.filter((e)=> e.rol == filters["rol"]))
+  filters["status"] && this.employeesFiltered.update((employees)=> employees.filter((e)=>e.status == filters["status"]))
+  filters["name"] && this.employeesFiltered.update((employees)=> employees.filter((e)=> e.name.includes(filters["name"] || '')))
+  this.onPageChange(this.currentFilters);
+}
 
-onPageChange(e:any){
-  let event: {
-        "page":number,
-        "first":number,
-        "rows":number,
-        "pageCount":number,
-    } = e;
+  onPageChange(e:PaginatorState){
+    this.currentFilters = e;
+    this.employees.update(()=> this.employeesFiltered().slice(e.first,e.first! + this.itemsPage))
+  }
 
-console.log(event)
+  deleteEmployees(){
+    const checked = this.employees().filter((e) => e.checked ).map((e)=>e.id);
+    this.employeesData.update((employees)=>employees.filter((e)=> !checked.includes(e.id) ))
+    this.filterEmployees({});
+  }
+
+  ngOnDestroy(): void {
+    this.subscribeResize.unsubscribe();
   }
 
 }

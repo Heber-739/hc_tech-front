@@ -3,32 +3,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  /* ---------------- BOTONES ---------------- */
-
-
   --accent: #009EF7;
   --white: #fff;
   --black: #000;
   --bg_primary: #010318;
   --bg_secondary: #012245;
   --gray: #8695A7;
-  --light-gray:#F4F5F7;
+  --light-gray:#f0f2f5;
   --red: #B3261E;
-
-  /* --app-btn-primary:   #d81b60;
-  --app-btn-accent:    #d81b60;
-  --app-btn-success:   #2e7d32;
-  --app-btn-warning:   #f9a825;
-  --app-btn-info:      #0288d1;
-  --app-btn-danger:    #c62828;
-  --app-btn-neutral:   #607d8b; */
-
-  /* ---------------- BACKGROUNDS ---------------- */
-  /* --app-bg-surface:    #f5f5f5;
-  --app-bg-card:       #ffffff;
-  --app-bg-panel:      #eeeeee;
-  --app-bg-header:     #1976d2;
-  --app-bg-footer:     #263238; */
+  --btn-green:#9ACC47;
+  --light-green:#dcedbf;
+  --light-orange:#f4cba4;
+  --btn-orange:#FF820F;
+  --btn-violet:#9647FE;
+  --light-violet:#d0b7f8;
 }
 
 html, body, p, div {
@@ -43,27 +31,6 @@ html {
 }
 a{
   text-decoration: none;
-}
-.grid{
-  box-sizing: content-box;
-
-}
-.p-select:focus {
-  outline: 1px solid #009EF7 !important;
-}
-
-.a-c-c{
-  align-items: center;
-}
-
-.t-16{
-  font-size: 1.2rem;
-}
-.bold {
-  font-weight: 600;
-}
-.t-gray {
-  color: var(--gray);
 }
 
 .icon{
@@ -80,16 +47,30 @@ a{
   background-color: var(--light-gray);
   color: var(--accent);
 }
-.btn-primary   { background-color: var(--app-btn-primary);   color: white; }
-.btn-accent    { background-color: var(--app-btn-accent);    color: white; }
-.btn-success   { background-color: var(--app-btn-success);   color: white; }
-.btn-warning   { background-color: var(--app-btn-warning);   color: black; }
-.btn-info      { background-color: var(--app-btn-info);      color: white; }
-.btn-danger    { background-color: var(--app-btn-danger);    color: white; }
-.btn-neutral   { background-color: var(--app-btn-neutral);   color: white; }
 
-.bg-surface    { background-color: var(--app-bg-surface); }
-.bg-card       { background-color: var(--app-bg-card); }
-.bg-panel      { background-color: var(--app-bg-panel); }
-.bg-header     { background-color: var(--app-bg-header); color: white; }
-.bg-footer     { background-color: var(--app-bg-footer); color: white; }
+.btn {
+  padding: 7px 20px;
+  border-radius: 3px;
+  border: 1px solid black;
+}
+
+.active {
+  color: var(--btn-green);
+  background-color: var(--light-green);
+  border: 2px solid var(--btn-green);
+}
+.inactive {
+  color: var(--gray);
+  background-color: var(--light-gray);
+  border: 2px solid var(--gray);
+}
+.absent {
+  color: var(--btn-orange);
+  background-color: var(--light-orange);
+  border: 2px solid var(--btn-orange);
+}
+.vacation {
+ color: var(--btn-violet);
+  background-color: var(--light-violet);
+  border: 2px solid var(--btn-violet);
+}
