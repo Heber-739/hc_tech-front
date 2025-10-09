@@ -5,3 +5,6 @@
   background-color: var(--light-gray);
 
 }
+.progress {
+  height: 0.3rem;
+}

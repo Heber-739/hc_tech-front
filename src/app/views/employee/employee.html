@@ -41,5 +41,6 @@
 @if (viewEmployeeFormModal()) {
   <app-add-employee
   (add)="addEmployee($event)"
+  (cancel)="closeEmployeeModal()"
   ></app-add-employee>
 }

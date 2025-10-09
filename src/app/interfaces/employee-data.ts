@@ -25,5 +25,7 @@ export interface EmployeeProfile {
   image:string;
   entry_date: string;
   discharge_date:string;
+  punctuality:number;
+  attendance:number;
   checked?:boolean
 }

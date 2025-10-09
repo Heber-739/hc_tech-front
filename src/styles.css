@@ -78,3 +78,7 @@ a{
   background-color: var(--light-violet);
   border: 2px solid var(--btn-violet);
 }
+
+.bg-gray {
+  background-color: var(--gray);
+}

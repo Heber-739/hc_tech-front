@@ -7,6 +7,8 @@ import { debounceTime, fromEvent, Subscription } from 'rxjs';
 import { v4 } from 'uuid'
 import { EmployeeFilters } from '../../interfaces/employee-filters';
 import { AddEmployee } from "./add-employee/add-employee";
+import { employeeRols } from '../../common/constants/rols';
+import { employeeStatus } from '../../common/constants/status';
 @Component({
   selector: 'app-employee',
   imports: [EmployeeHeader, EmployeeItem, PaginatorModule, AddEmployee],
@@ -34,13 +36,13 @@ constructor(){
     next:()=>this.getItemsPeerPage()
   })
 
-  this.getItemsPeerPage()
+  this.getItemsPeerPage();
   this.employeesData.set(this.generateEmployeeData());
   const workstations = new Set<string>;
   const status = new Set<string>;
   this.employeesData().forEach((e) => workstations.add(e.workstation) && status.add(e.status))
-  this.workstations.set([...workstations])
-  this.status.set([...status])
+  this.workstations.set([...workstations]);
+  this.status.set([...status]);
   this.employeesFiltered.set(this.employeesData());
   this.onPageChange(this.currentFilters);
 }
@@ -52,10 +54,10 @@ private getItemsPeerPage(){
 
 generateEmployeeData(): EmployeeListItemData[] {
   const data: EmployeeListItemData[] = [];
-  const roles: string[] = ["Supervisor", "Empleado", "Admin"];
+  const roles: string[] = employeeRols;
   const workstations: string[] = ["Desarrollador Frontend", "Desarrollador Backend", "Diseñador UX/UI", "Gerente de Proyecto", "Analista de Datos", "Especialista en QA"];
   const schedules: string[] = ["7:00 - 15:00", "15:00 - 23:00", "23:00 - 07:00"];
-  const statuses: string[] = ["Activo", "Vacaciones", "Inactivo", "Ausente"];
+  const statuses: string[] = employeeStatus;
   const names: string[] = ["Sofía","Alejandro","Valentina","Sebastián","Camila","Mateo","Isabella","Nicolás","Mariana","Diego","Lucía","Gabriel","Elena","Daniel","Paula","Javier","Andrea","Ricardo","Valeria","Manuel"
 ];
   const surnames: string[] = ["García","Rodríguez","González","Fernández","López","Martínez","Sánchez","Pérez","Gómez","Martín","Jiménez","Ruiz","Hernández","Díaz","Moreno","Muñoz","Álvarez","Romero","Alonso","Gutiérrez"
@@ -86,9 +88,14 @@ generateEmployeeData(): EmployeeListItemData[] {
 openEmployeeModal(){
   this.viewEmployeeFormModal.set(true);
 }
+closeEmployeeModal(){
+  this.viewEmployeeFormModal.set(false);
+}
 
 addEmployee(employee:EmployeeListItemData){
-  this.employeesData.update((employees)=> [...employees,employee])
+  this.employeesData.update((employees)=> [employee,...employees]);
+  this.filterEmployees({});
+  this.viewEmployeeFormModal.set(false);
 }
 
 checkItem(event:boolean,id:string){
