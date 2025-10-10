@@ -26,10 +26,10 @@
   }" >{{ employee().status }}</span>
     </div>
     <div class="col-1 text-sm text-center">
-      <span>{{ employee().time_in_company }}</span>
+      <span>{{ getTimeInCompany() }}</span>
     </div>
     <div class="col-1 flex align-items-center justify-content-center">
-      <p-button label="Editar" type="primary" outlined  />
+      <p-button (onClick)="editEmployee()" label="Editar" type="primary" outlined  />
     </div>
 
 </div>

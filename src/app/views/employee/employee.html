@@ -14,6 +14,7 @@
       <app-employee-item
       (checked)="checkItem($event, employee.id)"
       [employee]="employee"
+      (edit)="openEmployeeModal($event)"
       ></app-employee-item>
     }
 
@@ -39,8 +40,10 @@
 </div>
 
 @if (viewEmployeeFormModal()) {
-  <app-add-employee
+  <app-employee-form
   (add)="addEmployee($event)"
   (cancel)="closeEmployeeModal()"
-  ></app-add-employee>
+  [disableItems]="!!editEmployee()"
+  [editEmployee]="editEmployee()"
+  ></app-employee-form>
 }

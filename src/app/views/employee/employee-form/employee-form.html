@@ -15,7 +15,7 @@
       <p class="text-sm"> {{ employee().dni ? `DNI ${employee().dni}` : "" }} </p>
       <p class="text-sm"> {{ employee().birthday ? `${getAge(employee().birthday)} años` : '' }} </p>
       <p class="text-sm"> {{ employee().phone_number }} </p>
-      <p class="text-sm"> {{ employee().time_in_company }} </p>
+      <p class="text-sm"> {{ getTimeInCompany() }} </p>
       <p class="text-sm"> {{ employee().address }} </p>
       <div class="progressDataContainer gap-4 mt-auto w-full">
         <div class="progressData mt-4 mb-3">
@@ -55,8 +55,8 @@
       </div>
       <form class=" flex flex-column gap-2 px-3 w-full" action="" [formGroup]="employeeForm">
         <input class="w-full" pSize="small" pInputText formControlName="name" type="text" placeholder="Nombre completo" />
-        <input class="w-full" pSize="small" pInputText formControlName="mail" type="email" placeholder="Email" />
-        <input class="w-full" pSize="small" pInputText formControlName="phone" type="number" placeholder="Teléfono" />
+        <input class="w-full" pSize="small" pInputText formControlName="email" type="email" placeholder="Email" />
+        <p-inputnumber [maxlength]="10" size="small" [useGrouping]="false" formControlName="phone_number" placeholder="Teléfono"/>
         <div class="w-full flex gap-1">
           <p-inputnumber [maxlength]="8" size="small" fluid class="w-6" formControlName="dni" placeholder="DNI"/>
           <p-datepicker class="w-6" size="small" formControlName="birthday" fluid placeholder="Cumpleaños" />
@@ -64,20 +64,20 @@
         <input class="w-full" pSize="small" pInputText formControlName="workstation" type="text" placeholder="Puesto" />
         <input class="w-full" pSize="small" pInputText formControlName="address" type="text" placeholder="Dirección" />
         <div class="w-full flex gap-1">
-          <p-select class="w-6" size="small" [options]="status" formControlName="status" placeholder="Estado" />
-          <p-select class="w-6" size="small" [options]="rols" formControlName="rol" placeholder="Rol" />
+          <p-select class="w-6" size="small" [options]="status" formControlName="status" placeholder="Estado" [disabled]="disableItems()" />
+          <p-select class="w-6" size="small" [options]="rols" formControlName="rol" placeholder="Rol" [disabled]="disableItems()" />
         </div>
         <div class="w-full flex gap-1">
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="entry_date" placeholder="Fecha de ingreso" />
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="discharge_date" placeholder="Fecha de egreso" />
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="entry_date" placeholder="Fecha de ingreso" [disabled]="disableItems()" />
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="discharge_date" placeholder="Fecha de egreso" [disabled]="disableItems()" />
         </div>
         <div class="w-full flex gap-1">
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'"  [showIcon]="true" formControlName="start_work" [timeOnly]="true" placeholder="Inicio jornada"/>
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="end_work" [timeOnly]="true" placeholder="Fin jornada"/>
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'"  [showIcon]="true" formControlName="start_work" [timeOnly]="true" placeholder="Inicio jornada" [disabled]="disableItems()"/>
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="end_work" [timeOnly]="true" placeholder="Fin jornada" [disabled]="disableItems()"/>
         </div>
         <div class="flex mt-3 justify-content-end gap-3">
           <p-button (onClick)="exit()" size="small"  severity="danger" outlined label="Cancelar"  />
-          <p-button (onClick)="submit()" size="small"  severity="primary" label="Guardar"  />
+          <p-button (onClick)="submit()" [disabled]="employeeForm.invalid" size="small"  severity="primary" label="Guardar"  />
         </div>
       </form>
     </div>
