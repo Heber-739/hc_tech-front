@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { ShiftHeader } from './shift-header/shift-header';
 
 @Component({
   selector: 'app-shifts',
-  imports: [],
+  imports: [ShiftHeader],
   templateUrl: './shifts.html',
   styleUrl: './shifts.css'
 })

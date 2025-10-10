@@ -1,0 +1,57 @@
+<div class="w-full">
+  <form class="grid m-0 w-full div-filters" [formGroup]="filtersForm">
+
+    <div class="col-2 ml-3">
+      <p-select
+        class="w-full"
+        [options]="shifts()"
+        optionLabel="shift"
+        (onChange)="setStatusSelected($event)"
+        size="small"
+        placeholder="Turno"
+        showClear
+      />
+    </div>
+
+    <div class="col-2 px-1 flex align-content-center">
+      @if(shiftSelected().shift){
+      <span
+        class="btn text-xs"
+        [ngClass]="{
+          'active': shiftSelected().shift == 'Mañana',
+          'inactive': shiftSelected().shift == 'Noche',
+          'p-button-outlined': shiftSelected().shift == 'Tarde',
+        }"
+        >{{ shiftSelected().text }}</span
+      >
+      }
+    </div>
+
+    <div class="col-3 ml-3 flex align-content-center">
+      <p-iconfield class="outline-none w-10">
+        <input
+          type="text"
+          class="h-full w-full underline-input"
+          pInputText
+          placeholder="Empleado"
+          formControlName="name"
+        />
+        <p-inputicon class="pi pi-search" />
+      </p-iconfield>
+    </div>
+
+    <div class="col-3 flex align-content-center">
+      <p-iconfield class="outline-none w-10">
+        <input
+          type="text"
+          class="h-full w-full underline-input"
+          pInputText
+          placeholder="Rol"
+          formControlName="rol"
+        />
+        <p-inputicon class="pi pi-search" />
+      </p-iconfield>
+    </div>
+
+  </form>
+</div>
