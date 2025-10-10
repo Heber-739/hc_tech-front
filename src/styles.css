@@ -51,7 +51,13 @@ a{
   background-color: var(--light-gray);
   color: var(--accent);
 }
+.curtain {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+.edit-icon{
+  background-color: var(--light-gray);
 
+}
 .btn {
   padding: 7px 20px;
   border-radius: 3px;
@@ -78,7 +84,6 @@ a{
   background-color: var(--light-violet);
   border: 2px solid var(--btn-violet);
 }
-
 .bg-gray {
   background-color: var(--gray);
 }

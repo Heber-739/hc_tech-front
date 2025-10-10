@@ -49,7 +49,7 @@ export class EmployeeForm implements AfterViewInit {
 
   constructor() {
     this.employeeForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: [undefined as string | undefined, [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       phone_number: [
         undefined as number | undefined,
@@ -74,8 +74,6 @@ export class EmployeeForm implements AfterViewInit {
 
     this.employeeForm.valueChanges.pipe(debounceTime(300)).subscribe({
       next: (v: any) => {
-        console.log({ v });
-
         let work_schedule = typeof v['start_work'] === 'object' ?
          this.getSchedule(new Date(v['start_work']), new Date(v['end_work'])):
           `${v['start_work']} - ${v['end_work']}`;

@@ -6,7 +6,11 @@
     </div>
     <div class="col-3 text-base py-1">
       <div class="flex items-center align-items-center">
-        <p-avatar [image]="employee().image" class="mr-2" size="large" shape="circle" />
+        @if (employee().image){
+        <p-avatar [image]="employee().image"  class="mr-2" size="xlarge" shape="circle" />
+      } @else {
+        <p-avatar icon="pi pi-user" class="mr-2" size="xlarge" shape="circle" />
+      }
         <span >{{ employee().name }}</span>
     </div>
   </div>
