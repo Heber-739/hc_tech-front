@@ -3,17 +3,6 @@ import { generateEmployeeData } from "./generate-employees";
 
 export const getWeekShifts = (date?:Date)=>{
   const shifts = obtenerSemanaActual(date).map((date)=> ({date,late:[],morning:[],night:[]}));
-  const employees = generateEmployeeData();
-
-
-  const getRandomEmployees = (): ShiftEmployeeItem => {
-    const turns = Math.floor(Math.random() * 25) + 21;
-    return {employees: Array.from({ length: turns }, () => {
-      const index = Math.floor(Math.random() * employees.length);
-      const { id, image, name, rol } = employees[index];
-      return { id, image, name, rol };
-    }), quota: Math.floor(Math.random() * 10) + 41};
-  };
 
   return shifts.map((shift)=> ({
     ...shift,
@@ -23,6 +12,16 @@ export const getWeekShifts = (date?:Date)=>{
     morning:getRandomEmployees()
   }) )
 }
+
+export const getRandomEmployees = (): ShiftEmployeeItem => {
+  const employees = generateEmployeeData();
+    const turns = Math.floor(Math.random() * 25) + 21;
+    return {employees: Array.from({ length: turns }, () => {
+      const index = Math.floor(Math.random() * employees.length);
+      const { id, image, name, rol } = employees[index];
+      return { id, image, name, rol };
+    }), quota: Math.floor(Math.random() * 10) + 41};
+  };
 
 
   const obtenerSemanaActual = (date: Date = new Date()): Date[] => {

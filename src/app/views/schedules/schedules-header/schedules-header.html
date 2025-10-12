@@ -1,0 +1,34 @@
+<div class="w-full">
+  <form class="grid m-0 w-full div-filters" [formGroup]="filtersForm">
+
+    <div class="col-3 ml-3 flex align-content-center">
+      <p-iconfield class="outline-none w-10">
+        <input
+          type="text"
+          class="h-full w-full underline-input"
+          pInputText
+          placeholder="Empleado"
+          formControlName="name"
+        />
+        <p-inputicon class="pi pi-search" />
+      </p-iconfield>
+    </div>
+
+    <div class="col-3 flex align-content-center">
+      <p-iconfield class="outline-none w-10">
+        <input
+          type="text"
+          class="h-full w-full underline-input"
+          pInputText
+          placeholder="Rol"
+          formControlName="rol"
+        />
+        <p-inputicon class="pi pi-search" />
+      </p-iconfield>
+    </div>
+
+    <div class="col-4"></div>
+
+
+  </form>
+</div>
