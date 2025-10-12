@@ -1,0 +1,1 @@
+import{Sb as c,Wa as r,vb as s,wb as n}from"./chunk-ZTPKSPIT.js";var t=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=r({type:o,selectors:[["app-procedures"]],decls:2,vars:0,template:function(e,a){e&1&&(s(0,"p"),c(1,"procedures works!"),n())},encapsulation:2})};export{t as default};

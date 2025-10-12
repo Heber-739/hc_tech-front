@@ -1,0 +1,1 @@
+import{Sb as i,Wa as n,vb as o,wb as r}from"./chunk-ZTPKSPIT.js";var a=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["app-calendar"]],decls:2,vars:0,template:function(e,s){e&1&&(o(0,"p"),i(1,"calendario works!"),r())},encapsulation:2})};export{a as default};

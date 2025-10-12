@@ -1,0 +1,1 @@
+import{Sb as l,Wa as n,vb as c,wb as o}from"./chunk-ZTPKSPIT.js";var t=class s{static \u0275fac=function(e){return new(e||s)};static \u0275cmp=n({type:s,selectors:[["app-schedules"]],decls:2,vars:0,template:function(e,i){e&1&&(c(0,"p"),l(1,"schedules works!"),o())},encapsulation:2})};export{t as default};

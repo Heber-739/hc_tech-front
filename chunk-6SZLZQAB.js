@@ -1,1 +1,0 @@
-import{Gb as c,Ma as r,jb as s,kb as n}from"./chunk-5K566BYR.js";var t=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=r({type:o,selectors:[["app-procedures"]],decls:2,vars:0,template:function(e,a){e&1&&(s(0,"p"),c(1,"procedures works!"),n())},encapsulation:2})};export{t as default};
