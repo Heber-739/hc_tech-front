@@ -9,7 +9,7 @@
         } @else {
           <p-avatar icon="pi pi-user" class="mx-auto" size="xlarge" shape="circle" />
         }
-        <label for="file-input"><i class="text-xs p-1 pi pi-pencil absolute bottom-0 right-0 edit-icon border-circle"></i></label>
+        <label for="file-input"><i class="text-xs p-1 pi pi-pencil absolute bottom-0 right-0 bg-light-gray border-circle"></i></label>
       </div>
       <form class=" flex flex-column gap-2 px-3 w-full" action="" [formGroup]="companyForm" >
         <p-select [options]="companies()" size="small" formControlName="name" optionLabel="name" placeholder="Compañia" [editable]="true" class="w-full" />
@@ -28,7 +28,7 @@
         <div class="flex my-3 justify-content-end gap-3">
           <p-button (onClick)="delete()" [disabled]="!includesCompany()" size="small"  severity="danger" label="Eliminar"  />
           <p-button (onClick)="closeForm()"  size="small"  severity="danger" outlined label="Cancelar"  />
-          <p-button (onClick)="submit()"  size="small"  severity="primary" label="Guardar"  />
+          <p-button (onClick)="submit()"  size="small"  severity="primary" [label]="labelAction()"  />
         </div>
       </form>
     </div>

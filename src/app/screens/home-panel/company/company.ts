@@ -21,10 +21,13 @@ export class Company {
   close = output<void>()
   pushCompany = output<CompanyData>()
   deleteyCompany = output<string>()
-  protected currentCompany = signal<CompanyData>(companyDefault)
   fb = inject(FormBuilder);
 
+  protected currentCompany = signal<CompanyData>(companyDefault)
+  protected labelAction = signal<string>("Seleccionar")
   companyForm;
+
+
   constructor(){
     this.companyForm = this.fb.group({
       id: [''],
@@ -44,10 +47,12 @@ export class Company {
     this.companyForm.valueChanges.pipe(debounceTime(300)).subscribe({
           next: (v: any) => {
             if(typeof v.name === 'object') {
+              this.labelAction.set("Seleccionar")
               this.currentCompany.set(v.name);
               const {image,...company} = v.name;
               this.companyForm.patchValue({...company},{ emitEvent: false });
             } else {
+              this.labelAction.set("Guardar")
               const {image,...values} = v
               this.currentCompany.update((c)=>({...c,...values}))
             }

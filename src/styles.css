@@ -19,15 +19,21 @@
   --light-violet:#d0b7f8;
 }
 
+:root, html, body, app-root, app-home-panel, main {
+  height: 100dvh;
+  min-height: 100dvh;
+}
+
 html, body, p, div {
   font-family: Inter, 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-html {
+html, body {
   background-color: var(--white);
   color: var(--black);
+  height: 100dvh;
 }
 a{
   text-decoration: none;
@@ -46,17 +52,30 @@ a{
   background-color: var(--accent);
   color: var(--white);
 }
+.primary-color {
+  color: var(--accent);
+}
 
 .secundary-icon {
   background-color: var(--light-gray);
-  color: var(--accent);
 }
 .curtain {
   background-color: rgba(0, 0, 0, 0.35);
 }
-.edit-icon{
+.div-filters {
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--gray);
+  border-right: 1px solid var(--gray);
+}
+.underline-input{
+border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid var(--gray);
+  outline: none;
+}
+.bg-light-gray {
   background-color: var(--light-gray);
-
 }
 .btn {
   padding: 7px 20px;
@@ -86,4 +105,42 @@ a{
 }
 .bg-gray {
   background-color: var(--gray);
+}
+
+.scrollable{
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(180, 180, 180, 0.5) transparent;
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+}
+
+.scrollable::-webkit-scrollbar-track {
+    background: transparent;
+
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background-color: rgba(180, 180, 180, 0.4);
+    border-radius: 99px;
+}
+
+.scrollable:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(120, 120, 120, 0.6);
+}
+
+
+li.p-menu-submenu-label{
+  display: none;
+}
+li[aria-label="Aprobar"] a {
+    color: var(--accent);
+}
+
+li[aria-label="Remover"] a {
+    color: var(--red);
 }

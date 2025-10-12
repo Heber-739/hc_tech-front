@@ -14,7 +14,7 @@ import { generateEmployeeData } from '../../common/utils/functions/generate-empl
   styleUrl: './employee.css'
 })
 export default class Employee implements OnDestroy {
-protected itemsPage:number = 0;
+itemsPage = signal<number>(0);
 protected workstations = signal<string[]>([""]);
 protected status = signal<string[]>([""]);
 protected viewEmployeeFormModal = signal<boolean>(false);
@@ -23,11 +23,19 @@ protected employees = signal<EmployeeProfile[]>([]);
 private employeesData = signal<EmployeeProfile[]>([]);
 protected employeesFiltered = signal<EmployeeProfile[]>([]);
 
-private currentFilters:PaginatorState = {first:0} ;
+private currentSizeItems:PaginatorState = {first:0} ;
 private subscribeResize: Subscription;
 
 
 constructor(){
+  this.employeesData.set(generateEmployeeData());
+  this.employeesFiltered.set(this.employeesData());
+  const workstations = new Set<string>;
+  const status = new Set<string>;
+  this.employeesData().forEach((e) => workstations.add(e.workstation) && status.add(e.status))
+  this.workstations.set([...workstations]);
+  this.status.set([...status]);
+
   this.subscribeResize = fromEvent(window,'resize').pipe(
     debounceTime(300)
   ).subscribe({
@@ -35,19 +43,15 @@ constructor(){
   })
 
   this.getItemsPeerPage();
-  this.employeesData.set(generateEmployeeData());
-  const workstations = new Set<string>;
-  const status = new Set<string>;
-  this.employeesData().forEach((e) => workstations.add(e.workstation) && status.add(e.status))
-  this.workstations.set([...workstations]);
-  this.status.set([...status]);
   this.employeesFiltered.set(this.employeesData());
-  this.onPageChange(this.currentFilters);
+  this.onPageChange(this.currentSizeItems);
 }
 
 private getItemsPeerPage(){
   const height = window.innerHeight;
-  this.itemsPage = Math.trunc((height  - 170) / 70);
+  console.log({height})
+  this.itemsPage.set(Math.trunc((height  - 204) / 55));
+  this.onPageChange(this.currentSizeItems)
 }
 
 openEmployeeModal(employee:EmployeeProfile | undefined = undefined){
@@ -67,7 +71,7 @@ addEmployee(employee:EmployeeProfile){
   } else{
     this.employeesData.update((employees)=> [employee,...employees]);
   }
-  this.filterEmployees({});
+  this.filterEmployees({} as EmployeeFilters);
   this.viewEmployeeFormModal.set(false);
 }
 
@@ -77,21 +81,25 @@ checkItem(event:boolean,id:string){
 
 filterEmployees(filters:EmployeeFilters){
   this.employeesFiltered.set(this.employeesData());
-  filters["workstation"] && this.employeesFiltered.update((employees)=>employees.filter((e)=> e.workstation == filters["workstation"]));
-  filters["status"] && this.employeesFiltered.update((employees)=> employees.filter((e)=>e.status == filters["status"]));
-  filters["name"] && this.employeesFiltered.update((employees)=> employees.filter((e)=> e.name.toLowerCase().includes((filters["name"] || '').toLowerCase()) ));
-  this.onPageChange(this.currentFilters);
+  this.employeesFiltered.update((employees)=>employees.filter((e)=> {
+    const workstationMatch = filters["workstation"]  ? e.workstation == filters["workstation"] : true;
+    const statusMatch = filters["status"] ? e.status == filters["status"]: true;
+    const nameMatch = Boolean(filters["name"]) ? e.name.toLowerCase().includes(filters["name"].toLowerCase()) : true;
+    return workstationMatch && statusMatch && nameMatch;
+  }));
+
+  this.onPageChange(this.currentSizeItems);
 }
 
   onPageChange(e:PaginatorState){
-    this.currentFilters = e;
-    this.employees.update(()=> this.employeesFiltered().slice(e.first,e.first! + this.itemsPage))
+    this.currentSizeItems = e;
+    this.employees.update(()=> this.employeesFiltered().slice(e.first,e.first! + this.itemsPage()))
   }
 
   deleteEmployees(){
     const checked = this.employees().filter((e) => e.checked ).map((e)=>e.id);
     this.employeesData.update((employees)=>employees.filter((e)=> !checked.includes(e.id) ))
-    this.filterEmployees({});
+    this.filterEmployees({} as EmployeeFilters);
   }
 
   ngOnDestroy(): void {

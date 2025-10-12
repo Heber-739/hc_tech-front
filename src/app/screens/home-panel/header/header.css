@@ -1,6 +1,5 @@
 .header {
-  height: 75px;
-  padding: 15px;
+  /* padding: 15px; */
   justify-content: space-around;
   border: 1px solid var(--gray);
 }

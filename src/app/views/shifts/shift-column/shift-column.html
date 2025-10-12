@@ -1,0 +1,35 @@
+<div class="flex flex-column h-full min-h-0 border-round-lg column p-1">
+
+  <div class="w-full flex flex-column bg-white flex-shrink-0">
+    <div class="w-full text-xs flex justify-content-between align-items-center">
+      <p class="primary-color">
+        {{`${shiftItem()[shift()].employees.length }/${shiftItem()[shift()].quota }`  }}
+      </p>
+      <p class="text-sm t-gray">{{ getTodayName() }}</p>
+      <i class="pi pi-plus-circle primary-color mx-1"> </i>
+    </div>
+    <div class="divider my-2 mx-2"></div>
+  </div>
+
+
+  <div class="flex flex-column gap-1 flex-1 min-h-0 scrollable" >
+    @for (item of shiftItem()[shift()].employees; track $index) {
+      <div class="flex align-items-center bg-white border-round-sm gap-1 w-full py-2">
+          @if (item.image){
+            <p-avatar [image]="item.image"  class="flex-shrink-0" shape="circle" />
+          } @else {
+            <p-avatar icon="pi pi-user" class="flex-shrink-0" shape="circle" />
+          }
+        <div class="flex flex-column flex-grow-1 ">
+          <p class="text-xs " >{{item.name}}</p>
+          <p class="text-xs " >{{item.rol}}</p>
+        </div>
+        <div class="flex w-auto flex-shrink-0">
+          <p-menu #menu [model]="items()" [popup]="true" />
+          <i (click)="clickMenu(item.id) && menu.toggle($event)" class="pi pi-ellipsis-v"> </i>
+      </div>
+      </div>
+    }
+  </div>
+
+</div>

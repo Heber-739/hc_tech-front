@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -22,7 +22,7 @@ export class EmployeeHeader {
   status = input.required<string[]>();
 
   nameInput = new FormControl("");
-  protected filters:EmployeeFilters = {};
+  protected filters:EmployeeFilters = {} as EmployeeFilters;
 
   filtersSelected = output<EmployeeFilters>();
   confirmDelete = output<void>();
@@ -33,7 +33,7 @@ export class EmployeeHeader {
       debounceTime(500)
     ).subscribe({
       next:(text)=>{
-        this.filters["name"] = text || undefined;
+        this.filters["name"] = text?.trim() || "";
         this.filtersSelected.emit(this.filters);
       }
     })

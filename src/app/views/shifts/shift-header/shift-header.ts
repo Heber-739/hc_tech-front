@@ -1,12 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { InputIconModule } from 'primeng/inputicon';
 import { IconFieldModule } from 'primeng/iconfield';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
-import { ShiftItem } from '../../../interfaces/shift-item';
-import { getWeekShifts } from '../../../common/utils/functions/generate-shifts';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { debounceTime } from 'rxjs';
+import { ShiftEmployeesItem } from '../../../interfaces/shift-item';
 
 @Component({
   selector: 'app-shift-header',
@@ -16,15 +15,15 @@ import { debounceTime } from 'rxjs';
 })
 export class ShiftHeader {
 
-  protected shiftWeek = signal<ShiftItem[]>([])
   protected shifts;
   protected shiftSelected = signal<{shift:string,text:string}>({shift:'',text:''});
+
+  setShift = output<keyof ShiftEmployeesItem>()
 
   fb = inject(FormBuilder);
   filtersForm;
 
   constructor(){
-    this.shiftWeek.set(getWeekShifts());
     this.filtersForm = this.fb.group({
       name: [""],
       rol: [""]
@@ -49,14 +48,10 @@ export class ShiftHeader {
   })
   }
 
-
-  setWorkstationSelected = (e:any)=>{}
   setStatusSelected = (e:SelectChangeEvent)=>{
-    console.log({e})
     this.shiftSelected.set(e.value || "")
+    this.setShift.emit(e.value?.shift || "");
   }
-
-
 
 
 }

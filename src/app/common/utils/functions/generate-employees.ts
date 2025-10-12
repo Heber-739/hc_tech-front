@@ -3,8 +3,10 @@ import { EmployeeProfile } from "../../../interfaces/employee-data";
 import { employeeRols } from "../../constants/rols";
 import { employeeStatus } from "../../constants/status";
 
-export const generateEmployeeData = (): EmployeeProfile[] => {
+let listEmployes: EmployeeProfile[] | null = null;
 
+export const generateEmployeeData = (): EmployeeProfile[] => {
+  if(listEmployes) return listEmployes;
   const data: EmployeeProfile[] = [];
   const roles: string[] = employeeRols;
   const workstations: string[] = ["Desarrollador Frontend", "Desarrollador Backend", "Diseñador UX/UI", "Gerente de Proyecto", "Analista de Datos", "Especialista en QA"];
@@ -89,5 +91,6 @@ const typesStreet: string[] = [
     };
     data.push(employee);
   }
+  listEmployes = data;
   return data;
 }

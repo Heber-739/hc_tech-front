@@ -6,9 +6,9 @@
 (filtersSelected)="filterEmployees($event)"
  ></app-employee-header>
 
-<div class="h-full flex flex-column justify-content-between">
+<div class="h-auto flex flex-column">
 
-  <div class="flex flex-column gap-2">
+  <div class="flex flex-column gap-1 h-full">
 
     @for (employee of employees(); track employee.id) {
       <app-employee-item
@@ -24,10 +24,10 @@
 
     <div class="absolute bottom-0 right-0">
         <p-paginator
-        class="text-xs"
+        class="text-xs py-1"
         (onPageChange)="onPageChange($event)"
         [first]="0"
-        [rows]="11"
+        [rows]="itemsPage()"
         [totalRecords]="employeesFiltered().length"
         [showPageLinks]="false"
         [showFirstLastIcon]="false"

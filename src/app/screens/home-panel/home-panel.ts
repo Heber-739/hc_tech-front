@@ -17,7 +17,7 @@ import { CompanyData } from '../../interfaces/company';
 })
 export default class HomePanel {
   visible = false;
-  protected companyForm = signal<boolean>(true)
+  protected companyForm = signal<boolean>(false)
   companies = signal<CompanyData[]>(generarEmpresas(2))
 
   toggleCompanyForm(value:boolean){

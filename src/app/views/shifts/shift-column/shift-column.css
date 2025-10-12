@@ -1,0 +1,11 @@
+
+.column {
+  border: 1px solid var(--gray)
+}
+.divider{
+  height: 1px;
+  background-color: var(--gray);
+}
+li.p-menu-submenu-label{
+  display: none;
+}

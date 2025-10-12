@@ -1,9 +1,9 @@
-<header class="header w-full flex align-items-center gap-3">
-  <p class="text-4xl flex-grow-1 text-center">{{ title() }}</p>
+<header class="header w-full flex align-items-center gap-3 px-3 py-2">
+  <p class="text-3xl flex-grow-1 text-center">{{ title() }}</p>
   <p-button (onClick)="openCompanyForm()" label="Administración" />
 
   <i
-    class="pi pi-bell icon notify-icon text-2xl"
+    class="pi pi-bell icon notify-icon text-xl"
     (click)="toggle($event)"
     [ngClass]="notifications().length > 0 ? 'primary-icon' : 'secundary-icon'"
   >
@@ -12,10 +12,10 @@
     }
   </i>
   <div class="card flex gap-2 h-fit">
-    <p-avatar class="mr-2" size="xlarge" shape="circle" [image]="user().img" />
+    <p-avatar class="mr-2" size="large" shape="circle" [image]="user().img" />
     <div class="flex-col text-center m-auto">
       <p class="text-xl font-bold">{{ user().name }}</p>
-      <p class="t-gray">{{ user().workstation }}</p>
+      <p class="text-sm t-gray">{{ user().workstation }}</p>
     </div>
   </div>
 
