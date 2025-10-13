@@ -44,7 +44,7 @@ export class ShiftHeader {
   this.filtersForm.valueChanges.pipe(
     debounceTime(300)
   ).subscribe({
-    next:(v)=> console.log(v)
+    next:(v)=> (()=> {})()
   })
   }
 

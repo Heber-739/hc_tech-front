@@ -2,7 +2,7 @@ import { ShiftEmployeeItem } from "../../../interfaces/shift-item";
 import { generateEmployeeData } from "./generate-employees";
 
 export const getWeekShifts = (date?:Date)=>{
-  const shifts = obtenerSemanaActual(date).map((date)=> ({date,late:[],morning:[],night:[]}));
+  const shifts = getCurrentWeek(date).map((date)=> ({date,late:[],morning:[],night:[]}));
 
   return shifts.map((shift)=> ({
     ...shift,
@@ -24,7 +24,7 @@ export const getRandomEmployees = (): ShiftEmployeeItem => {
   };
 
 
-  const obtenerSemanaActual = (date: Date = new Date()): Date[] => {
+ export const getCurrentWeek = (date: Date = new Date()): Date[] => {
     const semana: Date[] = [];
 
     const today = new Date(date);

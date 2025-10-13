@@ -27,9 +27,9 @@
               }
             ],
             "styles": [
+              "src/styles.css",
               "primeicons/primeicons.css",
-              "primeflex/primeflex.css",
-              "src/styles.css"
+              "primeflex/primeflex.css"
             ]
           },
           "configurations": {

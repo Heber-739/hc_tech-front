@@ -1,12 +1,13 @@
 <app-employee-header
 [workstations]="workstations()"
 [status]="status()"
+class="flex flex-shrink-0"
 (addEmployee)="openEmployeeModal()"
 (confirmDelete)="deleteEmployees()"
 (filtersSelected)="filterEmployees($event)"
  ></app-employee-header>
 
-<div class="h-auto flex flex-column">
+<div class="flex flex-column flex-grow-1">
 
   <div class="flex flex-column gap-1 h-full">
 

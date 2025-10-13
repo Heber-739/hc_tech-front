@@ -1,0 +1,21 @@
+<div class="w-full flex flex-column flex-shrink-0">
+    <div class="w-full text-xs flex justify-content-between align-items-center">
+      <p class="t-gray">
+        {{ item().date.getDate() }}
+      </p>
+      <i class="pi pi-plus-circle primary-color mx-1"> </i>
+    </div>
+    <div class="scrollable ">
+      @for (item of item().items; track $index) {
+        <p
+        [ngClass]="{
+    'vacation': item.type == 'Vacaciones',
+    'active': item.type == 'Asistencia',
+    'absent': item.type == 'Dia Libre',
+    'primary-btn': item.type == 'Otro',
+        }"
+        class="text-xs text-center border-round-3xl my-1 bg-white"
+        > {{item.type}} </p>
+      }
+    </div>
+  </div>

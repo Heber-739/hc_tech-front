@@ -1,0 +1,23 @@
+<div class="flex flex-column h-full w-full">
+
+  <div class="flex flex-shrink-0 text-center t-gray">
+    <p class="col" >Lunes</p>
+    <p class="col" >Martes</p>
+    <p class="col" >Miercoles</p>
+    <p class="col" >Jueves</p>
+    <p class="col" >Viernes</p>
+    <p class="col" >Sabado</p>
+    <p class="col" >Domingo</p>
+  </div>
+
+  <div class="flex flex-grow-1 flex-wrap w-full justify-content-evenly">
+    @for (item of monthlyItems(); track $index) {
+
+      <app-calendar-monthly-day
+      [item]="item"
+      style="height: 19%; width: 14%;"
+      class="border-gray border-round-lg p-1"
+      ></app-calendar-monthly-day>
+    }
+  </div>
+</div>

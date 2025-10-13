@@ -6,7 +6,7 @@
         <app-shift-column
             [shiftItem]="shiftDay"
             [shift]="shift()"
-            class="col p-0 border-round-lg"
+            class="col p-0 border-round-lg bg-white"
             style="height: calc(100vh - 158px);"
             [style]="getToday(shiftDay.date) ? 'outline: 2px solid var(--accent)':'' "
         ></app-shift-column>
@@ -17,6 +17,6 @@
 
   <div class="flex flex-shrink-0 justify-content-center py-2 align-items-center ">
     <i (click)="changeWeekView(false)" class="pi pi-chevron-left text-primary text-xl"> </i>
-    <p class="mx-5">{{ getWeekRangeString() }}</p>
+    <p class="mx-5 w-3 text-center">{{ getWeekRangeString() }}</p>
     <i (click)="changeWeekView(true)" class="pi pi-chevron-right text-primary text-xl"> </i>
   </div>

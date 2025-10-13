@@ -82,7 +82,10 @@ border-top: none;
   border-radius: 3px;
   border: 1px solid black;
 }
-
+.primary-btn {
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
 .active {
   color: var(--btn-green);
   background-color: var(--light-green);

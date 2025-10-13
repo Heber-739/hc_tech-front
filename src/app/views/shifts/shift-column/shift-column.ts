@@ -16,7 +16,7 @@ export class ShiftColumn {
   shiftItem = input.required<ShiftItem>()
   shift = input.required<keyof ShiftEmployeesItem>()
 
-  command = (event: MenuItemCommandEvent) => console.log({e:event.index});
+  command = (event: MenuItemCommandEvent) => (()=> {})();
 
   protected employeeSelectedId = signal<string>("")
 
@@ -54,7 +54,6 @@ export class ShiftColumn {
 
  clickMenu = (id:string)=> {
   this.employeeSelectedId.set(id)
-  console.log({id})
   return true
  }
 

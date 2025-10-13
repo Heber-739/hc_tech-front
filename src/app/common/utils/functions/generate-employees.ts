@@ -82,7 +82,7 @@ const typesStreet: string[] = [
       address: `${getRandomItem(typesStreet)} ${getRandomItem(streets)} ${getNumbers('****')}, ${getRandomItem(cities)}`,
       birthday:getRandomDate(75,18),
       status: getRandomItem(statuses),
-      image: "https://i.pinimg.com/originals/6a/0d/18/6a0d184b73dc7bf9b47cb755ef8d92cb.png", // Misma URL para todos
+      image: "datos/employee.jpg",
       entry_date:getRandomDate(15,1960),
       discharge_date:getRandomDate(20,1980),
       punctuality:Number(getNumbers('**')),

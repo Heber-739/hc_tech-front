@@ -1,10 +1,10 @@
 <main class="flex h-full">
   <app-sidebar></app-sidebar>
 
-  <div class="flex flex-column flex-1 min-h-0">
+  <div class="flex flex-column h-screen min-h-0 w-full">
     <app-header class="flex-shrink-0"></app-header>
 
-    <div class="flex-1 min-h-0">
+    <div class="flex flex-grow-1 min-h-0 w-full" #routerContainer >
       <router-outlet></router-outlet>
     </div>
   </div>
