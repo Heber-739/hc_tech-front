@@ -49,7 +49,7 @@ constructor(){
 
 private getItemsPeerPage(){
   const height = window.innerHeight;
-  this.itemsPage.set(Math.trunc((height  - 204) / 55));
+  this.itemsPage.set(Math.trunc((height  - 204) / 56));
   this.onPageChange(this.currentSizeItems)
 }
 
