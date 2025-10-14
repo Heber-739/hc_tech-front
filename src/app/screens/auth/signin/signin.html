@@ -1,0 +1,9 @@
+<form class="flex flex-column py-3 px-7 justify-content-around align-items-center h-full" [formGroup]="signinForm">
+  <h3 class="text-white text-4xl"> Iniciar sesión</h3>
+
+
+          <input class="w-full"  pInputText formControlName="email" type="email" placeholder="Email" />
+          <input class="w-full"  pInputText formControlName="pass" type="password" placeholder="Contraseña" />
+
+          <p-button (onClick)="submit()" [disabled]="signinForm.invalid" size="small"  severity="primary" label="Iniciar sesión"  />
+</form>

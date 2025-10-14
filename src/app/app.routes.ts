@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [{
-  path:"",pathMatch:"full", redirectTo:"panel"},
-  {
-  path:"panel",
-  loadComponent: () => import("./screens/home-panel/home-panel"),
+export const routes: Routes = [
+  {path:"",pathMatch:"full", redirectTo:"auth"},
+  { path:"auth", loadComponent: () => import("./screens/auth/auth") },
+  { path:"panel", loadComponent: () => import("./screens/home-panel/home-panel"),
   children:[
     {path: "", pathMatch: "full", redirectTo: "employees"},
     {path:"employees", loadComponent:()=> import("./views/employee/employee")},

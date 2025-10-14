@@ -1,0 +1,14 @@
+<form class="flex gap-2 w-full flex-column py-2 px-5 align-items-center h-full" [formGroup]="signupForm">
+  <h3 class="text-white text-4xl"> Registrarse</h3>
+
+
+  <input fluid pSize="small" pInputText formControlName="name" type="text" placeholder="Nombre completo" />
+  <div class="flex w-full gap-2">
+    <p-inputnumber size="small" fluid class="w-7" [maxlength]="8" formControlName="dni" placeholder="DNI"/>
+    <p-inputnumber size="small" fluid class="w-5" [maxlength]="2" formControlName="age" placeholder="Edad"/>
+  </div>
+
+  <input fluid  pSize="small" pInputText formControlName="company" type="text" placeholder="Organización / Empresa" />
+
+  <p-button class="mt-4" (onClick)="submit()" [disabled]="signupForm.invalid" size="small"  severity="primary" label="Registrarse" />
+</form>
