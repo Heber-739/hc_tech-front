@@ -11,6 +11,7 @@
   --gray: #8695A7;
   --light-gray:#f0f2f5;
   --red: #B3261E;
+  --light-red: #FFAEAE;
   --btn-green:#9ACC47;
   --light-green:#dcedbf;
   --light-orange:#f4cba4;
@@ -101,8 +102,13 @@ border-top: none;
   background-color: var(--light-orange);
   border: 2px solid var(--btn-orange);
 }
+.warning{
+  color: var(--red);
+  background-color: var(--light-red);
+  border: 2px solid var(--red);
+}
 .vacation {
- color: var(--btn-violet);
+  color: var(--btn-violet);
   background-color: var(--light-violet);
   border: 2px solid var(--btn-violet);
 }

@@ -1,1 +1,31 @@
-<p>procedures works!</p>
+<div class="flex flex-column w-full h-full" >
+<app-procedures-header
+  class="w-full flex flex-shrink-0"
+  (filters)="filterProcedures($event)"
+></app-procedures-header>
+
+    <div class="flex flex-wrap w-full flex-grow-1 p-1 justify-content-around">
+      @for (item of procedures(); track $index) {
+        <app-procedure-item
+          [item]="item"
+          style="height: 49%; width: 32%;"
+          class="flex border-gray border-round-lg p-1"
+        >
+        </app-procedure-item>
+      }
+    </div>
+
+    <div class="flex flex-shrink-0 justify-content-end">
+      <p-paginator
+      class="text-xs py-0"
+      (onPageChange)="onPageChange($event)"
+      [first]="0"
+      [rows]="itemsPage"
+      [totalRecords]="proceduresFiltered().length"
+      [showPageLinks]="false"
+      [showFirstLastIcon]="false"
+      [showCurrentPageReport]="true"
+      [showJumpToPageDropdown]="false"
+      currentPageReportTemplate="{first} - {last} de {totalRecords}" />
+    </div>
+  </div>

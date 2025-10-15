@@ -1,4 +1,4 @@
-import { EmployeeProfile } from "./employee-data"
+import { EmployeeProfile } from "./employee-profile"
 
 export interface ShiftItem extends ShiftEmployeesItem {
   date:Date;

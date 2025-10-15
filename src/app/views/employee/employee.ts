@@ -1,6 +1,6 @@
 import { Component, OnDestroy, signal } from '@angular/core';
 import { EmployeeHeader } from './employee-header/employee-header';
-import { EmployeeProfile } from '../../interfaces/employee-data';
+import { EmployeeProfile } from '../../interfaces/employee-profile';
 import { EmployeeItem } from "./employee-item/employee-item";
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { debounceTime, fromEvent, Subscription } from 'rxjs';

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, inject, input, output, signal, WritableSignal } from '@angular/core';
-import { EmployeeProfile } from '../../../interfaces/employee-data';
+import { EmployeeProfile } from '../../../interfaces/employee-profile';
 import { DividerModule } from 'primeng/divider';
 import { AvatarModule } from 'primeng/avatar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';

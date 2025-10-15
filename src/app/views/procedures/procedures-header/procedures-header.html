@@ -1,0 +1,17 @@
+
+<div class="w-full">
+  <form class="grid m-0 w-full div-filters" [formGroup]="filtersForm">
+    <div class="col-3 pl-4">
+      <p-iconfield class="w-full h-full">
+        <input formControlName="name" type="text" class="w-full text-sm h-full underline-input pl-2" pInputText placeholder="Nombre empleado" />
+        <p-inputicon class="pi pi-search" />
+      </p-iconfield>
+    </div>
+    <div class="col-2 mx-4 px-2">
+      <p-select class="w-full" formControlName="matter" size="small" [options]="metters()" placeholder="Asunto" showClear />
+    </div>
+    <div class="col-2 px16">
+      <p-select class="w-full" formControlName="status" size="small" [options]="status()" placeholder="Estado" showClear />
+    </div>
+  </form>
+</div>

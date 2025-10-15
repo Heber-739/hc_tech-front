@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { EmployeeProfile } from "../../interfaces/employee-data";
+import { EmployeeProfile } from "../../interfaces/employee-profile";
 
 export const defaultEmployee: EmployeeProfile = {
       name: '',

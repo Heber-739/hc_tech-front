@@ -1,0 +1,86 @@
+<div class="flex flex-column w-full h-full p-1">
+  <div class="flex justify-content-between align-items-center w-full flex-shrink-0">
+    <div class="flex flex-shrink-0 ">
+      @if (item().employee["image"]){
+      <p-avatar [image]="item().employee.image" class="flex-shrink-0" shape="circle" />
+      } @else {
+      <p-avatar icon="pi pi-user" class="flex-shrink-0" shape="circle" />
+      }
+
+      <div class="flex flex-column flex-grow-1 relative pr-5 mx-2">
+        <p class="text-xs">{{ item().employee.name }}</p>
+        <p class="text-xs">{{ item().employee.rol }}</p>
+        <i class="pi pi-info-circle primary-color absolute top-0 right-0 "> </i>
+      </div>
+    </div>
+
+        <p
+        [ngClass]="{
+    'warning': item().status == 'Rechazado',
+    'active': item().status == 'Aprobado',
+    'inactive': item().status == 'En progreso',
+    'primary-btn': item().status == 'Pendiente',
+        }"
+        class="btn text-xs text-center border-round-xs my-1 bg-white"
+        > {{ item().status }} </p>
+  </div>
+  <div class="divider my-1 flex-shrink-0"></div>
+
+  <div class="flex w-full flex-shrink-0 my-1 justify-content-around">
+    <div class="flex flex-column justify-content-center gap-1">
+      <p class="text-center t-gray text-xs" >Asunto</p>
+      <p class="text-xs inactive btn text-center"> {{ item().metter }} </p>
+    </div>
+
+    <div class="flex flex-column justify-content-center gap-1">
+      <p class="text-center t-gray text-xs" >Pedido</p>
+      <p class="text-xs inactive btn text-center"> {{ item().entry_date| date:'dd/MM/yyyy' }} </p>
+    </div>
+
+    <div class="flex flex-column justify-content-center gap-1">
+      <p class="text-center t-gray text-xs" >Resuelto</p>
+      <p class="text-xs inactive btn text-center">
+        @if (item().discharge_date) {
+          <span > {{ item().discharge_date | date:'dd/MM/yyyy' }} </span>
+        } @else {
+          <span > - </span>
+        }
+      </p>
+    </div>
+  </div>
+
+
+  <div class="w-full flex flex-column my-1 flex-grow-1">
+      <span class="t-gray text-xs">Descripción</span>
+      <div style="min-height: 20%;" class="scrollable w-full h-full border-gray border-round-lg py-1 px-3 text-xs t-gray">
+        {{item().description}}
+      </div>
+
+      <span class="t-gray text-xs">Feedback</span>
+      <div style="min-height: 20%;" class="scrollable w-full h-full border-gray border-round-lg py-1 px-3 text-xs t-gray">
+        {{item().feedback}}
+      </div>
+
+  </div>
+
+  <div class="flex align-items-center w-full flex-shrink-0">
+    <p class="t-gray flex-shrink-0 text-xs">Responsable</p>
+    <p class="text-xs ml-1 inactive btn text-center flex-grow-1"> {{ item().owner || "-" }} </p>
+    @switch (item().status) {
+      @case ("Pendiente") {
+        <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Tomar" />
+      }
+      @case ("En progreso") {
+        <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Continuar" />
+      }
+      @case ("Aprobado") {
+        <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Detalles" />
+      }
+      @case ("Rechazado") {
+        <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Detalles" />
+      }
+    }
+  </div>
+
+
+</div>

@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { EmployeeProfile } from '../../../interfaces/employee-data';
+import { EmployeeProfile } from '../../../interfaces/employee-profile';
 import { calculateIntervalTime } from '../../../common/utils/functions/get-interval-time';
 
 @Component({

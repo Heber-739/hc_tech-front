@@ -1,3 +1,3 @@
-import { EmployeeProfile } from './employee-data';
+import { EmployeeProfile } from './employee-profile';
 
 export type EmployeeFilters = Pick<EmployeeProfile, 'name' | 'workstation' | 'status'>
