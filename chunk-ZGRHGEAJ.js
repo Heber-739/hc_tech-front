@@ -1,0 +1,1 @@
+var o=(r,s)=>{if(!r||!s)return"";let e=s.getFullYear()-r.getFullYear(),t=s.getMonth()-r.getMonth();t<0&&(e--,t+=12),s.getDate()<r.getDate()&&(t--,t<0&&(t=11,e--));let g=e<1?"":`${e} a\xF1o${e!=1?"s":""}`,l=t<1?"":`${t} mes${t!=1?"es":""}`;return g&&l?`${g} y ${l}`:g+l};export{o as a};
