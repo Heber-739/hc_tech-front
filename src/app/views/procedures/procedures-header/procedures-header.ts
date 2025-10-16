@@ -5,7 +5,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { SelectModule } from 'primeng/select';
 import { debounceTime } from 'rxjs';
-import { ProcedureHeaderForm } from '../../../interfaces/procedure-header-form';
+import { ProcedureHeaderForm } from '../../../interfaces/forms-interfaces';
 import { METTER_OPTIONS, STATUS_OPTIONS } from '../../../common/utils/functions/procedures-generator';
 
 @Component({

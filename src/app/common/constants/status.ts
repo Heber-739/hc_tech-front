@@ -1,1 +1,1 @@
-export const employeeStatus = ["Activo", "Vacaciones", "Inactivo", "Ausente"];
+export const EMPLOYEE_STATUS = ["Activo", "Vacaciones", "Inactivo", "Ausente"];

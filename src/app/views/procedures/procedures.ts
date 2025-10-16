@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { ProceduresHeader } from "./procedures-header/procedures-header";
-import { ProcedureHeaderForm } from '../../interfaces/procedure-header-form';
+import { ProcedureHeaderForm } from '../../interfaces/forms-interfaces';
 import { ProcedureItem } from './procedure-item/procedure-item';
 import { generateProcedureItem } from '../../common/utils/functions/procedures-generator';
 import { ProcedureItemData } from '../../interfaces/procedures-item';

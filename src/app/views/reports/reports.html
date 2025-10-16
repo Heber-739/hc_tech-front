@@ -1,1 +1,22 @@
-<p>reports works!</p>
+<div class="flex flex-column w-full h-full" >
+  <app-report-header
+  class="w-full flex flex-shrink-0"
+  [workstations]="workstations"
+  (filters)="filterReports($event)"
+  ></app-report-header>
+
+  <div class="flex flex-column flex-grow-1 w-full scrollable" #employeesContainer>
+    @for (item of employeesFiltered(); track $index) {
+      <app-report-employee-item
+      class="h-full"
+      [employee]="item"
+      ></app-report-employee-item>
+    }
+  </div>
+
+
+  <div>
+
+  </div>
+  </div>
+

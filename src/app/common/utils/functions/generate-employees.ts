@@ -1,17 +1,17 @@
 import { v4 } from "uuid";
 import { EmployeeProfile } from "../../../interfaces/employee-profile";
-import { employeeRols } from "../../constants/rols";
-import { employeeStatus } from "../../constants/status";
+import { ROLS } from "../../constants/rols";
+import { EMPLOYEE_STATUS } from "../../constants/status";
 
 let listEmployes: EmployeeProfile[] | null = null;
 
 export const generateEmployeeData = (): EmployeeProfile[] => {
   if(listEmployes) return listEmployes;
   const data: EmployeeProfile[] = [];
-  const roles: string[] = employeeRols;
+  const roles: string[] = ROLS;
   const workstations: string[] = ["Desarrollador Frontend", "Desarrollador Backend", "Diseñador UX/UI", "Gerente de Proyecto", "Analista de Datos", "Especialista en QA"];
   const schedules: string[] = ["7:00 - 15:00", "15:00 - 23:00", "23:00 - 07:00"];
-  const statuses: string[] = employeeStatus;
+  const statuses: string[] = EMPLOYEE_STATUS;
   const names: string[] = ["Sofía","Alejandro","Valentina","Sebastián","Camila","Mateo","Isabella","Nicolás","Mariana","Diego","Lucía","Gabriel","Elena","Daniel","Paula","Javier","Andrea","Ricardo","Valeria","Manuel"
 ];
   const surnames: string[] = ["García","Rodríguez","González","Fernández","López","Martínez","Sánchez","Pérez","Gómez","Martín","Jiménez","Ruiz","Hernández","Díaz","Moreno","Muñoz","Álvarez","Romero","Alonso","Gutiérrez"

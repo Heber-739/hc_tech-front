@@ -7,8 +7,8 @@ import { debounceTime } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { employeeRols } from '../../../common/constants/rols';
-import { employeeStatus } from '../../../common/constants/status';
+import { ROLS } from '../../../common/constants/rols';
+import { EMPLOYEE_STATUS } from '../../../common/constants/status';
 import { SelectModule } from 'primeng/select';
 import { calculateIntervalTime } from '../../../common/utils/functions/get-interval-time';
 import { CommonModule } from '@angular/common';
@@ -34,8 +34,8 @@ import { defaultEmployee } from '../../../common/constants/employee-default';
 })
 export class EmployeeForm implements AfterViewInit {
   protected employee = signal<EmployeeProfile>(defaultEmployee);
-  protected rols = employeeRols;
-  protected status = employeeStatus;
+  protected rols = ROLS;
+  protected status = EMPLOYEE_STATUS;
 
   disableItems = input<boolean>(true);
 
@@ -102,6 +102,7 @@ export class EmployeeForm implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if(this.editEmployee()){
+      console.log("rezice")
 
       this.employee.set(this.editEmployee()!);
 
