@@ -1,0 +1,33 @@
+<div class="flex w-full h-full flex-shrink-0 gap-2">
+  <div class="w-4 h-full py-2 align-items-center border-round-xl border-gray" >
+    <div class="flex w-full justify-content-end">
+
+      <div class="flex align-items-center justify-content-between w-6 ">
+        <i (click)="after()" class="pi pi-chevron-left text-xs"> </i>
+        <p class="text-center">{{ toggleView() ? getMonth(): getYear()}}</p>
+        <i (click)="next()" class="pi pi-chevron-right text-xs"> </i>
+      </div>
+
+      <div class="flex align-items-center w- mx-1">
+        <p-select [options]="['Mensual','Anual']" [formControl]="yearSelect" size="small" class="w-fit h-fit flex text-xs mr-1" />
+      </div>
+
+    </div>
+    <div class="divider my-2"></div>
+
+    <div class="flex flex-wrap w-full gap-3 justify-content-around">
+      @for (item of statics_numbers; track $index) {
+        <div class="w-fit text-xs text-center flex flex-column border-round-lg border-gray px-3 py-2" >
+          <p> {{item.label}} </p>
+          <p> {{item.value}} </p>
+        </div>
+      }
+    </div>
+
+
+  </div>
+
+  <div class="flex border-round-xl border-gray w-8">
+    <p-chart type="bar" [data]="data()" [options]="options()" class="h-full w-full" />
+  </div>
+</div>

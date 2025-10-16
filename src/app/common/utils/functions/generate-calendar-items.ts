@@ -64,18 +64,3 @@ export const getCalendarItems = (date: Date = new Date()): CalendarItem[] => {
   }
   return days;
 }
-// --- USO ---
-
-// const today = new Date();
-// const mockCalendarData = generateCalendarWeek(today);
-
-// console.log("--- Datos Generados (Semana) ---");
-// mockCalendarData.forEach(day => {
-//     console.log(`\nFecha: ${day.date.toDateString()} (Items: ${day.items.length})`);
-
-//     day.items.forEach(item => {
-//         console.log(`  - Tipo: ${item.type}`);
-//         console.log(`    Horario: ${item.schedule[0].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${item.schedule[1].toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`);
-//         console.log(`    Desc: ${item.description}`);
-//     });
-// });

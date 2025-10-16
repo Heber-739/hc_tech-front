@@ -4,10 +4,13 @@ import { ReportHeaderForm } from '../../interfaces/forms-interfaces';
 import { ReportEmployeeItem } from "./report-employee-item/report-employee-item";
 import { generateEmployeesStatics } from '../../common/utils/functions/generate-staticals';
 import { ReportEmployeeData } from '../../interfaces/report-employee';
+import { ReportCharts } from "./report-charts/report-charts";
+import { ChartService } from './service/chart-seervice';
 
 @Component({
   selector: 'app-reports',
-  imports: [ReportHeader, ReportEmployeeItem],
+  imports: [ReportHeader, ReportEmployeeItem, ReportCharts],
+  providers:[ChartService],
   templateUrl: './reports.html',
   styleUrl: './reports.css'
 })
@@ -18,12 +21,13 @@ export default class Reports {
 private employeesData = signal<ReportEmployeeData[]>([]);
 protected employeesFiltered = signal<ReportEmployeeData[]>([]);
 
-  constructor(){
+  constructor(private chartSeervice:ChartService){
     this.employeesData.set(generateEmployeesStatics());
     this.employeesFiltered.set(this.employeesData());
     const workstations = new Set<string>;
     this.employeesData().forEach((e) => workstations.add(e.employee.workstation))
     this.workstations = [...workstations];
+    this.viewEmployeeData(this.employeesData()[0].employee.id)
   }
 
 filterEmployees(filters:ReportHeaderForm){
@@ -40,6 +44,15 @@ filterEmployees(filters:ReportHeaderForm){
   filterReports(filters:ReportHeaderForm){
     this.filterEmployees(filters)
   }
+
+  viewEmployeeData(id:string){
+    this.employeesFiltered().forEach((e)=> {
+      if(e.employee.id === id){
+        console.log(id,e.employee.id)
+        this.chartSeervice.employeeData.next(e.data);
+      }
+    })
+}
 
 
 

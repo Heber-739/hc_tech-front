@@ -10,13 +10,14 @@
       <app-report-employee-item
       class="h-full"
       [employee]="item"
+      (viewEmployeeData)="viewEmployeeData(item.employee.id)"
       ></app-report-employee-item>
     }
   </div>
 
 
-  <div>
-
-  </div>
+<app-report-charts
+class="w-full p-2" style="height: 40%;"
+></app-report-charts>
   </div>
 
