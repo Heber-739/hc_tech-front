@@ -27,7 +27,22 @@
 
   </div>
 
-  <div class="flex border-round-xl border-gray w-8">
-    <p-chart type="bar" [data]="data()" [options]="options()" class="h-full w-full" />
+  <div class="flex border-round-xl border-gray text-xs w-8">
+
+    @if (barChartData) {
+
+      <ng-container chartType="bar"  >
+        <canvas
+        baseChart
+        [data]="barChartData"
+        [options]="barChartOptions"
+        type="bar"
+        class="w-full text-xs"
+        >
+      </canvas>
+
+    </ng-container>
+  }
+
   </div>
 </div>
