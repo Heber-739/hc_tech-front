@@ -6,7 +6,6 @@ import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import MyPreset from './myPreset';
 
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -21,6 +20,7 @@ export const appConfig: ApplicationConfig = {
             darkModeSelector: false || 'none'
         }
       }
-    })
+    }),
+
   ]
 };
