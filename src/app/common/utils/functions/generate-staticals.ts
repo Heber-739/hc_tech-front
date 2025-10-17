@@ -16,13 +16,12 @@ const dayStat: MonthStaticalData = {
   extra_hours: 0,
 };
 
-let statics:MonthStaticalData[] = [];
+let statics:ReportEmployeeData[] = [];
 
 export function generateEmployeeStats(
   inVacations: boolean = false,
   days: number = 30
 ): MonthStaticalData[] {
-  if(statics.length > 1) return statics;
 
   const today = new Date();
   const stats: MonthStaticalData[] = [];
@@ -90,11 +89,11 @@ export function generateEmployeeStats(
     }
 
   }
-  statics = stats;
   return stats;
 }
 
 export const generateEmployeesStatics = ():ReportEmployeeData[] => {
+  if(statics.length > 1) return statics;
   let employees = generateEmployeeData()
   let response = employees.map((e)=>{
     let {id,image, name, workstation, status, entry_date, discharge_date,work_schedule} = e;
@@ -103,5 +102,6 @@ export const generateEmployeesStatics = ():ReportEmployeeData[] => {
       data:generateEmployeeStats(status === "Vacaciones")
     })
   })
+  statics = response;
   return response;
 }

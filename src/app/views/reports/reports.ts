@@ -48,7 +48,6 @@ filterEmployees(filters:ReportHeaderForm){
   viewEmployeeData(id:string){
     this.employeesFiltered().forEach((e)=> {
       if(e.employee.id === id){
-        console.log(id,e.employee.id)
         this.chartSeervice.employeeData.next(e.data);
       }
     })

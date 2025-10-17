@@ -102,7 +102,6 @@ export class EmployeeForm implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if(this.editEmployee()){
-      console.log("rezice")
 
       this.employee.set(this.editEmployee()!);
 

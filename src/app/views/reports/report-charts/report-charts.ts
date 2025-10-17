@@ -95,7 +95,6 @@ public barChartData: ChartData<'bar'> | undefined =undefined;
 
 
     protected setChartData(data:MonthStaticalData[]){
-      console.log({data})
       const day_off: number[] = [];
             const attendence: number[] = [];
             const vacancy: number[] = [];
