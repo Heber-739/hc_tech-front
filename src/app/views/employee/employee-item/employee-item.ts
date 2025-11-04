@@ -4,8 +4,8 @@ import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { EmployeeProfile } from '../../../interfaces/employee-profile';
 import { calculateIntervalTime } from '../../../common/utils/functions/get-interval-time';
+import { EmployeeResponse } from '../../../interfaces/employee-response';
 
 @Component({
   selector: 'app-employee-item',
@@ -15,17 +15,16 @@ import { calculateIntervalTime } from '../../../common/utils/functions/get-inter
 })
 export class EmployeeItem {
   protected checked = output<boolean>();
-  protected edit = output<EmployeeProfile>();
-  employee = input.required<EmployeeProfile>()
+  protected edit = output<EmployeeResponse>();
+  employee = input.required<EmployeeResponse>()
 
   onchecked(e:CheckboxChangeEvent){
     this.checked.emit(e.checked);
   }
 
   getTimeInCompany(){
-      const initDate = new Date(this.employee().entry_date)
-      const endDate = new Date(this.employee().discharge_date)
-      return calculateIntervalTime(initDate,endDate);
+      const { fecha_ingreso, fecha_egreso} = this.employee();
+      return calculateIntervalTime(fecha_ingreso, fecha_egreso);
     }
 
     editEmployee(){

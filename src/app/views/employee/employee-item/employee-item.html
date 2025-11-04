@@ -2,34 +2,34 @@
   [ngClass]="employee().checked ? 'checked':''"
   #container>
     <div class="col-1 flex justify-content-left">
-      <p-checkbox [binary]="true" (onChange)="onchecked($event)" class="ml-5" />
+      <p-checkbox [binary]="true" [(ngModel)]="employee().checked" (onChange)="onchecked($event)" class="ml-5" />
     </div>
     <div class="col-3 text-base py-0">
       <div class="flex items-center align-items-center">
-        @if (employee().image){
-        <p-avatar [image]="employee().image"  class="mr-2" size="normal" shape="circle" />
+        @if (employee().imagen){
+        <p-avatar [image]="employee().imagen"  class="mr-2" size="normal" shape="circle" />
       } @else {
         <p-avatar icon="pi pi-user" class="mr-2" size="normal" shape="circle" />
       }
-        <span >{{ employee().name }}</span>
+        <span >{{ employee().nombre }}</span>
     </div>
   </div>
   <div class="col-2 text-sm text-center">
-      <span>{{ employee().workstation }}</span>
+      <span>{{ employee().puesto }}</span>
     </div>
 
     <div class="col-2 text-sm text-center">
-      <span>{{ employee().work_schedule }}</span>
+      <span>{{ employee().turno }}</span>
     </div>
 
     <div class="col-2 text-sm text-center">
       <span class="btn"
       [ngClass]="{
-    'active': employee().status == 'Activo',
-    'inactive': employee().status == 'Inactivo',
-    'absent': employee().status == 'Ausente',
-    'vacation': employee().status == 'Vacaciones',
-  }" >{{ employee().status }}</span>
+    'active': employee().estado == 'Activo',
+    'inactive': employee().estado == 'Inactivo',
+    'absent': employee().estado == 'Ausente',
+    'vacation': employee().estado == 'Vacaciones',
+  }" >{{ employee().estado }}</span>
     </div>
     <div class="col-1 text-xs text-center">
       <span>{{ getTimeInCompany() }}</span>

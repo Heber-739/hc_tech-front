@@ -3,6 +3,7 @@
 [status]="status()"
 class="flex flex-shrink-0"
 (addEmployee)="openEmployeeModal()"
+(allChecked)="markAllChecked($event)"
 (confirmDelete)="deleteEmployees()"
 (filtersSelected)="filterEmployees($event)"
  ></app-employee-header>

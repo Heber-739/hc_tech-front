@@ -11,12 +11,8 @@
 </main>
 
 
-@if(companyForm()){
+@if(viewCompanyForm()){
   <app-company
-  [companies]="companies()"
-  (close)="toggleCompanyForm(false)"
-  (pushCompany)="entryCompany($event)"
-  (deleteyCompany)="deleteCompany($event)"
   (close)="toggleCompanyForm(false)"
   ></app-company>
 }

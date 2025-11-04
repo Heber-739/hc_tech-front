@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './common/guards/auth-guard';
 
 export const routes: Routes = [
   {path:"",pathMatch:"full", redirectTo:"auth"},
@@ -12,7 +13,8 @@ export const routes: Routes = [
     {path:"calendar", loadComponent:()=> import("./views/calendar/calendar")},
     {path:"procedures", loadComponent:()=> import("./views/procedures/procedures")},
     {path:"reports", loadComponent:()=> import("./views/reports/reports")}
-  ]
+  ],
+  canMatch: [authGuard],
 },
 {path: "**", redirectTo: "/"},
 ];

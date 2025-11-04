@@ -1,22 +1,23 @@
-import { v4 } from "uuid";
-import { EmployeeProfile } from "../../interfaces/employee-profile";
+import { EmployeeResponse } from "../../interfaces/employee-response";
 
-export const defaultEmployee: EmployeeProfile = {
-      name: '',
-      id: v4(),
-      email: '',
-      phone_number: '',
-      dni: 0,
-      birthday: new Date(),
-      workstation: '',
-      address: '',
-      status: '',
-      rol: '',
-      entry_date: new Date(),
-      discharge_date: new Date(),
-      work_schedule: '',
-      image: '',
-      punctuality: 0,
-      attendance: 0,
+export const defaultEmployee: EmployeeResponse = {
+      id: 0,
+    empresa_id: 0,
+    nombre:"",
+    email:"",
+    telefono:"",
+    direccion:"",
+    fecha_nac:new Date,
+    turno: "",
+    dni: "",
+    estado:"",
+    imagen:"",
+    puesto: "",
+    fecha_ingreso:new Date(),
+    fecha_egreso: new Date(),
+    activo: true,
+    created_at:new Date(),
+    checked:false
 
 }
+

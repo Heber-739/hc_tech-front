@@ -1,13 +1,15 @@
-import { CompanyData } from "../../interfaces/company";
+import { Companies } from "../../interfaces/company";
 
-export const companyDefault:CompanyData = {
-  id:"",
-  name:"",
-  web_page:"",
-  address:"",
-  company_name:"",
-  fundation_year:new Date(),
-  email:"",
-  phone_number:0,
-  image:"",
+export const companyDefault:Companies = {
+  id: 0,
+    user_id: 0,
+    nombre:"",
+    pag_web:"",
+    direccion:"",
+    razon_social:"",
+    created_at: new Date(),
+    email:"",
+    telefono:"",
+    imagen: "",
+    cuit:"",
 }
