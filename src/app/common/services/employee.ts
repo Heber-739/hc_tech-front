@@ -39,19 +39,19 @@ async getEmployees(forceGet: boolean = false):Promise<PromiseResult<EmployeeResp
       ...employee,
       created_at: new Date(employee.created_at),
       fecha_nac:new Date(employee.fecha_nac),
-      fecha_egreso:new Date(employee.fecha_egreso),
+      fecha_egreso:employee.fecha_egreso ? new Date(employee.fecha_egreso) : undefined,
       fecha_ingreso:new Date(employee.fecha_ingreso)
     }))),
     tap((employees)=> storeService.set("list-complete-employees", employees))
   ))
 }
 
-async createEmployee(body:EmployeeResponse){
+async createEmployee(body:EmployeeResponse): Promise<PromiseResult<EmployeeResponse[]>>{
   return promiseHandler(this.http.post<EmployeeResponse[]>("http://localhost:3000/api/empleados", body));
 }
 
-async editEmployee(body:EmployeeResponse){
-  return promiseHandler(this.http.post<EmployeeResponse[]>("http://localhost:3000/api/empleados", body));
+async editEmployee(body:EmployeeResponse): Promise<PromiseResult<EmployeeResponse>>{
+  return promiseHandler(this.http.put<EmployeeResponse>("http://localhost:3000/api/empleados", body));
 }
 
 }

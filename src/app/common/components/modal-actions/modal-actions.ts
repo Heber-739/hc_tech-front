@@ -12,7 +12,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 export class ModalActions implements OnChanges {
 
   modalKey = input<string>("");
-  confirmDelete = output<boolean>();
+  actionResult = output<string>();
 
   private configs: {[key:string]:Confirmation} = {
     delete: {
@@ -31,8 +31,26 @@ export class ModalActions implements OnChanges {
                 label: 'Eliminar',
                 severity: 'danger',
             },
-            accept: () => this.confirmDelete.emit(true),
-            reject: () => this.confirmDelete.emit(false)
+            accept: () => this.actionResult.emit("delete"),
+            reject: () => this.actionResult.emit("")
+        },
+    save: {
+            message: 'Desea guardar los cambios?',
+            header: 'Confirmación requerida',
+            icon: 'pi pi-question-circle',
+            rejectLabel: 'Cancelar',
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'primary',
+                outlined: true,
+                focus:false
+            },
+            acceptButtonProps: {
+                label: 'Guardar',
+                severity: 'primary',
+            },
+            accept: () => this.actionResult.emit("save"),
+            reject: () => this.actionResult.emit("")
         }
   }
 

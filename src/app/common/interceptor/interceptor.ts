@@ -1,6 +1,5 @@
-import { HttpClient, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
-import { catchError, tap } from 'rxjs';
-import { ToastService } from '../services/toast';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { catchError } from 'rxjs';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import storeService from '../services/store-service';
@@ -10,7 +9,6 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   // 💡 Solo necesitamos decir al navegador que incluya las cookies (HttpOnly o no)
 
   const router = inject(Router);
-  const toast = inject(ToastService);
 
   const modifiedReq = req.clone({
     withCredentials: true,
@@ -24,7 +22,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error:any) => {
       if(error["status"] === 401){
         storeService.clear();
-        toast.show("expired-session");
+        storeService.set("expired-session",true);
         router.navigateByUrl("/auth");
       }
       throw error;

@@ -12,7 +12,7 @@ export interface EmployeeResponse {
     turno: string;
     imagen:string;
     fecha_ingreso:Date;
-    fecha_egreso: Date,
+    fecha_egreso?: Date,
     activo: boolean,
     created_at:Date;
     checked?:boolean

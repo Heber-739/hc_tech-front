@@ -8,7 +8,6 @@ import { AuthInterceptor } from './common/interceptor/interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import MyPreset from './myPreset';
 import { MessageService } from 'primeng/api';
-import { ToastService } from './common/services/toast';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,17 +16,16 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([AuthInterceptor])),
-     providePrimeNG({
+    providePrimeNG({
       ripple: true,
       theme: { preset: MyPreset,
 
-       options: {
-            darkModeSelector: false || 'none'
+        options: {
+          darkModeSelector: false || 'none'
         }
       }
     }),
-    MessageService,
-    ToastService
+    MessageService
 
   ]
 };

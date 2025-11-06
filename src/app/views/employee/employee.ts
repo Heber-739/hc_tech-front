@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { EmployeeHeader } from './employee-header/employee-header';
 import { EmployeeItem } from "./employee-item/employee-item";
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { debounceTime, fromEvent, Subscription } from 'rxjs';
+import { debounceTime, filter, fromEvent, Subscription } from 'rxjs';
 import { EmployeeFilters } from '../../interfaces/employee-filters';
 import { EmployeeForm } from './employee-form/employee-form';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -45,7 +45,9 @@ constructor(){
   ).subscribe({
     next:()=>this.getItemsPeerPage()
   }))
-  this.subscriptions.add(storeService.getObservable("update-employees").subscribe({
+  this.subscriptions.add(storeService.getObservable("update-employees").pipe(
+    filter((val)=>!!val)
+  ).subscribe({
     next:()=> this.getEmployees(true)
   }))
 

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { promiseHandler } from '../utils/functions/promises';
 import { PromiseResult } from '../../interfaces/promise-response';
@@ -37,21 +37,19 @@ export class CompanyService {
 
       async updateCompany(body:Companies):Promise<PromiseResult<Companies>>{
         return promiseHandler(this.http.put<Companies>("http://localhost:3000/api/empresas",body).pipe(
+         tap(()=> this.getCompanies())
+        ))
+      }
+
+      async createCompany(body:Companies):Promise<PromiseResult<Companies>>{
+        return promiseHandler(this.http.post<Companies>("http://localhost:3000/api/empresas",body).pipe(
          tap(()=> this.getCompanies()),
-         catchError((err)=> {
-            this.toast.show("companies-update-error");
-            throw err;
-          })
         ))
       }
 
       async deleteCompany(id:number):Promise<PromiseResult<{message:string}>>{
         return promiseHandler(this.http.delete<{message:string}>(`http://localhost:3000/api/empresas/${id}`).pipe(
-         tap(()=> this.getCompanies()),
-         catchError((err)=> {
-            this.toast.show("companies-delete-error");
-            throw err;
-          })
+         tap(()=> {this.getCompanies()})
         ))
       }
 

@@ -6,7 +6,6 @@ import { debounceTime } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { ROLS } from '../../../common/constants/rols';
 import { EMPLOYEE_STATUS } from '../../../common/constants/status';
 import { SelectModule } from 'primeng/select';
 import { calculateIntervalTime } from '../../../common/utils/functions/get-interval-time';
@@ -16,6 +15,11 @@ import { getCurrentAge } from '../../../common/utils/functions/get-age';
 import { defaultEmployee } from '../../../common/constants/employee-default';
 import { EmployeeResponse } from '../../../interfaces/employee-response';
 import { EmployeeService } from '../../../common/services/employee';
+import { Companies } from '../../../interfaces/company';
+import storeService from '../../../common/services/store-service';
+import { UserData } from '../../../interfaces/user';
+import { Rols } from '../../../interfaces/rols';
+import { ToastService } from '../../../common/services/toast';
 
 @Component({
   selector: 'app-employee-form',
@@ -35,24 +39,26 @@ import { EmployeeService } from '../../../common/services/employee';
   styleUrl: './employee-form.css',
 })
 export class EmployeeForm implements AfterViewInit {
+  protected user;
   protected employee = signal<EmployeeResponse>(defaultEmployee);
-  protected rols = ROLS;
+  protected rols;
   protected status = EMPLOYEE_STATUS;
   protected attendance = 0;
   protected punctuality = 0;
 
-  disableItems = input<boolean>(true);
-
   editEmployee = input<EmployeeResponse>();
-  add = output<EmployeeResponse>();
-  cancel = output<void>();
+  protected add = output<EmployeeResponse>();
+  protected cancel = output<void>();
 
-  fb = inject(FormBuilder);
+  protected fb = inject(FormBuilder);
   private employeeService = inject(EmployeeService);
+  private toast = inject(ToastService);
 
-  employeeForm;
+  protected employeeForm;
 
   constructor() {
+    this.user = signal<UserData>(storeService.get<UserData>("user-data"))
+    this.rols = this.user().rol == Rols.SUPERADMIN ? ["admin", "empleado"] : ["empleado"];
     this.employeeForm = this.fb.group({
       nombre: [undefined as string | undefined, [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -67,33 +73,30 @@ export class EmployeeForm implements AfterViewInit {
       fecha_nac: [undefined as Date | undefined, [Validators.required]],
       puesto: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
-      estado: ['Activo', [Validators.required]],
-      rol: ['', [Validators.required]],
+      rol: ['empleado', [Validators.required]],
       turno: ['', [Validators.required]],
       fecha_ingreso: [new Date(), [Validators.required]],
-      fecha_egreso: [new Date() , [Validators.required]],
+      fecha_egreso: [undefined as Date | undefined],
     });
 
 
     this.employeeForm.valueChanges.pipe(debounceTime(300)).subscribe({
       next: (v: any) => {
-          const puesto = this.disableItems() ? this.employee().puesto : v['puesto'];
-          const email = this.disableItems() ? this.employee().email : v['email'];
 
+        const fecha_egreso = !this.editEmployee() ? undefined : v["fecha_egreso"]
         this.employee.update((e) => ({
           ...e,
           nombre: v['nombre'],
-          email,
+          email:v['email'],
           telefono: v['telefono'] ? `+549 ${v['telefono']}` : '',
           dni: v['dni'],
           fecha_nac: v['fecha_nac'],
-          puesto,
+          puesto:v['puesto'],
           direccion: v['direccion'],
-          estado: v['estado'],
-          rol: v['estado'],
+          rol: v['rol'],
           turno: v['turno'],
           fecha_ingreso: v['fecha_ingreso'],
-          fecha_egreso: v['fecha_egreso']
+          fecha_egreso
         }));
       },
     });
@@ -106,19 +109,18 @@ export class EmployeeForm implements AfterViewInit {
 
       this.employee.set(this.editEmployee()!);
 
-      const { id,empresa_id,fecha_nac,fecha_ingreso,created_at,activo,imagen, telefono, checked, ...obj } = this.editEmployee()!;
+      const { id,empresa_id,created_at,activo,imagen, telefono, checked, ...obj } = this.editEmployee()!;
       let number = telefono.length - 10;
       const pn = telefono.slice(number);
 
       this.employeeForm.patchValue({ ...obj,
         telefono: parseInt(pn),
-        rol:"",
-        fecha_nac: fecha_nac
       });
 
-      this.disableItems() && this.employeeForm.controls.email.disable();
-      this.disableItems() && this.employeeForm.controls.puesto.disable();
       this.employeeForm.updateValueAndValidity();
+    } else {
+      const {id} = storeService.get<Companies>("company-default-selected");
+      this.employee.update((e)=>({...e,empresa_id:id}))
     }
   }
 
@@ -137,7 +139,7 @@ export class EmployeeForm implements AfterViewInit {
     const file: File = input.files?.[0]!;
     const reader = new FileReader();
     reader.onload = () =>
-      this.employee.update((emp) => ({ ...emp, image: reader.result as string }));
+      this.employee.update((emp) => ({ ...emp,imagen: reader.result as string }));
     reader.readAsDataURL(file);
   }
 
@@ -149,9 +151,21 @@ export class EmployeeForm implements AfterViewInit {
 
   submit() {
     if (this.employeeForm.invalid) return;
-    const requestBody = this.employee()
-    this.editEmployee() ? this.employeeService.createEmployee(requestBody) : this.employeeService.editEmployee(requestBody)
+    const {checked,...requestBody} = this.employee()
+    this.editEmployee() ? this.updateEmployee(requestBody) : this.createEmployee(requestBody);
     this.add.emit(this.employee());
+  }
+
+  private async createEmployee(requestBody:EmployeeResponse){
+    const {data, error} = await this.employeeService.createEmployee(requestBody);
+    if(error) return this.toast.show("employee-create-error");
+    this.toast.show("employee-create-success");
+  }
+
+  private async updateEmployee(requestBody:EmployeeResponse){
+    const {data, error} = await  this.employeeService.editEmployee(requestBody);
+    if(error) return this.toast.show("employee-update-error");
+    this.toast.show("employee-update-success");
   }
 
   getTimeInCompany() {

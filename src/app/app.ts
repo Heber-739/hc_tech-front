@@ -22,7 +22,7 @@ export class App {
   private toast = inject(ToastService)
 
   constructor(){
-    const usuario: UserData = JSON.parse(localStorage.getItem("user-data") || "");
+    const usuario: UserData = JSON.parse(localStorage.getItem("user-data") || "null");
     if(!usuario) return;
     storeService.set("user-data", usuario);
     this.getCompanies();

@@ -14,7 +14,7 @@ export const defaultEmployee: EmployeeResponse = {
     imagen:"",
     puesto: "",
     fecha_ingreso:new Date(),
-    fecha_egreso: new Date(),
+    fecha_egreso: undefined,
     activo: true,
     created_at:new Date(),
     checked:false

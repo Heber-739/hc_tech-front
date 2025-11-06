@@ -1,5 +1,5 @@
-import { Companies, CompanyData } from './../../../interfaces/company';
-import { Component, inject, input, output, signal } from '@angular/core';
+import { Companies } from './../../../interfaces/company';
+import { Component, inject, output, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { DatePickerModule } from 'primeng/datepicker';
 import { DividerModule } from 'primeng/divider';
@@ -13,6 +13,7 @@ import storeService from '../../../common/services/store-service';
 import { UserData } from '../../../interfaces/user';
 import { CompanyService } from '../../../common/services/company';
 import { ModalActions } from '../../../common/components/modal-actions/modal-actions';
+import { ToastService } from '../../../common/services/toast';
 
 @Component({
   selector: 'app-company',
@@ -27,6 +28,8 @@ export class Company {
 
   fb = inject(FormBuilder);
   companyService = inject(CompanyService);
+  private toast = inject(ToastService);
+
 
   protected currentCompany = signal<Companies>(companyDefault)
   protected labelAction = signal<'Seleccionar' | 'Guardar'>("Seleccionar")
@@ -50,7 +53,7 @@ export class Company {
         [Validators.required, Validators.pattern(/^.{11,13}$/)],
       ],
       imagen: [''],
-      cuit: ['']
+      cuit: ['',[Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]]
     })
 
     this.companyForm.valueChanges.pipe(debounceTime(300)).subscribe({
@@ -68,7 +71,6 @@ export class Company {
           },
         });
 
-
   }
 
   loadFile(event: Event) {
@@ -76,39 +78,58 @@ export class Company {
     const file: File = input.files?.[0]!;
     const reader = new FileReader();
     reader.onload = () =>
+      this.currentCompany.update((c)=> ({...c, imagen: reader.result as string}));
       this.companyForm.controls.imagen.setValue(reader.result as string);
     reader.readAsDataURL(file);
   }
 
   async submit(){
-    console.log(this.companyForm.value)
     if(this.companyForm.invalid) return;
-    this.labelAction() === "Guardar" && await this.companyService.updateCompany(this.currentCompany());
-    // this.pushCompany.emit(this.currentCompany());
+    this.labelAction() === "Guardar" && this.modalKey.set("save");
+    if(this.labelAction() === "Seleccionar"){
+      storeService.set("company-default-selected",this.currentCompany());
+      storeService.set("update-employees",true);
+      this.close.emit()
+    }
   }
 
-  openConfirmModal(){
-    this.modalKey.set("delete");
-  }
+   openConfirmModal = () => this.modalKey.set("delete");
 
-  closeModal(result:boolean){
+  closeModal(result:string){
     this.modalKey.set("");
-    result && this.delete();
+    result === "delete" && this.deleteCompany();
+    result === "save" && this.saveCompany();
   }
-  async delete(){
+
+  async deleteCompany(){
+    this.close.emit()
     const {data, error} = await this.companyService.deleteCompany(this.currentCompany().id);
-    if(error) return;
+    if(error) return this.toast.show("companies-delete-error");
+    this.toast.show("companies-delete-success");
     this.companies.update((cs)=> cs.filter((c)=> c.id !== this.currentCompany().id ));
     this.companyForm.reset();
   }
 
-  closeForm(){
-    storeService.set("update-employees",true);
-    this.close.emit();
+  private async saveCompany(){
+    this.close.emit()
+    const save = this.companies().some((c)=> c.cuit === this.currentCompany().cuit)
+    save ? this.updateCompany() : this.createCompany();
   }
 
-  includesCompany(){
-    return this.companies().some((c)=>c.id === this.currentCompany().id)
+  async updateCompany(){
+  const {data, error} = await this.companyService.updateCompany(this.currentCompany())
+  if(error) return this.toast.show("companies-update-error");
+  this.toast.show("companies-update-success");
   }
+
+  async createCompany(){
+  const {data, error} = await this.companyService.createCompany(this.currentCompany())
+  if(error) return this.toast.show("companies-create-error");
+  this.toast.show("companies-create-success");
+  }
+
+  closeForm = () => this.close.emit();
+
+  includesCompany = () =>  this.companies() && this.companies().some((c)=>c.id === this.currentCompany().id);
 
 }

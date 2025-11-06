@@ -1,6 +1,6 @@
 .aside{
-  position: relative;
-  height: 100dvh;
+  /* position: relative; */
+  /* height: 100dvh; */
   background-color: var(--bg_primary);
 }
 .short-aside {

@@ -1,6 +1,6 @@
 <div class="flex justify-content-center align-items-center curtain absolute left-0 top-0 w-screen h-screen z-1">
   <div class="flex w-6 h-auto bg-white z-2 py-5 px-3">
-    <div class="text-center flex flex-column w-5 h-auto gap-3 py-1 px-2">
+    <div class="text-center flex flex-column w-5 h-auto gap-2 py-1 px-2">
 
       @if (employee().imagen){
         <p-avatar [image]="employee().imagen"  class="mx-auto" size="xlarge" shape="circle" />
@@ -13,7 +13,7 @@
       </div>
       <p class="text-sm"> {{employee().email}} </p>
       <p class="text-sm"> {{ employee().dni ? `DNI ${employee().dni}` : "" }} </p>
-      <p class="text-sm"> {{ getAge() }} </p>
+      <p class="text-sm"> {{ employee().fecha_nac ? getAge():"" }} </p>
       <p class="text-sm"> {{ employee().telefono }} </p>
       <p class="text-sm"> {{ getTimeInCompany() }} </p>
       <p class="text-sm"> {{ employee().direccion }} </p>
@@ -55,28 +55,25 @@
       </div>
       <form class=" flex flex-column gap-2 px-3 w-full" action="" [formGroup]="employeeForm">
         <input class="w-full" pSize="small" pInputText formControlName="nombre" type="text" placeholder="Nombre completo" />
-        <input [disabled]="disableItems()" class="w-full" pSize="small" pInputText formControlName="email" type="email" placeholder="Email" />
+        <input class="w-full" pSize="small" pInputText formControlName="email" type="email" placeholder="Email" />
         <p-inputnumber [maxlength]="10" size="small" [useGrouping]="false" formControlName="telefono" placeholder="Teléfono"/>
         <div class="w-full flex gap-1">
           <p-inputnumber [maxlength]="8" size="small" fluid class="w-6" formControlName="dni" placeholder="DNI"/>
           <p-datepicker class="w-6" size="small" formControlName="fecha_nac" fluid placeholder="Cumpleaños" />
         </div>
-        <input [disabled]="disableItems()" class="w-full" pSize="small" pInputText formControlName="puesto" type="text" placeholder="Puesto" />
+        <input class="w-full" pSize="small" pInputText formControlName="puesto" type="text" placeholder="Puesto" />
         <input class="w-full" pSize="small" pInputText formControlName="direccion" type="text" placeholder="Dirección" />
         <div class="w-full flex gap-1">
-          <p-select class="w-6" size="small" [options]="status" formControlName="estado" placeholder="Estado" [disabled]="disableItems()" />
-          <p-select class="w-6" size="small" [options]="rols" formControlName="rol" placeholder="Rol" [disabled]="disableItems()" />
+          <p-select class="w-6" size="small" [options]="['Mañana', 'Tarde', 'Noche']" formControlName="turno" placeholder="Turno" />
+          <p-select class="w-6" size="small" [options]="rols" formControlName="rol" placeholder="Rol" />
         </div>
         <div class="w-full flex gap-1">
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="fecha_ingreso" placeholder="Fecha de ingreso" [disabled]="disableItems()" />
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="fecha_egreso" placeholder="Fecha de egreso" [disabled]="disableItems()" />
-        </div>
-        <div class="w-full flex gavscode-webview://1j7j3utkq27njdeejpc76r3gic922t2h0818ljroadpm7sstoc8c/workspace/49d2a46b-552e-4a2f-838c-a5314115069a/request/28308209-5fee7b6b-86e9-438f-bc4b-5325f0a9c4b9p-1">
-          <p-select class="w-full" size="small" [options]="['Mañana', 'Tarde', 'Noche']" formControlName="turno" placeholder="Turno" [disabled]="disableItems()" />
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="fecha_ingreso" placeholder="Fecha de ingreso" />
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="fecha_egreso" placeholder="Fecha de egreso" [disabled]="!editEmployee()" />
         </div>
         <div class="flex mt-3 justify-content-end gap-3">
           <p-button (onClick)="exit()" size="small"  severity="danger" outlined label="Cancelar"  />
-          <p-button (onClick)="submit()" [disabled]="employeeForm.invalid" size="small"  severity="primary" label="Guardar"  />
+          <p-button (onClick)="submit()" [disabled]="employeeForm.invalid || employeeForm.pristine" size="small"  severity="primary" label="Guardar"  />
         </div>
       </form>
     </div>

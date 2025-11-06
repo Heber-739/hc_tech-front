@@ -45,7 +45,6 @@ class="flex flex-shrink-0"
   <app-employee-form
   (add)="addEmployee($event)"
   (cancel)="closeEmployeeModal()"
-  [disableItems]="!!editEmployee()"
   [editEmployee]="editEmployee()"
   ></app-employee-form>
 }
