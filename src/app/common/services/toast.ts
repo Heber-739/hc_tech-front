@@ -9,19 +9,32 @@ export class ToastService {
   private messageService = inject(MessageService);
 
   private mapToast: {[key:string]:ToastMessageOptions} = {
+    // auth
     "login-exitoso": { severity: 'success', summary: 'Success', detail: 'Login exitoso!', life: 3000 },
     "login-error": { severity: 'error', summary: 'Error', detail: 'Login Falló', life: 3000 },
     "expired-session": { severity: 'info', summary: 'Alert', detail: 'La sesión se cerró', life: 3000 },
+    // companies
     "companies-load-error": { severity: 'error', summary: 'Error crítico', detail: 'Error al cargar la empresa, por favor recargue el navegador', life: 3000 },
     "companies-update-error": { severity: 'error', summary: 'Error', detail: 'Error al actualizar la empresa', life: 3000 },
     "companies-update-success": { severity: 'success', summary: 'Success', detail: 'Actualizacion exitosa', life: 3000 },
     "companies-delete-error": { severity: 'error', summary: 'Error', detail: 'Error al eliminar la empresa', life: 3000 },
     "companies-delete-success": { severity: 'success', summary: 'Success', detail: 'Se elimino la compañia', life: 3000 },
     "companies-create-success": { severity: 'success', summary: 'Success', detail: 'Compañia creada exitosamente', life: 3000 },
+
+    // employees
     "employee-create-error": { severity: 'error', summary: 'Error', detail: 'Error al crear empleado', life: 3000 },
-    "employee-update-error": { severity: 'error', summary: 'Error', detail: 'Error al actualizar compaempleadoñia', life: 3000 },
     "employee-create-success": { severity: 'success', summary: 'Success', detail: 'Empleado creado exitosamente', life: 3000 },
+    "employee-update-error": { severity: 'error', summary: 'Error', detail: 'Error al actualizar compaempleadoñia', life: 3000 },
     "employee-update-success": { severity: 'success', summary: 'Success', detail: 'Empleado actualizado exitosamente', life: 3000 },
+
+    // shifts
+    "shift-delete-error": { severity: 'error', summary: 'Error', detail: 'Error al eliminar turno', life: 3000 },
+    "shift-delete-success": { severity: 'success', summary: 'Success', detail: 'Turno eliminado exitosamente', life: 3000 },
+    "shift-create-blocked-previously": { severity: 'error', summary: 'Error', detail: 'No se puede crear un turno con fecha pasada o en curso', life: 3000 },
+    "shift-employee-already-exist": { severity: 'error', summary: 'Error', detail: 'Ya existe el usuario en el turno', life: 3000 },
+    "shift-create-error": { severity: 'error', summary: 'Error', detail: 'Error al crear turno', life: 3000 },
+    "shift-create-success": { severity: 'success', summary: 'Success', detail: 'Turno creado exitosamente', life: 3000 },
+
   }
 
 

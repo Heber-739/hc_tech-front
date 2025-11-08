@@ -35,7 +35,10 @@
       <span>{{ getTimeInCompany() }}</span>
     </div>
     <div class="col-1 flex align-items-center justify-content-center">
-      <p-button (onClick)="editEmployee()" label="Editar" type="primary" outlined  />
+      @if (user()?.rol !== 'empleado') {
+        <p-button (onClick)="editEmployee()" label="Editar" type="primary" outlined  />
+      }
+
     </div>
 
 </div>

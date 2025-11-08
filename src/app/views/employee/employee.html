@@ -1,6 +1,7 @@
 <app-employee-header
 [workstations]="workstations()"
 [status]="status()"
+[user]="user()"
 class="flex flex-shrink-0"
 (addEmployee)="openEmployeeModal()"
 (allChecked)="markAllChecked($event)"
@@ -14,6 +15,7 @@ class="flex flex-shrink-0"
 
     @for (employee of employees(); track employee.id) {
       <app-employee-item
+      [user]="user()"
       (checked)="checkItem($event, employee.id)"
       [employee]="employee"
       (edit)="openEmployeeModal($event)"

@@ -1,16 +1,13 @@
-import { EmployeeProfile } from "./employee-profile"
+import { EmployeeResponse } from "./employee-response";
 
 export interface ShiftItem extends ShiftEmployeesItem {
   date:Date;
 }
 
-export interface ShiftEmployeesItem {
-  morning: ShiftEmployeeItem;
-  late: ShiftEmployeeItem;
-  night: ShiftEmployeeItem;
-}
+export type ShiftDay = (Pick<EmployeeResponse, 'id' |'nombre' |'puesto' |'imagen' > & { turno_id:number}) [];
 
-export interface ShiftEmployeeItem {
-  employees: Pick<EmployeeProfile, 'id' |'name' |'rol' |'image' >[]
-  quota:number
-};
+export interface ShiftEmployeesItem {
+  Mañana: ShiftDay;
+  Tarde: ShiftDay;
+  Noche: ShiftDay;
+}

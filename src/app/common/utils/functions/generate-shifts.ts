@@ -1,19 +1,18 @@
-import { ShiftEmployeeItem } from "../../../interfaces/shift-item";
 import { generateEmployeeData } from "./generate-employees";
 
-export const getWeekShifts = (date?:Date)=>{
-  const shifts = getCurrentWeek(date).map((date)=> ({date,late:[],morning:[],night:[]}));
+// export const getWeekShifts = (date?:Date)=>{
+//   const shifts = getCurrentWeek(date).map((date)=> ({date,late:[],morning:[],night:[]}));
 
-  return shifts.map((shift)=> ({
-    ...shift,
-    quote: Math.floor(Math.random() * 40) + 21,
-    late:getRandomEmployees(),
-    night:getRandomEmployees(),
-    morning:getRandomEmployees()
-  }) )
-}
+//   return shifts.map((shift)=> ({
+//     ...shift,
+//     quote: Math.floor(Math.random() * 40) + 21,
+//     late:getRandomEmployees(),
+//     night:getRandomEmployees(),
+//     morning:getRandomEmployees()
+//   }) )
+// }
 
-export const getRandomEmployees = (): ShiftEmployeeItem => {
+export const getRandomEmployees = (): any => {
   const employees = generateEmployeeData();
     const turns = Math.floor(Math.random() * 25) + 21;
     return {employees: Array.from({ length: turns }, () => {
@@ -22,6 +21,15 @@ export const getRandomEmployees = (): ShiftEmployeeItem => {
       return { id, image, name, rol };
     }), quota: Math.floor(Math.random() * 10) + 41};
   };
+
+  export const getDefaultShifts = (date: Date = new Date()) => {
+  return getCurrentWeek(date).map((date)=>({
+      date,
+      Tarde:[],
+      Mañana:[],
+      Noche:[]
+    }))
+}
 
 
  export const getCurrentWeek = (date: Date = new Date()): Date[] => {

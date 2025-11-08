@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { StaticsAttendence } from '../../interfaces/statics-employee';
 import { promiseHandler } from '../utils/functions/promises';
 import { PromiseResult } from '../../interfaces/promise-response';
-import { map, tap } from 'rxjs';
+import { map, tap, first } from 'rxjs';
 import { EmployeeResponse } from '../../interfaces/employee-response';
 import { UserData } from '../../interfaces/user';
 import storeService from './store-service';
@@ -50,8 +50,26 @@ async createEmployee(body:EmployeeResponse): Promise<PromiseResult<EmployeeRespo
   return promiseHandler(this.http.post<EmployeeResponse[]>("http://localhost:3000/api/empleados", body));
 }
 
+async deleteEmployees(ids:number[]): Promise<PromiseResult<number[]>>{
+  const idsDeleted = [];
+  for (let i = 0; i < ids.length; i++) {
+    try {
+      await promiseHandler(this.http.delete<EmployeeResponse[]>(`http://localhost:3000/api/empleados/${ids[i]}`))
+      idsDeleted.push(ids[i]);
+    } catch (error) {}
+  }
+
+  return {data:ids,error:null}
+}
+
 async editEmployee(body:EmployeeResponse): Promise<PromiseResult<EmployeeResponse>>{
   return promiseHandler(this.http.put<EmployeeResponse>("http://localhost:3000/api/empleados", body));
 }
 
+  getShiftEmployee(eid:number){
+  const employee = storeService.get<EmployeeResponse[]>("list-complete-employees").find((e)=>e.id===eid);
+  if(!employee) return;
+  const {id, nombre, puesto, imagen} = employee;
+  return {id, nombre, puesto, imagen}
+}
 }

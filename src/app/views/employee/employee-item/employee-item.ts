@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { calculateIntervalTime } from '../../../common/utils/functions/get-interval-time';
 import { EmployeeResponse } from '../../../interfaces/employee-response';
+import { UserData } from '../../../interfaces/user';
 
 @Component({
   selector: 'app-employee-item',
@@ -17,6 +18,7 @@ export class EmployeeItem {
   protected checked = output<boolean>();
   protected edit = output<EmployeeResponse>();
   employee = input.required<EmployeeResponse>()
+  user = input<UserData>()
 
   onchecked(e:CheckboxChangeEvent){
     this.checked.emit(e.checked);
@@ -27,8 +29,7 @@ export class EmployeeItem {
       return calculateIntervalTime(fecha_ingreso, fecha_egreso);
     }
 
-    editEmployee(){
-      this.edit.emit(this.employee());
-    }
+    editEmployee = () => this.edit.emit(this.employee());
+
 
 }

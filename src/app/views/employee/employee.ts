@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { EmployeeHeader } from './employee-header/employee-header';
 import { EmployeeItem } from "./employee-item/employee-item";
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
-import { debounceTime, filter, fromEvent, Subscription } from 'rxjs';
+import { debounceTime, filter, first, fromEvent, Subscription } from 'rxjs';
 import { EmployeeFilters } from '../../interfaces/employee-filters';
 import { EmployeeForm } from './employee-form/employee-form';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -13,6 +13,7 @@ import { generateEmployeeData } from '../../common/utils/functions/generate-empl
 import { EmployeeProfile } from '../../interfaces/employee-profile';
 import { EmployeeService } from '../../common/services/employee';
 import { Companies } from '../../interfaces/company';
+import { user } from '../../../../public/datos/datos';
 @Component({
   selector: 'app-employee',
   imports: [EmployeeHeader, EmployeeItem, PaginatorModule, EmployeeForm],
@@ -20,24 +21,29 @@ import { Companies } from '../../interfaces/company';
   styleUrl: './employee.css'
 })
 export default class Employee implements OnDestroy {
-itemsPage = signal<number>(0);
-protected workstations = signal<string[]>([""]);
-protected status = signal<string[]>([""]);
-protected viewEmployeeFormModal = signal<boolean>(false);
-editEmployee = signal<EmployeeResponse | undefined>(undefined)
-protected employees = signal<EmployeeResponse[]>([]);
+  itemsPage = signal<number>(0);
+  protected workstations = signal<string[]>([""]);
+  protected status = signal<string[]>([""]);
+  protected viewEmployeeFormModal = signal<boolean>(false);
+  editEmployee = signal<EmployeeResponse | undefined>(undefined)
+  protected employees = signal<EmployeeResponse[]>([]);
+  user = signal<UserData>(user);
 
-private employeesData = signal<EmployeeResponse[]>([]);
-protected employeesFiltered = signal<EmployeeResponse[]>([]);
+  private employeesData = signal<EmployeeResponse[]>([]);
+  protected employeesFiltered = signal<EmployeeResponse[]>([]);
 
 
-private currentSizeItems:PaginatorState = {first:0} ;
-private subscriptions: Subscription = new Subscription();
+  private currentSizeItems:PaginatorState = {first:0} ;
+  private subscriptions: Subscription = new Subscription();
 
   private employeeService = inject(EmployeeService);
 
 
 constructor(){
+  storeService.getObservable<UserData>("user-data").pipe(
+      first((data)=>!!data)
+    ).subscribe(data => this.user.update(()=> data))
+
   this.getEmployees()
 
   this.subscriptions.add(fromEvent(window,'resize').pipe(
@@ -118,9 +124,11 @@ filterEmployees(filters:EmployeeFilters){
     this.employees.update(()=> items)
   }
 
-  deleteEmployees(){
-    const checked = this.employees().filter((e) => e.checked ).map((e)=>e.id);
-    this.employeesData.update((employees)=>employees.filter((e)=> !checked.includes(e.id) ))
+  async deleteEmployees(){
+    const checkeds = this.employees().filter((e) => e.checked ).map((e)=>e.id);
+    const {data,error} = await this.employeeService.deleteEmployees(checkeds);
+    if(!data) return;
+    this.employeesData.update((employees)=>employees.filter((e)=> !data.includes(e.id)))
     this.filterEmployees({} as EmployeeFilters);
   }
 

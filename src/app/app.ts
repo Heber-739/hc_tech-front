@@ -8,6 +8,9 @@ import { ToastService } from './common/services/toast';
 import storeService from './common/services/store-service';
 import { UserData } from './interfaces/user';
 import { CompanyService } from './common/services/company';
+import { EmployeeService } from './common/services/employee';
+import { Companies } from './interfaces/company';
+import { distinctUntilChanged, filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +22,7 @@ import { CompanyService } from './common/services/company';
 export class App {
   protected readonly title = signal('hc_terch_frontend');
   private companiesService = inject(CompanyService);
+  private employeeService = inject(EmployeeService);
   private toast = inject(ToastService)
 
   constructor(){
@@ -30,5 +34,12 @@ export class App {
 
   private async getCompanies(){
     const {data,error} = await this.companiesService.getCompanies();
+    storeService.getObservable<Companies>("company-default-selected")
+    .pipe(
+      filter((res)=> !!res),
+      distinctUntilChanged()
+  ).subscribe({
+      next:()=> this.employeeService.getEmployees(true)
+    })
   }
 }

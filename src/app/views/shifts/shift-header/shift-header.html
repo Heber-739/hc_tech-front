@@ -4,12 +4,10 @@
     <div class="col-2 ml-3">
       <p-select
         class="w-full"
-        [options]="shifts()"
-        optionLabel="shift"
+        [options]="['Mañana','Tarde', 'Noche']"
         (onChange)="setStatusSelected($event)"
         size="small"
-        placeholder="Turno"
-        showClear
+        placeholder="Mañana"
       />
     </div>
 

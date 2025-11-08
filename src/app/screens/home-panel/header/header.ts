@@ -30,6 +30,7 @@ async getData(){
   const user = await storeService.getWhenExist<UserData>("user-data");
   this.user.update(()=> user);
 }
+
   toggle(e:Event){
     this.op.toggle(e);
   }

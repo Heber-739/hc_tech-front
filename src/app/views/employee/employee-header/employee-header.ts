@@ -6,8 +6,11 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { EmployeeFilters } from '../../../interfaces/employee-filters';
-import { debounceTime } from 'rxjs';
+import { debounceTime, first } from 'rxjs';
 import { ModalActions } from '../../../common/components/modal-actions/modal-actions';
+import { UserData } from '../../../interfaces/user';
+import storeService from '../../../common/services/store-service';
+import { user } from '../../../../../public/datos/datos';
 
 @Component({
   selector: 'app-employee-header',
@@ -26,10 +29,13 @@ export class EmployeeHeader {
   allChecked = output<boolean>();
 
   modalKey = signal<string>("");
+  user = input<UserData>(user);
+
   confirmDelete = output<void>();
   addEmployee = output<void>();
 
   constructor(){
+
     this.nameInput.valueChanges.pipe(
       debounceTime(500)
     ).subscribe({
@@ -57,28 +63,11 @@ export class EmployeeHeader {
     this.filtersSelected.emit(this.filters);
   }
 
-  deleteAction() {
-    this.modalKey.set("delete");
-  }
-  //       this.confirmationService.confirm({
-  //           target: event.target as EventTarget,
-  //           message: 'Eliminar permanentemente?',
-  //           header: 'Confirmación requerida',
-  //           icon: 'pi pi-exclamation-triangle',
-  //           rejectLabel: 'Cancelar',
-  //           rejectButtonProps: {
-  //               label: 'Cancel',
-  //               severity: 'primary',
-  //               outlined: true,
-  //               focus:false
+  deleteAction = () => this.modalKey.set("delete");
 
-  //           },
-  //           acceptButtonProps: {
-  //               label: 'Eliminar',
-  //               severity: 'danger',
-  //           },
-  //           accept: () => {
-  //               this.confirmDelete.emit();
-  //           }
-  //       });
+  confirm(event:string){
+    this.modalKey.set("");
+    if(event !== "delete") return;
+    this.confirmDelete.emit();
+  }
 }

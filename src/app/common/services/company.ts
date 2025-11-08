@@ -24,6 +24,7 @@ export class CompanyService {
             created_at:new Date(c.created_at)
           }))),
           tap((data)=> {
+            storeService.set("list-complete-employees",null);
             storeService.set<Companies>("company-default-selected", data[0]);
             storeService.set<Companies[]>("companies-list", data);
           }),
