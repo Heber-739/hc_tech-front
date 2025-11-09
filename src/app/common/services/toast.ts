@@ -34,6 +34,8 @@ export class ToastService {
     "shift-employee-already-exist": { severity: 'error', summary: 'Error', detail: 'Ya existe el usuario en el turno', life: 3000 },
     "shift-create-error": { severity: 'error', summary: 'Error', detail: 'Error al crear turno', life: 3000 },
     "shift-create-success": { severity: 'success', summary: 'Success', detail: 'Turno creado exitosamente', life: 3000 },
+    "shift-update-error": { severity: 'error', summary: 'Error', detail: 'Error al actualizar turno', life: 3000 },
+    "shift-update-success": { severity: 'success', summary: 'Success', detail: 'Turno actualizado exitosamente', life: 3000 },
 
   }
 

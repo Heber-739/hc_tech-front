@@ -10,6 +10,7 @@ import { ShiftItem } from '../../interfaces/shift-item';
 import storeService from './store-service';
 import { Companies } from '../../interfaces/company';
 import { CreateShift } from '../../interfaces/create-shift';
+import { SchedulesData } from '../../interfaces/schedules';
 
 @Injectable({
   providedIn: 'root'
@@ -35,52 +36,69 @@ async getShifts(req:ShiftRequest ):Promise<PromiseResult<ShiftItem>>{
       shiftEmployee && response[turno].push({...shiftEmployee, turno_id:shift.id})
     })
     return response;
-    }  )
+    })
+  ));
+}
+
+async getScheduleShifts(req:ShiftRequest):Promise<PromiseResult<SchedulesData>>{
+ return promiseHandler(this.http.post<ShiftResponse[]>("http://localhost:3000/api/marcajes/list",req).pipe(
+    map((res)=> {
+      const response:SchedulesData  = {
+          Tarde: [],
+          Noche: [],
+          Mañana: []
+      }
+      res.forEach((item)=>{
+        let shift = item;
+      const turno = this.clasificarTurno(shift.hora_inicio);
+      const shiftEmployee = this.employeeService.getShiftEmployee(shift.empleado_id);
+
+      shift.dia = new Date(shift.dia);
+
+
+      if(shift.salida){
+        const salidaDate = shift.dia;
+        const [h, m, s] = String(shift.salida).split(':');
+        salidaDate.setHours( parseInt(h,10),parseInt( m,10),parseInt( s,10))
+        shift.salida = salidaDate;
+      }
+      if(shift.entrada){
+        const entradaDate = shift.dia;
+        const [h, m, s] = String(shift.entrada).split(':');
+        entradaDate.setHours( parseInt(h,10),parseInt( m,10),parseInt( s,10))
+        shift.entrada = entradaDate;
+      }
+      shiftEmployee && response[turno].push({...shiftEmployee, marcaje:shift})
+    })
+    return response;
+    })
   ));
 }
 
 
-
 private clasificarTurno = (horaInicio:string) => {
     const hora = parseInt(horaInicio.split(":")[0], 10);
-    if (hora >= 22 || hora < 6) return "Tarde";
+    if (hora >= 22 || hora < 6) return "Noche";
     if (hora >= 6 && hora < 14) return "Mañana";
-     return "Noche";
+     return "Tarde";
 }
 
-// async getEmployees(forceGet: boolean = false):Promise<PromiseResult<EmployeeResponse[]>>{
-//   const allEmployees = storeService.get<EmployeeResponse[]>("list-complete-employees");
-//   if(allEmployees && !forceGet) return { data:allEmployees, error:null };
-
-//   const company = await storeService.getWhenExist<Companies>("company-default-selected");
-//   let params = new HttpParams()
-//   params = params.set('empresa_id', company.id);
-
-//   return promiseHandler(this.http.get<EmployeeResponse[]>("http://localhost:3000/api/empleados", {params}).pipe(
-//     map((res)=> res.map((employee) => ({
-//       ...employee,
-//       created_at: new Date(employee.created_at),
-//       fecha_nac:new Date(employee.fecha_nac),
-//       fecha_egreso:employee.fecha_egreso ? new Date(employee.fecha_egreso) : undefined,
-//       fecha_ingreso:new Date(employee.fecha_ingreso)
-//     }))),
-//     tap((employees)=> storeService.set("list-complete-employees", employees))
-//   ))
-// }
 
 async createShift(data:CreateShift): Promise<PromiseResult<ShiftResponse>>{
-    const {id} = storeService.get<Companies>("company-default-selected");
-  const req = {...data,empleado_id:id}
+  return promiseHandler(this.http.post<ShiftResponse>("http://localhost:3000/api/marcajes", data));
+}
 
-  return promiseHandler(this.http.post<ShiftResponse>("http://localhost:3000/api/marcajes", req));
+async updateEntryShift(data:CreateShift): Promise<PromiseResult<ShiftResponse>>{
+  return promiseHandler(this.http.put<ShiftResponse>("http://localhost:3000/api/marcajes/entrada", data));
+}
+
+async updateExitShift(data:CreateShift): Promise<PromiseResult<ShiftResponse>>{
+  return promiseHandler(this.http.put<ShiftResponse>("http://localhost:3000/api/marcajes/salida", data));
 }
 
 async deleteShift(id:number): Promise<PromiseResult<any>>{
       return promiseHandler(this.http.delete<any>(`http://localhost:3000/api/marcajes/${id}`))
 }
 
-// async editEmployee(body:EmployeeResponse): Promise<PromiseResult<EmployeeResponse>>{
-//   return promiseHandler(this.http.put<EmployeeResponse>("http://localhost:3000/api/empleados", body));
-// }
 
 }
