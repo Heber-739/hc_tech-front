@@ -1,15 +1,15 @@
 <div class="flex flex-column w-full h-full p-1">
   <div class="flex justify-content-between align-items-center w-full flex-shrink-0">
     <div class="flex flex-shrink-0 ">
-      @if (item().employee["image"]){
-      <p-avatar [image]="item().employee.image" class="flex-shrink-0" shape="circle" />
+      @if (item().employee["imagen"]){
+      <p-avatar [image]="item().employee.imagen" class="flex-shrink-0" shape="circle" />
       } @else {
       <p-avatar icon="pi pi-user" class="flex-shrink-0" shape="circle" />
       }
 
       <div class="flex flex-column flex-grow-1 relative pr-5 mx-2">
-        <p class="text-xs">{{ item().employee.name }}</p>
-        <p class="text-xs">{{ item().employee.rol }}</p>
+        <p class="text-xs">{{ item().employee.nombre }}</p>
+        <p class="text-xs">{{ item().employee.puesto }}</p>
         <i class="pi pi-info-circle primary-color absolute top-0 right-0 "> </i>
       </div>
     </div>
@@ -65,22 +65,41 @@
 
   <div class="flex align-items-center w-full flex-shrink-0">
     <p class="t-gray flex-shrink-0 text-xs">Responsable</p>
-    <p class="text-xs ml-1 inactive btn text-center flex-grow-1"> {{ item().owner || "-" }} </p>
+    <p class="text-xs ml-1 inactive btn text-center flex-grow-1"> {{ item().owner?.name || "-" }} </p>
     @switch (item().status) {
       @case ("Pendiente") {
-        <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Tomar" />
+        <p-button class="flex-shrink-0 ml-4 flex" (onClick)="take()" size="small" severity="primary" outlined label="Tomar" />
       }
       @case ("En progreso") {
-        <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Continuar" />
+          <p-button [disabled]="item().owner?.id != user().id" (onClick)="continue()" class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Continuar" />
       }
-      @case ("Aprobado") {
+      <!-- @case ("Aprobado") {
         <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Detalles" />
       }
       @case ("Rechazado") {
         <p-button class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Detalles" />
-      }
+      } -->
     }
   </div>
 
+  <app-modal-actions
+[modalKey]="modalKey()"
+(actionResult)="confirm($event)"
+ ></app-modal-actions>
+
+
+ @if (continueProcedure()) {
+
+  <div (click)="closeModal(true)"  class="flex curtain fixed w-full h-full top-0 left-0 z-1 justify-content-center align-items-center">
+
+    <div (click)="$event.stopPropagation()" class="flex flex-column align-items-center w-fit max-h-fit gap-5 z-2 bg-white p-5 border-round-3xl">
+          <p class="text-xl flex-grow-1 text-center">Resolución</p>
+          <p-select class="w-full" [(ngModel)]="estado" size="small" [options]="['Aprobado', 'Rechazado']" placeholder="Estado" />
+          <textarea rows="5" cols="30" pTextarea [(ngModel)]="feedback"></textarea>
+          <p-button (onClick)="confirm('')" [disabled]="!estado || !feedback" size="small" severity="primary" label="Guardar"  />
+          </div>
+        </div>
+
+      }
 
 </div>

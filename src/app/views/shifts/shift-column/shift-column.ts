@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { ShiftDay, ShiftItem } from '../../../interfaces/shift-item';
 import { DividerModule } from 'primeng/divider';
 import { AvatarModule } from 'primeng/avatar';
@@ -14,7 +14,6 @@ import { AddShiftModal } from '../../../interfaces/add-shift-modal';
 import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { EmployeeResponse } from '../../../interfaces/employee-response';
 import { Companies } from '../../../interfaces/company';
-import { isToday } from '../../../common/utils/functions/is-today';
 
 @Component({
   selector: 'app-shift-column',
@@ -22,7 +21,7 @@ import { isToday } from '../../../common/utils/functions/is-today';
   templateUrl: './shift-column.html',
   styleUrl: './shift-column.css'
 })
-export class ShiftColumn implements OnInit, OnDestroy{
+export class ShiftColumn implements AfterViewInit, OnDestroy{
 
   protected subs = new Subscription();
   protected shiftIdSelected:number = 0;
@@ -39,6 +38,10 @@ export class ShiftColumn implements OnInit, OnDestroy{
 
   constructor(){
 
+    effect(()=>{
+      this.shiftDay()
+      this.updateEmployees(this.shiftFilters())
+    })
     this.showShifts = signal<ShiftDay>([]);
     this.subs.add(
       storeService.getObservable<ShiftFilters>("change-shift-filters").pipe(
@@ -54,7 +57,7 @@ export class ShiftColumn implements OnInit, OnDestroy{
     this.user = signal<UserData>(user);
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.updateEmployees(this.shiftFilters());
   }
 
@@ -66,6 +69,7 @@ export class ShiftColumn implements OnInit, OnDestroy{
    const { data,error } = await this.shiftService.deleteShift(this.shiftIdSelected);
    if(!data) return this.toast.show("shift-delete-error")
    this.toast.show("shift-delete-success");
+
     this.shiftDay()[this.shiftFilters().shift] = this.getShifts().filter((s)=> s.turno_id != this.shiftIdSelected )
     this.showShifts.update((shift)=>shift.filter((s)=> s.turno_id != this.shiftIdSelected));
     this.shiftDay()[this.shiftFilters().shift] = this.showShifts();
@@ -156,10 +160,11 @@ export class ShiftColumn implements OnInit, OnDestroy{
   }
 
 
-  addClick(event: MouseEvent): void {
+  addClick(): void {
     const hours = this.mapShifts()[0].split(":")[0];
-    const currentHour = new Date().getHours();
-    if(isToday(this.shiftDay().date) && Number(hours) <= currentHour) return this.toast.show("shift-create-blocked-previously");
+    const date = this.shiftDay().date
+    date.setHours(parseInt(hours));
+    if(new Date() >= date) return this.toast.show("shift-create-blocked-previously");
 
     const employee = storeService.get<EmployeeResponse[]>("list-complete-employees").map((e)=>({
       id:e.id,

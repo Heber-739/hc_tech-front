@@ -7,8 +7,6 @@ import { HttpClient } from '@angular/common/http';
 import { ShiftResponse } from '../../interfaces/shift-response';
 import { EmployeeService } from './employee';
 import { ShiftItem } from '../../interfaces/shift-item';
-import storeService from './store-service';
-import { Companies } from '../../interfaces/company';
 import { CreateShift } from '../../interfaces/create-shift';
 import { SchedulesData } from '../../interfaces/schedules';
 

@@ -2,6 +2,7 @@
 <app-procedures-header
   class="w-full flex flex-shrink-0"
   (filters)="filterProcedures($event)"
+  (addNew)="modalHandler(true)"
 ></app-procedures-header>
 
     <div class="flex flex-wrap w-full flex-grow-1 p-1 justify-content-around">
@@ -29,3 +30,17 @@
       currentPageReportTemplate="{first} - {last} de {totalRecords}" />
     </div>
   </div>
+
+   @if (addProcedure()) {
+
+  <div (click)="modalHandler(false)"  class="flex curtain fixed w-full h-full top-0 left-0 z-1 justify-content-center align-items-center">
+
+    <div (click)="$event.stopPropagation()" class="flex flex-column align-items-center w-fit max-h-fit gap-5 z-2 bg-white p-5 border-round-3xl">
+          <p class="text-xl flex-grow-1 text-center">Resolución</p>
+          <p-select class="w-full" [(ngModel)]="asunto" size="small" [options]="metterOptions" placeholder="Asunto" />
+          <textarea rows="5" cols="30" pTextarea [(ngModel)]="descripcion"></textarea>
+          <p-button (onClick)="addNew()" [disabled]="!asunto || !descripcion" size="small" severity="primary" label="Guardar"  />
+          </div>
+        </div>
+
+      }

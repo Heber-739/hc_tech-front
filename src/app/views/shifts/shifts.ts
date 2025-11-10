@@ -52,8 +52,7 @@ export default class Shifts implements OnDestroy {
     await storeService.getWhenExist("list-complete-employees");
     const newShifts = this.shiftWeek().map((s) => this.getShifts(s))
     const resolve = await Promise.all(newShifts);
-    this.shiftWeek.set(resolve);
-    storeService.set<ShiftFilters>("change-shift-filters",{name:"",rol:"",shift:'Mañana'});
+    this.shiftWeek.update(()=> resolve);
   }
 
   private async getShifts(shift:ShiftItem){

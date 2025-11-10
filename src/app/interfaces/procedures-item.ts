@@ -1,6 +1,7 @@
-import { EmployeeProfile } from "./employee-profile";
+import { EmployeeResponse } from "./employee-response";
 
 export interface ProcedureItemData {
+  id:number;
   employee: EmployeeProcedure;
   status:string;
   metter:string;
@@ -8,7 +9,11 @@ export interface ProcedureItemData {
   discharge_date?:Date;
   description:string;
   feedback?:string,
-  owner?:string;
+  owner?:{
+    id:number;
+    name:string;
+  };
 }
 
-export type EmployeeProcedure = Pick<EmployeeProfile, 'id' | "name" | "image" | "rol" >
+
+export type EmployeeProcedure = Pick<EmployeeResponse, 'id' | "nombre" | "imagen" | "puesto" >

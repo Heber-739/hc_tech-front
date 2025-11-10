@@ -6,12 +6,12 @@
         {{ getLength() }}
       </p>
       <p class="text-sm t-gray">{{ getDay() }}</p>
-      <i (click)="addClick($event)" class="pi pi-plus-circle primary-color mx-1"></i>
+      <i (click)="addClick()" class="pi pi-plus-circle primary-color mx-1"></i>
     </div>
     <div class="divider my-2 mx-2"></div>
   </div>
 
-
+@if(showShifts()){
   <div class="flex flex-column gap-1 flex-1 min-h-0 scrollable" >
     @for (item of showShifts(); track $index) {
       <div class="flex align-items-center bg-white border-round-sm gap-1 w-full py-2">
@@ -33,7 +33,7 @@
       </div>
     }
   </div>
-
+}
 </div>
 
 @if (addShiftModal().date) {

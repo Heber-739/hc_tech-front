@@ -37,6 +37,12 @@ export class ToastService {
     "shift-update-error": { severity: 'error', summary: 'Error', detail: 'Error al actualizar turno', life: 3000 },
     "shift-update-success": { severity: 'success', summary: 'Success', detail: 'Turno actualizado exitosamente', life: 3000 },
 
+    // Procedyres
+    "procedur-update-error": { severity: 'error', summary: 'Error', detail: 'Error al actualizar tramite', life: 3000 },
+    "procedur-update-success": { severity: 'success', summary: 'Success', detail: 'Trámite actualizado', life: 3000 },
+    "procedur-create-error": { severity: 'error', summary: 'Error', detail: 'Error al crear tramite', life: 3000 },
+    "procedur-create-success": { severity: 'success', summary: 'Success', detail: 'Trámite creado exitosamente', life: 3000 },
+
   }
 
 

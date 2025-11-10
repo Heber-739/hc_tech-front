@@ -11,6 +11,7 @@ import { CompanyService } from './common/services/company';
 import { EmployeeService } from './common/services/employee';
 import { Companies } from './interfaces/company';
 import { distinctUntilChanged, filter } from 'rxjs';
+import { DDBB } from './common/services/ddbb';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ export class App {
   protected readonly title = signal('hc_terch_frontend');
   private companiesService = inject(CompanyService);
   private employeeService = inject(EmployeeService);
-  private toast = inject(ToastService)
+  private db = inject(DDBB);
 
   constructor(){
     const usuario: UserData = JSON.parse(localStorage.getItem("user-data") || "null");
@@ -34,6 +35,11 @@ export class App {
 
   private async getCompanies(){
     const {data,error} = await this.companiesService.getCompanies();
+
+    // Descomentar esta linea para crear una base de datos
+    // this.db.createElements();
+
+
     storeService.getObservable<Companies>("company-default-selected")
     .pipe(
       filter((res)=> !!res),

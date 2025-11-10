@@ -15,5 +15,6 @@ export interface EmployeeResponse {
     fecha_egreso?: Date,
     activo: boolean,
     created_at:Date;
+    rol?:string;
     checked?:boolean
 }

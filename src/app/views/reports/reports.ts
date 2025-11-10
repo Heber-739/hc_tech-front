@@ -22,7 +22,7 @@ private employeesData = signal<ReportEmployeeData[]>([]);
 protected employeesFiltered = signal<ReportEmployeeData[]>([]);
 
   constructor(private chartSeervice:ChartService){
-    this.employeesData.set(generateEmployeesStatics());
+    this.employeesData.set([]);
     this.employeesFiltered.set(this.employeesData());
     const workstations = new Set<string>;
     this.employeesData().forEach((e) => workstations.add(e.employee.workstation))

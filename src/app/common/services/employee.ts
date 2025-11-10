@@ -67,9 +67,12 @@ async editEmployee(body:EmployeeResponse): Promise<PromiseResult<EmployeeRespons
 }
 
   getShiftEmployee(eid:number){
+    if(!eid) return;
   const employee = storeService.get<EmployeeResponse[]>("list-complete-employees").find((e)=>e.id===eid);
   if(!employee) return;
   const {id, nombre, puesto, imagen} = employee;
   return {id, nombre, puesto, imagen}
 }
+
+
 }

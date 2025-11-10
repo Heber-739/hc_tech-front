@@ -7,6 +7,9 @@ import { SelectModule } from 'primeng/select';
 import { debounceTime } from 'rxjs';
 import { ProcedureHeaderForm } from '../../../interfaces/forms-interfaces';
 import { METTER_OPTIONS, STATUS_OPTIONS } from '../../../common/utils/functions/procedures-generator';
+import storeService from '../../../common/services/store-service';
+import { UserData } from '../../../interfaces/user';
+import { user } from '../../../../../public/datos/datos';
 
 @Component({
   selector: 'app-procedures-header',
@@ -18,8 +21,10 @@ export class ProceduresHeader {
 
   protected status = signal<string[]>(STATUS_OPTIONS)
   protected metters = signal<string[]>(METTER_OPTIONS)
+  protected user = signal<UserData>(user);
 
   filters = output<ProcedureHeaderForm>()
+  addNew = output<void>()
 
   private fb = inject(FormBuilder)
   filtersForm = this.fb.group({
@@ -29,6 +34,7 @@ export class ProceduresHeader {
   })
 
   constructor(){
+    this.init();
     this.filtersForm.valueChanges.pipe(
       debounceTime(300)
     ).subscribe({
@@ -40,5 +46,11 @@ export class ProceduresHeader {
     })
   }
 
+  async init(){
+    const user = await storeService.getWhenExist<UserData>("user-data");
+    this.user.set(user);
+  }
+
+  add = ()=> this.addNew.emit();
 
 }

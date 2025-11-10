@@ -61,6 +61,7 @@ setStatusSelected = (event:SelectChangeEvent)=>{
   this.shiftSelected.set(event.value || "")
   this.filterConfigs.update((e)=> ({...e,shift:event.value}) )
   storeService.set<ShiftFilters>("change-shift-filters",this.filterConfigs())
+  console.log({event:event.value})
 }
 
 

@@ -92,16 +92,16 @@ export function generateEmployeeStats(
   return stats;
 }
 
-export const generateEmployeesStatics = ():ReportEmployeeData[] => {
+export const generateEmployeesStatics = async ():Promise<ReportEmployeeData[]> => {
   if(statics.length > 1) return statics;
-  let employees = generateEmployeeData()
+  let employees = await generateEmployeeData()
   let response = employees.map((e)=>{
-    let {id,image, name, workstation, status, entry_date, discharge_date,work_schedule} = e;
+    let {id,imagen, nombre, puesto, estado, fecha_ingreso, fecha_egreso,turno} = e;
     return ({
-      employee: {id,image, name, workstation, status, entry_date, discharge_date,work_schedule},
+      employee: {id,imagen, nombre, puesto, estado, fecha_ingreso, fecha_egreso,turno},
       data:generateEmployeeStats(status === "Vacaciones")
     })
   })
-  statics = response;
-  return response;
+  // statics = response;
+  return [];
 }
