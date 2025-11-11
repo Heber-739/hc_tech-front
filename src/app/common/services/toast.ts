@@ -43,6 +43,11 @@ export class ToastService {
     "procedur-create-error": { severity: 'error', summary: 'Error', detail: 'Error al crear tramite', life: 3000 },
     "procedur-create-success": { severity: 'success', summary: 'Success', detail: 'Trámite creado exitosamente', life: 3000 },
 
+    // Calendar
+    "calendar-delete-error": { severity: 'error', summary: 'Error', detail: 'Error al eliminar item de calendario', life: 3000 },
+    "calendar-delete-success": { severity: 'success', summary: 'Success', detail: 'Item de calendario eliminado exitosamente', life: 3000 },
+    "calendar-create-error": { severity: 'error', summary: 'Error', detail: 'Error al crear item de calendario', life: 3000 },
+    "calendar-create-success": { severity: 'success', summary: 'Success', detail: 'Item de calendario creado exitosamente', life: 3000 },
   }
 
 
