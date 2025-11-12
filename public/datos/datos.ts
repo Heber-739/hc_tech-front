@@ -3,6 +3,7 @@ import { UserData } from "../../src/app/interfaces/user"
 
 export const user: UserData = {
   id:0,
+  empleado_id:0,
   nombre: "",
   email:"",
   imagen:"",

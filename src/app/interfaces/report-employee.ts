@@ -1,18 +1,43 @@
-import { EmployeeProfile } from './employee-profile';
+import { EmployeeResponse } from './employee-response';
 
-export interface ReportEmployeeData {
-  employee: Pick<EmployeeProfile,'id' | 'image' | 'name' | 'workstation' | 'status' | 'entry_date' | 'discharge_date' | 'work_schedule'>,
-  data: MonthStaticalData[];
-}
 
-export interface MonthStaticalData {
-  id:string;
-  day:Date;
-  day_off:boolean;
-  attendence:number;
-  vacations:boolean;
-  absence :number;
-  unjustified:boolean;
-  extra_hours:number;
 
+export type ReportUser = Pick<
+    EmployeeResponse,
+    | 'id'
+    | 'imagen'
+    | 'nombre'
+    | 'puesto'
+    | 'estado'
+    | 'fecha_ingreso'
+    | 'fecha_egreso'
+    | 'turno'
+  >;
+
+// export interface MonthStaticalData {
+//   empleado_id: number;
+//   dia: Date;
+//   data: {
+//     dia_libre: boolean;
+//      asistido: number;
+//      vacaciones: boolean
+//      ausencia: number;
+//      licencia: boolean;
+//      enfermedad: boolean;
+//      capacitación: boolean;
+//   };
+// }
+
+export interface ReportResponse {
+  empleado_id: number,
+  dia: Date,
+  data: {
+    dia_libre: boolean;
+     asistido: number;
+     vacaciones: boolean
+     ausencia: number;
+     licencia: boolean;
+     enfermedad: boolean;
+     capacitación: boolean;
+    }
 }

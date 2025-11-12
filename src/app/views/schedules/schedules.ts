@@ -72,6 +72,7 @@ private getShiftFilters(key:keyof SchedulesData){
 
 
   private async init(){
+    storeService.set<string>("title-description","Registro de ingresos y egresos")
     const company = await storeService.getWhenExist<Companies>("company-default-selected");
     storeService.getWhenExist("list-complete-employees");
     this.company.set(company);

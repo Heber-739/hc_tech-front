@@ -34,6 +34,7 @@ export default class Shifts implements OnDestroy {
   }
 
   private async init(){
+    storeService.set<string>("title-description","Turnos asignados");
     this.updateShifts()
     this.subs.add(
       storeService.getObservable<Companies>("company-default-selected").pipe(

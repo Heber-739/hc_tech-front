@@ -61,8 +61,8 @@ export class Sidebar implements OnDestroy{
   async exit(){
     const {data, error} = await this.authService.logout();
     if(!error) this.router.navigateByUrl('/auth');
-
   }
+
 
     ngOnDestroy(): void {
       this.subs.unsubscribe();

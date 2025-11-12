@@ -3,7 +3,7 @@ import { PromiseResult } from '../../interfaces/promise-response';
 import { LoginResponse } from '../../interfaces/login-response';
 import { HttpClient } from '@angular/common/http';
 import { promiseHandler } from '../utils/functions/promises';
-import { Login } from '../../interfaces/login';
+import { Login, Sugnup } from '../../interfaces/login';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,10 @@ export class AuthService {
 
   async logout():Promise<PromiseResult<void>>{
     return promiseHandler(this.http.post<void>("http://localhost:3000/api/usuarios/login", {}))
+  }
+
+  async signUp(req:Sugnup):Promise<PromiseResult<void>>{
+    return promiseHandler(this.http.post<void>("http://localhost:3000/api/usuarios/create", req))
   }
 
 }

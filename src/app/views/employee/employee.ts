@@ -5,15 +5,12 @@ import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { debounceTime, filter, first, fromEvent, Subscription } from 'rxjs';
 import { EmployeeFilters } from '../../interfaces/employee-filters';
 import { EmployeeForm } from './employee-form/employee-form';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import storeService from '../../common/services/store-service';
 import { UserData } from '../../interfaces/user';
 import { EmployeeResponse } from '../../interfaces/employee-response';
-import { generateEmployeeData } from '../../common/utils/functions/generate-employees';
-import { EmployeeProfile } from '../../interfaces/employee-profile';
 import { EmployeeService } from '../../common/services/employee';
-import { Companies } from '../../interfaces/company';
 import { user } from '../../../../public/datos/datos';
+import { ToastService } from '../../common/services/toast';
 @Component({
   selector: 'app-employee',
   imports: [EmployeeHeader, EmployeeItem, PaginatorModule, EmployeeForm],
@@ -37,6 +34,7 @@ export default class Employee implements OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   private employeeService = inject(EmployeeService);
+  private toast = inject(ToastService);
 
 
 constructor(){
@@ -44,6 +42,7 @@ constructor(){
       first((data)=>!!data)
     ).subscribe(data => this.user.update(()=> data))
 
+    if(!user.empleado_id) this.toast.show("welcome-admin")
   this.getEmployees()
 
   this.subscriptions.add(fromEvent(window,'resize').pipe(
@@ -56,6 +55,7 @@ constructor(){
   ).subscribe({
     next:()=> this.getEmployees(true)
   }))
+  storeService.set<string>("title-description","Listado de empleados")
 
 
 }

@@ -14,11 +14,12 @@ import { TextareaModule } from 'primeng/textarea';
 import { CommonModule } from '@angular/common';
 import { user } from '../../../../../public/datos/datos';
 import { ProcedureCloseRequest } from '../../../interfaces/procedures-req-res';
+import { DatePickerModule } from 'primeng/datepicker';
 
 
 @Component({
   selector: 'app-procedure-item',
-  imports: [PaginatorModule, AvatarModule, CommonModule , FormsModule, ButtonModule, ModalActions, SelectModule, TextareaModule, ButtonModule ],
+  imports: [PaginatorModule, AvatarModule, CommonModule , FormsModule, ButtonModule, ModalActions, SelectModule, TextareaModule, ButtonModule, DatePickerModule ],
   templateUrl: './procedure-item.html',
   styleUrl: './procedure-item.css'
 })
@@ -35,6 +36,9 @@ protected toast = inject(ToastService);
 protected estado = ""
 protected feedback = ""
 protected continueProcedure = signal<boolean>(false)
+
+protected fecha_inicio:Date| null = null;
+protected fecha_fin:Date| null = null;
 
   constructor(){
 
@@ -63,6 +67,7 @@ protected continueProcedure = signal<boolean>(false)
 
   continue = ()=> this.continueProcedure.set(true);
 
+  includesDates = () => ['Vacaciones','Día libre','Enfermedad','Licencia','Capacitación'].includes(this.item().metter)
 
     async confirm(save:string){
     this.modalKey.update(()=> "");
@@ -84,6 +89,10 @@ protected continueProcedure = signal<boolean>(false)
     id:this.item().id,
     devolucion:this.feedback,
     estado:this.estado
+    }
+    if(this.fecha_fin && this.fecha_inicio){
+      req.fecha_fin = this.fecha_fin,
+      req.fecha_inicio = this.fecha_inicio
     }
 
     const {data,error} = await this.procedureService.closeProcedure(req);

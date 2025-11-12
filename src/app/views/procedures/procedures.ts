@@ -46,6 +46,7 @@ protected addProcedure = signal<boolean>(false);
 protected asunto = "";
 protected descripcion = "";
 
+
   constructor(){
     this.init()
     this.proceduresData = signal<ProcedureItemData[]>([])
@@ -66,6 +67,7 @@ protected descripcion = "";
 
 
     private async init(){
+      storeService.set<string>("title-description","Tramites del personal")
     const user = await storeService.getWhenExist<UserData>("user-data");
     const company = await storeService.getWhenExist<Companies>("company-default-selected");
     this.company.set(company);
@@ -85,11 +87,10 @@ protected descripcion = "";
     )
   }
 
-
    private async getProcedures(){
          const req:ProcedureRequest = {
             empresa_id:this.company().id,
-            empleado_id:this.user().id
+            empleado_id:this.user().empleado_id
           }
 
           const {data,error} = await this.procedureService.getProcedures(req);
@@ -129,6 +130,5 @@ protected descripcion = "";
           this.onPageChange(this.currentSizeItems)
 
           this.proceduresData
-          console.log(data,error)
   }
 }

@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, inject, OnInit, PLATFORM_ID, signal, ViewChild } from '@angular/core';
-import { ChartService } from '../service/chart-seervice';
-import { filter } from 'rxjs';
+import { AfterContentChecked, AfterViewInit, ChangeDetectorRef, Component, effect, inject, OnInit, output, PLATFORM_ID, signal, ViewChild } from '@angular/core';
+import { distinctUntilChanged, filter } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { BaseChartDirective, NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { MonthStaticalData } from '../../../interfaces/report-employee';
+import { ReportResponse } from '../../../interfaces/report-employee';
+import storeService from '../../../common/services/store-service';
 
 @Component({
   selector: 'app-report-charts',
@@ -13,111 +13,125 @@ import { MonthStaticalData } from '../../../interfaces/report-employee';
   templateUrl: './report-charts.html',
   styleUrl: './report-charts.css'
 })
-export class ReportCharts implements AfterViewInit {
+export class ReportCharts implements AfterContentChecked{
   @ViewChild(BaseChartDirective) chart: BaseChartDirective<'bar'> | undefined;
 
 
   month = signal<Date>(new Date)
-  year = signal<number>(2025)
-  toggleView = signal<boolean>(true)
-  data = signal<any>(null);
+  data = signal<ReportResponse[]>([]);
   options= signal<any>(null);
   platformId = inject(PLATFORM_ID);
 
-  statics_numbers: {label:string,value:string}[] = [
-    {
-      label:"Ds Trabajados",
-      value:'0'
-  },
-    {
-      label:"Hs Trabajadas",
-      value:'0'
-  },
-    {
-      label:"Hs Extras",
-      value:'0'
-  },
-    {
-      label:"Ausencias",
-      value:'0'
-  },
-    {
-      label:"Aus injustif",
-      value:'0'
-  },
-    {
-      label:"Cumplimiento",
-      value:'0 %'
-  },
-    {
-      label: "Vacaciones",
-      value:'0'
-    },
-    {
-      label:"Dias libre",
-      value:'0 %'
-  },
-]
+  date = output<Date>()
+
+
+  statics_numbers: {label:string,value:number}[] = [];
 
 public barChartData: ChartData<'bar'> | undefined =undefined;
 
-  yearSelect = new FormControl("Mensual")
 
-    constructor(
-      private chartSeervice:ChartService
-    ) {
-      this.yearSelect.valueChanges.subscribe({
-        next:()=> this.toggleView.update((v)=>!v)
-      })
-    }
-
-    ngAfterViewInit() {
-      this.chartSeervice.employeeData.pipe(
-        filter((array)=> array.length > 0)
-      ).subscribe({
-        next:(data)=> this.setChartData(data)
-      })
+    constructor(private cdn:ChangeDetectorRef) {
+ effect(()=> {
+      this.date.emit(this.month())
       this.chart?.update();
+    })
+    storeService.getObservable<ReportResponse[]>("chart-data").pipe(
+          filter((val)=> !!val),
+          distinctUntilChanged()
+        ).subscribe({
+          next:(data)=> {
+            this.data.set(data);
+            this.setChartData()
+            this.cdn.detectChanges();
 
-    }
+
+          }
+        })
+        this.init();
+      }
+      ngAfterContentChecked(): void {
+        setTimeout(() => {
+
+          this.chart?.update();
+          this.setChartData();
+          window.dispatchEvent(new Event('resize'))
+        }, 100);
+  }
+
+  private async init(){
+    const data = await storeService.getWhenExist<ReportResponse[]>("chart-data");
+    this.data.set(data);
+    this.setChartData()
+
+  }
 
     getMonth = () => this.month().toLocaleDateString('es-AR', { month: 'long' });
-    getYear = () => this.year();
 
-    next = () =>  this.toggleView()
-      ? this.month.update((m) =>  new Date(m.setMonth(m.getMonth()+1)))
-      : this.year.update((m) => m + 1);
+    next = () =>  this.month.update((m) =>  new Date(m.setMonth(m.getMonth()+1)));
 
-    after = () => {
-      this.toggleView() ?
-      this.month.update((m) =>  new Date(m.setMonth(m.getMonth()-1))) : this.year.update((m) => m -1)
-    }
+    after = () => this.month.update((m) =>  new Date(m.setMonth(m.getMonth()-1)));
 
 
-    protected setChartData(data:MonthStaticalData[]){
+
+    protected setChartData(){
+      let data = this.data();
       const day_off: number[] = [];
             const attendence: number[] = [];
             const vacancy: number[] = [];
             const absent: number[] = [];
-            const unjustified: number[] = [];
-            const extra_hours: number[] = [];
+            const licencia: number[] = [];
+            const enfermedad: number[] = [];
+            const capacitación: number[] = [];
 
             data.forEach((d)=> {
 
-              day_off.push(d.day_off ? 100 : 0);
-              attendence.push(d.attendence);
-              vacancy.push(d.vacations ? 100 : 0);
-              absent.push(d.absence);
-              unjustified.push(d.unjustified ? 100 : 0);
-              extra_hours.push(d.extra_hours)
+              day_off.push(d.data.dia_libre ? 100 : 0);
+              attendence.push(d.data.asistido);
+              absent.push(d.data.ausencia);
+              vacancy.push(d.data.vacaciones ? 100 : 0);
+              licencia.push(d.data.licencia ? 100 : 0);
+              enfermedad.push(d.data.enfermedad ? 100 : 0)
+              capacitación.push(d.data.capacitación ? 100 : 0)
             })
+
+            this.statics_numbers = [{
+      label:"Asistencia",
+      value:attendence.filter((d)=>d > 0).length
+  },
+    {
+      label:"Enfermedad",
+      value:enfermedad.filter((d)=>d > 0).length
+  },
+    {
+      label:"Ausencias",
+      value:absent.filter((d)=>d > 0).length
+  },
+    {
+      label:"Licencia",
+      value:licencia.filter((d)=>d > 0).length
+  },
+    {
+      label:"Capacitación",
+      value:capacitación.filter((d)=>d > 0).length
+  },
+    {
+      label: "Vacaciones",
+      value:vacancy.filter((d)=>d > 0).length
+    },
+    {
+      label:"Dia Libre",
+      value:day_off.filter((d)=>d > 0).length
+  },
+]
+
+
             this.barChartData = {
               labels: [],
               datasets:[]
             }
             this.barChartData =
             {
-             labels: [...data.map((d)=> new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: '2-digit' }).format(d.day))],
+             labels: [...data.map((d)=> new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: '2-digit' }).format(d.dia))],
                 datasets: [
                     {
                         type: 'bar',
@@ -127,7 +141,7 @@ public barChartData: ChartData<'bar'> | undefined =undefined;
                     },
                     {
                         type: 'bar',
-                        label: 'Hs Trabajadas',
+                        label: 'Asistencia',
                         backgroundColor: "#9ACC47",
                         data: attendence
                     },
@@ -139,25 +153,31 @@ public barChartData: ChartData<'bar'> | undefined =undefined;
                     },
                     {
                         type: 'bar',
+                        label: 'Licencia',
+                        backgroundColor: "#9647FE",
+                        data: licencia
+                    },
+                    {
+                        type: 'bar',
                         label: 'Ausencias',
                         backgroundColor: "#8695A7",
                         data: absent
                     },
                     {
                         type: 'bar',
-                        label: 'Aus injustificadas',
+                        label: 'Enfermedad',
                         backgroundColor: "#B3261E",
-                        data: unjustified
+                        data: enfermedad
                     },
                     {
                         type: 'bar',
-                        label: 'Hs Extra',
+                        label: 'Capacitación',
                         backgroundColor: "#009EF7",
-                        data: extra_hours
+                        data: capacitación
                     },
                 ]
             }
-            this.chart?.update();
+            // this.chart?.update();
 
     }
 

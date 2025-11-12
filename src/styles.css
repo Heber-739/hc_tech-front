@@ -78,6 +78,9 @@ border-top: none;
 .bg-light-gray {
   background-color: var(--light-gray);
 }
+.border-primary {
+  border: 1px solid var(--accent);
+}
 .btn {
   padding: 7px 20px;
   border-radius: 3px;
@@ -123,6 +126,8 @@ border-top: none;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(180, 180, 180, 0.5) transparent;
+    scrollbar-width: none; /* Propiedad de Firefox (ver punto 2) */
+    -ms-overflow-style: none;
 }
 
 .scrollable::-webkit-scrollbar {

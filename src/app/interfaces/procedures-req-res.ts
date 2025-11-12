@@ -14,6 +14,9 @@ export interface ProcedureCloseRequest {
     id:number;
     devolucion:string;
     estado:string;
+    fecha_inicio?:Date;
+    fecha_fin?:Date;
+
 }
 
 export interface ProcedureResponse {

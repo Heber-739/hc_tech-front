@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { ReportEmployeeData } from '../../../interfaces/report-employee';
+import { ReportUser } from '../../../interfaces/report-employee';
 import { CommonModule } from '@angular/common';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
@@ -13,14 +13,14 @@ import { calculateIntervalTime } from '../../../common/utils/functions/get-inter
 })
 export class ReportEmployeeItem {
 
-  employee = input.required<ReportEmployeeData>()
+  employee = input.required<ReportUser>()
   viewEmployeeData = output<void>()
 
 
   getTimeInCompany() {
-      if (!this.employee().employee.entry_date || !this.employee().employee.discharge_date) return '';
-      const initDate = new Date(this.employee().employee.entry_date);
-      const endDate = new Date(this.employee().employee.discharge_date);
+      if (!this.employee().fecha_ingreso || !this.employee().fecha_egreso) return '';
+      const initDate = new Date(this.employee().fecha_ingreso);
+      const endDate = new Date(this.employee().fecha_egreso!);
       return calculateIntervalTime(initDate, endDate);
     }
 
