@@ -153,12 +153,17 @@ export class EmployeeForm implements AfterViewInit {
     if (this.employeeForm.invalid) return;
     const {checked,...requestBody} = this.employee()
     this.editEmployee() ? this.updateEmployee(requestBody) : this.createEmployee(requestBody);
-    this.add.emit(this.employee());
   }
 
   private async createEmployee(requestBody:EmployeeResponse){
-    const {data, error} = await this.employeeService.createEmployee(requestBody);
-    if(error) return this.toast.show("employee-create-error");
+    const {data, error} = await this.employeeService.createEmployee(requestBody,this.user().id);
+    if(!data) return this.toast.show("employee-create-error");
+    if(this.user().email === requestBody.email){
+      this.user.update((user)=> ({...user,empleado_id:data.id}))
+      localStorage.setItem("user-data", JSON.stringify(this.user()));
+    storeService.set("user-data", this.user());
+    }
+    this.add.emit(this.employee());
     this.toast.show("employee-create-success");
   }
 

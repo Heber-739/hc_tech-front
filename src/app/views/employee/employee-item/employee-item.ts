@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
@@ -22,6 +22,12 @@ export class EmployeeItem {
 
   onchecked(e:CheckboxChangeEvent){
     this.checked.emit(e.checked);
+  }
+
+  constructor(){
+    effect(()=> {
+      this.employee().estado = this.employee().estado || "Ausente";
+    } )
   }
 
   getTimeInCompany(){

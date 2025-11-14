@@ -7,6 +7,7 @@ import { AuthService } from '../../../common/services/auth-service';
 import { PasswordModule } from 'primeng/password';
 import { ToastService } from '../../../common/services/toast';
 import { Router } from '@angular/router';
+import storeService from '../../../common/services/store-service';
 
 
 @Component({
@@ -37,6 +38,8 @@ export default class Signup {
 
     const {data,error} = await this.authService.signUp({nombre,email,password})
     if(!data) return this.toast.show("signup-error");
+    localStorage.setItem("user-data", JSON.stringify(data));
+    storeService.set("user-data", data);
     this.toast.show("signup-success");
     this.router.navigateByUrl("/panel/employees");
   }

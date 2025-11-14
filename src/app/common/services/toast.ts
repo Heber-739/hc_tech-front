@@ -50,11 +50,12 @@ export class ToastService {
     "calendar-create-success": { severity: 'success', summary: 'Success', detail: 'Item de calendario creado exitosamente', life: 3000 },
 
     // Form
+    "empty-company": { severity: 'info', summary: 'Info', detail: 'Es necesario que primero cree una compañia para asociar un empleado, haga click en "ADMINISTRACION"', life: 10000 },
     "form-incomplete": { severity: 'info', summary: 'Info', detail: 'Campos faltantes a completar', life: 3000 },
     "pass-not-match": { severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden', life: 3000 },
     "signup-error": { severity: 'error', summary: 'Error', detail: 'Error al crear usuario', life: 3000 },
     "signup-success": { severity: 'success', summary: 'Success', detail: 'Usuario creado exitosamente', life: 3000 },
-    "welcome-admin": { severity: 'success', summary: 'Success', detail: 'Bienvenido! Complete su perfil para seguir navegando, haga click en "Agregar" y es importante que ingrese el mismo mail.', life: 15000 },
+    "welcome-admin": { severity: 'success', summary: 'Success', detail: 'Bienvenido! Complete la informacion de su empresa en "ADMINISTRACION" y su perfil para seguir navegando, haga click en "Agregar" y es importante que ingrese el mismo mail.', life: 15000 },
   }
 
 

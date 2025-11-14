@@ -53,7 +53,7 @@ export class Company {
         [Validators.required, Validators.pattern(/^.{11,13}$/)],
       ],
       imagen: [''],
-      cuit: ['',[Validators.pattern(/^\d{2}-\d{8}-\d{1}$/)]]
+      cuit: ['',[Validators.pattern(/^\d{2}-\d{8}-\d{1}$/), Validators.maxLength(13)]]
     })
 
     this.companyForm.valueChanges.pipe(debounceTime(300)).subscribe({

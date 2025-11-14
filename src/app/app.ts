@@ -37,7 +37,7 @@ export class App {
     const {data,error} = await this.companiesService.getCompanies();
 
     // Descomentar esta linea para crear una base de datos
-    // this.db.createElements();
+    this.db.createElements();
 
 
     storeService.getObservable<Companies>("company-default-selected")

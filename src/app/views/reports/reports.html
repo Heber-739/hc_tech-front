@@ -14,11 +14,12 @@
       ></app-report-employee-item>
     }
   </div>
+@if (employeesData().length > 0) {
 
-
-<app-report-charts
-class="w-full p-2 flex-shrink-0" style="height: 40%;"
-(date)="updateDate($event)"
-></app-report-charts>
-  </div>
+  <app-report-charts
+  class="w-full p-2 flex-shrink-0" style="height: 40%;"
+  (date)="updateDate($event)"
+  ></app-report-charts>
+}
+</div>
 

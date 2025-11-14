@@ -7,6 +7,7 @@ import storeService from '../../common/services/store-service';
 import { EmployeeResponse } from '../../interfaces/employee-response';
 import { ReportResponse, ReportUser } from '../../interfaces/report-employee';
 import { ReportService } from '../../common/services/report-service';
+import { ToastService } from '../../common/services/toast';
 
 @Component({
   selector: 'app-reports',
@@ -19,13 +20,14 @@ export default class Reports {
  itemsPage = signal<number>(0);
  workstations:string[] = [];
 
-private employeesData = signal<ReportUser[]>([]);
+protected employeesData = signal<ReportUser[]>([]);
 protected employeesFiltered = signal<ReportUser[]>([]);
 
 protected employeeSelected = signal<number>(0);
 protected currentDate = signal<Date>(new Date());
 
 private reportService = inject(ReportService)
+private toast = inject(ToastService)
 
   constructor(){
     storeService.set<string>("title-description","Reportes del personal")
@@ -34,6 +36,7 @@ private reportService = inject(ReportService)
 
   private async init(){
     const employees = await storeService.getWhenExist<EmployeeResponse[]>("list-complete-employees");
+    if(!employees || employees.length < 1) return this.toast.show("empty-reports")
     this.employeesData.update(()=> employees.map((e)=>{
     const {id,imagen,nombre,puesto,estado,fecha_ingreso,fecha_egreso,turno,...r} = e;
     return {id,imagen,nombre,puesto,estado,fecha_ingreso,fecha_egreso,turno}

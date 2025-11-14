@@ -38,7 +38,6 @@ export default class Calendar implements OnInit{
 const {data} = await this.calendarService.getCalendarItems(this.user().empleado_id, date);
     if(!data) return;
     this.calendarItems.set(data);
-    console.log({data})
   }
 
 

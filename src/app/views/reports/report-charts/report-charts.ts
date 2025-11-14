@@ -13,7 +13,7 @@ import storeService from '../../../common/services/store-service';
   templateUrl: './report-charts.html',
   styleUrl: './report-charts.css'
 })
-export class ReportCharts implements AfterContentChecked{
+export class ReportCharts implements AfterViewInit{
   @ViewChild(BaseChartDirective) chart: BaseChartDirective<'bar'> | undefined;
 
 
@@ -49,7 +49,7 @@ public barChartData: ChartData<'bar'> | undefined =undefined;
         })
         this.init();
       }
-      ngAfterContentChecked(): void {
+      ngAfterViewInit(): void {
         setTimeout(() => {
 
           this.chart?.update();
@@ -177,7 +177,8 @@ public barChartData: ChartData<'bar'> | undefined =undefined;
                     },
                 ]
             }
-            // this.chart?.update();
+            this.chart?.update();
+            this.cdn.detectChanges();
 
     }
 

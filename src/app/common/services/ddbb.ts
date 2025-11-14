@@ -6,6 +6,8 @@ import { generateShifts } from '../utils/functions/generate-shifts';
 import { generateProcedureItem } from '../utils/functions/procedures-generator';
 import { interval, take } from 'rxjs';
 import { ProcedureService } from './procedure-service';
+import { UserData } from '../../interfaces/user';
+import storeService from './store-service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,32 +19,43 @@ export class DDBB {
   private procedureService = inject(ProcedureService);
 
   async createElements(){
-    // Empleados
-    // const employees = await generateEmployeeData();
+    // await this.createEmployeeElements();
+    // await this.createShiftElements();
+    // await this.createProceduresElements();
+  }
 
-    // Turnos !! Desactivar validacion backend
-    // const shifts = await generateShifts();
-    const procedures = await generateProcedureItem();
 
+  async createEmployeeElements(){
+    const user = storeService.get<UserData>("user-data")
+    const employees = await generateEmployeeData();
     interval(400).pipe(
-      // take(employees.length)
-      // take(shifts.length)
+      take(employees.length)
+    ).subscribe((i)=> {
+      this.employeeService.createEmployee(employees[i], user.id)
+    }
+    )
+  }
+  async createShiftElements(){
+    // Turnos !! Desactivar validacion backend
+
+    const shifts = await generateShifts();
+    interval(400).pipe(
+      take(shifts.length)
+    ).subscribe((i)=> {
+      this.shiftService.createShift(shifts[i])
+    }
+    )
+  }
+
+
+  async createProceduresElements(){
+     const procedures = await generateProcedureItem();
+    interval(400).pipe(
       take(procedures.length)
     ).subscribe((i)=> {
-      // this.employeeService.createEmployee(employees[i])
-      // this.shiftService.createShift(shifts[i])
       this.procedureService.createProcedure(procedures[i])
     }
     )
-
-
-    // employees.forEach(async (e)=> await this.employeeService.createEmployee(e))
-    // shifts.forEach(async (e)=> await this.shiftService.createShift(e))
-    // procedures.forEach(async (e)=> await this.procedureService.createProcedure(e))
-
-
-
-
   }
 
 }

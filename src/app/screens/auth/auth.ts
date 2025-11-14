@@ -10,7 +10,7 @@ import Signup from './signup/signup';
 })
 export default class Auth {
 
-  showFormSignin = signal<boolean>(false)
+  showFormSignin = signal<boolean>(true)
   sliding = signal<boolean>(false)
 
   changeForm = () => {

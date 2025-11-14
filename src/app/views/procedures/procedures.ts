@@ -110,7 +110,7 @@ protected descripcion = "";
 
 
         async addNew(){
-          const {id:empleado_id} = this.user()
+          const {empleado_id} = this.user()
           const {id:empresa_id} = this.company()
           const req:ProcedureCreateRequest = {
             empleado_id,

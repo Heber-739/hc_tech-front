@@ -46,8 +46,8 @@ async getEmployees(forceGet: boolean = false):Promise<PromiseResult<EmployeeResp
   ))
 }
 
-async createEmployee(body:EmployeeResponse): Promise<PromiseResult<EmployeeResponse[]>>{
-  return promiseHandler(this.http.post<EmployeeResponse[]>("http://localhost:3000/api/empleados", body));
+async createEmployee(body:EmployeeResponse, id:number): Promise<PromiseResult<{id:number}>>{
+  return promiseHandler(this.http.post<{id:number}>(`http://localhost:3000/api/empleados/${id}`, body));
 }
 
 async deleteEmployees(ids:number[]): Promise<PromiseResult<number[]>>{

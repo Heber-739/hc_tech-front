@@ -4,15 +4,6 @@
     <p-button (onClick)="openCompanyForm()" label="Administración" />
   }
 
-  <i
-    class="pi pi-bell icon notify-icon text-xl"
-    (click)="toggle($event)"
-    [ngClass]="notifications().length > 0 ? 'primary-icon' : 'secundary-icon'"
-  >
-    @if (notifications().length > 0) {
-    <p class="badge text-center">{{ notifications().length }}</p>
-    }
-  </i>
   <div class="card flex gap-2 h-fit">
 
     @if (user().imagen){

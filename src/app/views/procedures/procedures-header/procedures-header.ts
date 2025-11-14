@@ -10,6 +10,8 @@ import { METTER_OPTIONS, STATUS_OPTIONS } from '../../../common/utils/functions/
 import storeService from '../../../common/services/store-service';
 import { UserData } from '../../../interfaces/user';
 import { user } from '../../../../../public/datos/datos';
+import { Companies } from '../../../interfaces/company';
+import { ToastService } from '../../../common/services/toast';
 
 @Component({
   selector: 'app-procedures-header',
@@ -25,6 +27,7 @@ export class ProceduresHeader {
 
   filters = output<ProcedureHeaderForm>()
   addNew = output<void>()
+  private toast = inject(ToastService);
 
   private fb = inject(FormBuilder)
   filtersForm = this.fb.group({
@@ -51,6 +54,10 @@ export class ProceduresHeader {
     this.user.set(user);
   }
 
-  add = ()=> this.addNew.emit();
+  add = ()=> {
+    const company = storeService.get<Companies>("company-default-selected");
+  if(!company?.id) return this.toast.show("empty-company");
+    this.addNew.emit();
+  }
 
 }

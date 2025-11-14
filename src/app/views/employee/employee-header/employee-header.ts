@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
@@ -6,11 +6,13 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { EmployeeFilters } from '../../../interfaces/employee-filters';
-import { debounceTime, first } from 'rxjs';
+import { debounceTime, empty, first, take } from 'rxjs';
 import { ModalActions } from '../../../common/components/modal-actions/modal-actions';
 import { UserData } from '../../../interfaces/user';
 import storeService from '../../../common/services/store-service';
 import { user } from '../../../../../public/datos/datos';
+import { Companies } from '../../../interfaces/company';
+import { ToastService } from '../../../common/services/toast';
 
 @Component({
   selector: 'app-employee-header',
@@ -29,12 +31,16 @@ export class EmployeeHeader {
   allChecked = output<boolean>();
 
   modalKey = signal<string>("");
-  user = input<UserData>(user);
+  user = signal<UserData>(user)
+  company = signal<Companies|null>(null);
 
   confirmDelete = output<void>();
   addEmployee = output<void>();
 
+  private toast = inject(ToastService);
+
   constructor(){
+    this.init()
 
     this.nameInput.valueChanges.pipe(
       debounceTime(500)
@@ -46,7 +52,18 @@ export class EmployeeHeader {
     })
   }
 
+  private async init(){
+    const user = await storeService.getWhenExist<UserData>("user-data")
+    this.user.set(user);
+    storeService.getObservable<Companies>("company-default-selected").pipe(
+      first((data) => !!data)
+    ).subscribe({
+      next:(data)=> this.company.set(data)
+    })
+  }
+
   add(){
+    if(!this.company()?.id) return this.toast.show("empty-company")
     this.addEmployee.emit()
   }
 
@@ -63,7 +80,7 @@ export class EmployeeHeader {
     this.filtersSelected.emit(this.filters);
   }
 
-  deleteAction = () => this.modalKey.set("delete");
+  deleteAction = () => this.company()?.id && this.modalKey.set("delete");
 
   confirm(event:string){
     this.modalKey.set("");

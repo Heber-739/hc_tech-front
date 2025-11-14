@@ -9,6 +9,7 @@ import { user } from '../../../../../public/datos/datos';
 import { UserData } from '../../../interfaces/user';
 import storeService from '../../../common/services/store-service';
 import { CalendarCreateReq } from '../../../interfaces/calendario-req-res';
+import { Companies } from '../../../interfaces/company';
 
 @Component({
   selector: 'app-calendar-monthly-day',
@@ -69,6 +70,8 @@ onSelect = (event:SelectChangeEvent) => {
 }
 
 private async addItem(value:string){
+  const company = storeService.get<Companies>("company-default-selected");
+  if(!company?.id) return this.toast.show("empty-company");
   const req:CalendarCreateReq = {
           empleado_id:this.user().empleado_id,
       estado:value,

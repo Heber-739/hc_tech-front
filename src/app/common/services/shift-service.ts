@@ -55,14 +55,14 @@ async getScheduleShifts(req:ShiftRequest):Promise<PromiseResult<SchedulesData>>{
 
 
       if(shift.salida){
-        const salidaDate = shift.dia;
-        const [h, m, s] = String(shift.salida).split(':');
+        const salidaDate = new Date(shift.dia);
+        let [h, m, s] = String(shift.salida).split(':');
         salidaDate.setHours( parseInt(h,10),parseInt( m,10),parseInt( s,10))
         shift.salida = salidaDate;
       }
       if(shift.entrada){
-        const entradaDate = shift.dia;
-        const [h, m, s] = String(shift.entrada).split(':');
+        const entradaDate = new Date(shift.dia);
+        let [h, m, s] = String(shift.entrada).split(':');
         entradaDate.setHours( parseInt(h,10),parseInt( m,10),parseInt( s,10))
         shift.entrada = entradaDate;
       }
