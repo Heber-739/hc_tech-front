@@ -1,15 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { SchedulesHeader } from './schedules-header/schedules-header';
-import { SchedulesShift } from './schedules-shift/schedules-shift';
 import { Subscription, filter, distinctUntilChanged } from 'rxjs';
 import { ShiftService } from '../../common/services/shift-service';
 import storeService from '../../common/services/store-service';
 import { Companies } from '../../interfaces/company';
 import { ShiftRequest } from '../../interfaces/shifts-request';
-import { company } from '../../../../public/datos/datos';
+import { company, user } from '../../../../public/datos/datos';
 import { SchedulesData } from '../../interfaces/schedules';
 import { ScheduleItem } from './schedule-item/schedule-item';
 import { StringsFilters } from '../../interfaces/shift-filters';
+import { UserData } from '../../interfaces/user';
 
 @Component({
   selector: 'app-schedules',
@@ -24,6 +24,7 @@ export default class Schedules implements OnInit {
     protected dateSelected = signal<Date>(new Date());
     protected keys: Array<keyof SchedulesData>  = ['Mañana','Tarde','Noche'];
     shiftFilters = signal<StringsFilters>({name:"",rol:""})
+    protected user = signal(user);
 
     shifts = signal<SchedulesData>({
       Tarde:[],
@@ -74,7 +75,9 @@ private getShiftFilters(key:keyof SchedulesData){
   private async init(){
     storeService.set<string>("title-description","Registro de ingresos y egresos")
     const company = await storeService.getWhenExist<Companies>("company-default-selected");
-    storeService.getWhenExist("list-complete-employees");
+    await storeService.getWhenExist("list-complete-employees");
+    const userData = storeService.get<UserData>("user-data");
+    this.user.set(userData);
     this.company.set(company);
     this.getShifts();
 
@@ -99,7 +102,7 @@ private getShiftFilters(key:keyof SchedulesData){
           dia:this.dateSelected()
         }
 
-        const {data,error} = await this.shiftService.getScheduleShifts(req);
+        const {data,error} = await this.shiftService.getScheduleShifts(req,this.user().empleado_id);
         if(!data) return
         this.shiftsDay.set(data);
         this.updateShifts();

@@ -6,6 +6,7 @@
       [ngClass]="expanded() ? 'pi-angle-double-left' : 'pi-angle-double-right'"
     ></i>
   </div>
+  @if (user().rol !== 'empleado') {}
 
   <!-- Header -->
   <div class="flex flex-column py-3 px-3 flex-grow-1">
@@ -78,17 +79,19 @@
       <i class="pi pi-copy text-xl" pButtonIcon></i>
       @if(expanded()){ <p pButtonLabel >Tramites</p> }
 
-      </a>
+    </a>
 
 
-      <a routerLink="/panel/reports" pButton [severity]="getSeverity('reports')"
-      class="w-full border-round-sm"
-      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
-      >
-      <i class="pi pi-chart-line text-xl" pButtonIcon></i>
-      @if(expanded()){ <p pButtonLabel >Reportes</p> }
+    @if (user().rol !== 'empleado') {
+<a routerLink="/panel/reports" pButton [severity]="getSeverity('reports')"
+class="w-full border-round-sm"
+[ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+>
+<i class="pi pi-chart-line text-xl" pButtonIcon></i>
+@if(expanded()){ <p pButtonLabel >Reportes</p> }
 
-      </a>
+</a>
+}
 
 
     </div>

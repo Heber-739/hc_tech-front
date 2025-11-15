@@ -17,8 +17,8 @@ export class CompanyService {
       private toast = inject(ToastService);
 
       async getCompanies():Promise<PromiseResult<Companies[]>>{
-        const { id } = storeService.get<UserData>("user-data");
-        return promiseHandler(this.http.post<Companies[]>("http://localhost:3000/api/empresas/empresaById",{user_id:id}).pipe(
+        const { empleado_id } = storeService.get<UserData>("user-data");
+        return promiseHandler(this.http.post<Companies[]>("http://localhost:3000/api/empresas/empresaById",{user_id:empleado_id}).pipe(
           map((res)=> res.map((c)=>({
             ...c,
             created_at:new Date(c.created_at)

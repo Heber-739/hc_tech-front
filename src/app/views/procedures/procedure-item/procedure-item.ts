@@ -64,6 +64,7 @@ protected fecha_fin:Date| null = null;
 
   take = () => this.modalKey.update(()=> "save")
 
+  isAllowed = () => this.user().rol === 'empleado' || this.item().owner === null;
 
   continue = ()=> this.continueProcedure.set(true);
 

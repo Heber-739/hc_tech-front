@@ -42,7 +42,6 @@ constructor(){
       first((data)=>!!data)
     ).subscribe(data => this.user.update(()=> data))
 
-    if(!user.empleado_id) this.toast.show("welcome-admin")
   this.getEmployees()
 
   this.subscriptions.add(fromEvent(window,'resize').pipe(

@@ -10,6 +10,7 @@ import { ShiftRequest } from '../../interfaces/shifts-request';
 import { distinctUntilChanged, filter, Subscription } from 'rxjs';
 import { company } from '../../../../public/datos/datos';
 import { ShiftFilters } from '../../interfaces/shift-filters';
+import { UserData } from '../../interfaces/user';
 
 @Component({
   selector: 'app-shifts',
@@ -63,7 +64,8 @@ export default class Shifts implements OnDestroy {
         dia:shift.date
       }
 
-      const {data,error} = await this.shiftService.getShifts(req);
+      const user = storeService.get<UserData>("user-data");
+      const {data,error} = await this.shiftService.getShifts(req, user.id);
       return data || shift;
   }
 

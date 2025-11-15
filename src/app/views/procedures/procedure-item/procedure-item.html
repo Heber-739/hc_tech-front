@@ -68,7 +68,7 @@
     <p class="text-xs ml-1 inactive btn text-center flex-grow-1"> {{ item().owner?.name || "-" }} </p>
     @switch (item().status) {
       @case ("Pendiente") {
-        <p-button class="flex-shrink-0 ml-4 flex" (onClick)="take()" size="small" severity="primary" outlined label="Tomar" />
+        <p-button [disabled]="isAllowed()" class="flex-shrink-0 ml-4 flex" (onClick)="take()" size="small" severity="primary" outlined label="Tomar" />
       }
       @case ("En progreso") {
           <p-button [disabled]="item().owner?.id != user().id" (onClick)="continue()" class="flex-shrink-0 ml-4 flex" size="small" severity="primary" outlined label="Continuar" />

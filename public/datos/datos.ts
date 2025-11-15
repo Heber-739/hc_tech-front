@@ -7,7 +7,6 @@ export const user: UserData = {
   nombre: "",
   email:"",
   imagen:"",
-  empresa_id: 0,
   rol: Rols.EMPLEADO
 }
 

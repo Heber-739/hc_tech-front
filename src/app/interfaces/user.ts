@@ -5,7 +5,6 @@ export interface UserData {
           empleado_id:number;
           nombre: string;
           email: string;
-          empresa_id: number;
           imagen?: string;
           rol: Rols;
         }

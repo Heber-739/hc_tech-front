@@ -18,7 +18,7 @@ export class ShiftService {
    private http = inject(HttpClient);
    private employeeService = inject(EmployeeService);
 
-async getShifts(req:ShiftRequest ):Promise<PromiseResult<ShiftItem>>{
+async getShifts(req:ShiftRequest, id:number ):Promise<PromiseResult<ShiftItem>>{
 
   return promiseHandler(this.http.post<ShiftResponse[]>("http://localhost:3000/api/marcajes/list",req).pipe(
     map((res)=> {
@@ -29,6 +29,7 @@ async getShifts(req:ShiftRequest ):Promise<PromiseResult<ShiftItem>>{
         Mañana: []
       }
       res.forEach((shift)=>{
+        if(shift.empleado_id !== id) return;
       const turno = this.clasificarTurno(shift.hora_inicio);
       const shiftEmployee = this.employeeService.getShiftEmployee(shift.empleado_id);
       shiftEmployee && response[turno].push({...shiftEmployee, turno_id:shift.id})
@@ -38,7 +39,7 @@ async getShifts(req:ShiftRequest ):Promise<PromiseResult<ShiftItem>>{
   ));
 }
 
-async getScheduleShifts(req:ShiftRequest):Promise<PromiseResult<SchedulesData>>{
+async getScheduleShifts(req:ShiftRequest,id:number):Promise<PromiseResult<SchedulesData>>{
  return promiseHandler(this.http.post<ShiftResponse[]>("http://localhost:3000/api/marcajes/list",req).pipe(
     map((res)=> {
       const response:SchedulesData  = {
@@ -47,6 +48,7 @@ async getScheduleShifts(req:ShiftRequest):Promise<PromiseResult<SchedulesData>>{
           Mañana: []
       }
       res.forEach((item)=>{
+        if(item.empleado_id !== id) return;
         let shift = item;
       const turno = this.clasificarTurno(shift.hora_inicio);
       const shiftEmployee = this.employeeService.getShiftEmployee(shift.empleado_id);

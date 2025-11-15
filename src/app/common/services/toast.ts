@@ -55,7 +55,6 @@ export class ToastService {
     "pass-not-match": { severity: 'error', summary: 'Error', detail: 'Las contraseñas no coinciden', life: 3000 },
     "signup-error": { severity: 'error', summary: 'Error', detail: 'Error al crear usuario', life: 3000 },
     "signup-success": { severity: 'success', summary: 'Success', detail: 'Usuario creado exitosamente', life: 3000 },
-    "welcome-admin": { severity: 'success', summary: 'Success', detail: 'Bienvenido! Complete la informacion de su empresa en "ADMINISTRACION" y su perfil para seguir navegando, haga click en "Agregar" y es importante que ingrese el mismo mail.', life: 15000 },
   }
 
 

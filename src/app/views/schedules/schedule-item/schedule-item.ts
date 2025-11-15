@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, inject, input, OnInit, signal } from '@angular/core';
+import {  Component, effect, inject, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AvatarModule } from 'primeng/avatar';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -33,6 +33,7 @@ export class ScheduleItem {
     })
   }
 
+
     saveDate(tipo:'entrada' | 'salida'){
       if(!this.entrada && !this.salida) return;
     this.flag = tipo;
@@ -51,7 +52,6 @@ export class ScheduleItem {
       this.flag == 'entrada' && (this.entrada = undefined);
       this.flag == 'salida' && (this.salida = undefined);
     }
-
   }
 
 async entryRegister(){
