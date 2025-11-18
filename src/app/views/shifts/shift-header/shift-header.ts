@@ -17,7 +17,7 @@ import storeService from '../../../common/services/store-service';
 })
 export class ShiftHeader {
 
-  protected shifts;
+  protected shifts: {[key:string]:any};
   protected shiftSelected = signal<{shift:string,text:string}>({shift:'',text:''});
 
   protected filterConfigs = signal<ShiftFilters>({name:"",rol:"",shift:'Mañana'})
@@ -31,19 +31,23 @@ export class ShiftHeader {
       rol: [""]
     })
 
-    this.shifts = signal([{
+    this.shifts = {
+      Mañana:{
       shift: "Mañana",
-      text: "Mañana 7:00 a 15:00 hs"
+      text: "Mañana 6:00 a 14:00 hs"
     },
-    {
+    Tarde:{
       shift:"Tarde",
-      text: "Tarde 15:00 a 23:00 hs"
+      text: "Tarde 14:00 a 22:00 hs"
     },
-    {
+    Noche:{
       shift:"Noche",
-      text: "Noche 23:00 a 07:00 hs"
+      text: "Noche 22:00 a 06:00 hs"
     }
-  ])
+  }
+
+  const selected = this.shifts["Mañana"];
+  this.shiftSelected.set(selected);
 
   this.filtersForm.valueChanges.pipe(
     debounceTime(300),
@@ -57,8 +61,10 @@ export class ShiftHeader {
   })
 }
 
-setStatusSelected = (event:SelectChangeEvent)=>{
-  this.shiftSelected.set(event.value || "")
+setStatusSelected = (event:{value:keyof ShiftEmployeesItem})=>{
+  const selected = this.shifts[event.value];
+  if(!selected) return;
+  this.shiftSelected.set(selected);
   this.filterConfigs.update((e)=> ({...e,shift:event.value}) )
   storeService.set<ShiftFilters>("change-shift-filters",this.filterConfigs())
 }

@@ -102,7 +102,7 @@ private getShiftFilters(key:keyof SchedulesData){
           dia:this.dateSelected()
         }
 
-        const {data,error} = await this.shiftService.getScheduleShifts(req,this.user().empleado_id);
+        const {data,error} = await this.shiftService.getScheduleShifts(req,this.user());
         if(!data) return
         this.shiftsDay.set(data);
         this.updateShifts();
@@ -133,7 +133,7 @@ private getShiftFilters(key:keyof SchedulesData){
       case 'Tarde':
         return  hour >= 14 && hour < 22
       default:
-        return true;
+        return hour >= 22 || hour < 6;
     }
 
   }

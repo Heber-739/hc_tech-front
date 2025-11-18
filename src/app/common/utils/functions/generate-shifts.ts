@@ -6,8 +6,8 @@ import storeService from "../../services/store-service";
 import { generateEmployeeData } from "./generate-employees";
 
 export const generateShifts = async (date?:Date)=>{
-  const fromDate = new Date();
-fromDate.setDate(fromDate.getDate() - 20);
+  const fromDate = new Date(date || new Date());
+fromDate.setDate(fromDate.getDate() - 10);
 
 const dateIterator = new Date(fromDate);
 const {id:empresa_id} = storeService.get<Companies>("company-default-selected");
@@ -16,7 +16,7 @@ const {id:empresa_id} = storeService.get<Companies>("company-default-selected");
 
  const response:CreateShift[] = [];
 
-for (let i = 1; i <= 40; i++) {
+for (let i = 1; i <= 20; i++) {
 
   for (let j = 0; j < mapShifts.length; j++) {
     const element = mapShifts[j];

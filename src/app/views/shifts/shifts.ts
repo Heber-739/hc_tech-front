@@ -65,7 +65,7 @@ export default class Shifts implements OnDestroy {
       }
 
       const user = storeService.get<UserData>("user-data");
-      const {data,error} = await this.shiftService.getShifts(req, user.id);
+      const {data,error} = await this.shiftService.getShifts(req, user);
       return data || shift;
   }
 

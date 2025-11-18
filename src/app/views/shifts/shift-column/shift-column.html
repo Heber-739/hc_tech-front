@@ -1,4 +1,5 @@
-<div class="flex flex-column h-full min-h-0 border-round-lg column p-1">
+@if (shiftDay()) {
+  <div class="flex flex-column h-full min-h-0 border-round-lg column p-1">
 
   <div class="w-full flex flex-column flex-shrink-0">
     <div class="  w-full text-xs flex justify-content-between align-items-center">
@@ -22,7 +23,7 @@
           }
         <div class="flex flex-column flex-grow-1 ">
           <p class="text-xs " >{{item.nombre}}</p>
-          <p class="text-xs " >{{item.puesto}}</p>
+          <p class="text-xs t-gray" >{{item.puesto}}</p>
         </div>
         <div class="flex w-auto flex-shrink-0">
           @if(user().rol !== 'empleado' ){
@@ -49,3 +50,4 @@
         </div>
 
       }
+}

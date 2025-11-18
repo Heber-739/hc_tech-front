@@ -76,7 +76,7 @@ async getEmployees(callService:boolean = false){
 
 private getItemsPeerPage(){
   const height = window.innerHeight;
-  this.itemsPage.set(Math.trunc((height  - 204) / 56));
+  this.itemsPage.set(Math.trunc((height  - 204) / 60));
   this.onPageChange(this.currentSizeItems)
 }
 

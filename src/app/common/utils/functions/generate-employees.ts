@@ -11,9 +11,9 @@ export const generateEmployeeData = async (): Promise<EmployeeResponse[]> => {
   const workstations: string[] = ["Desarrollador Frontend", "Desarrollador Backend", "Diseñador UX/UI", "Gerente de Proyecto", "Analista de Datos", "Especialista en QA", "Recursos Humanos"];
   const schedules: string[] = ["Mañana", "Tarde", "Noche"];
   const statuses: string[] = EMPLOYEE_STATUS;
-  const names: string[] = ["Sofía","Ariel","Romina","Cristian","Alejandro","Valentina","Sebastián","Camila","Mateo","Isabella","Nicolás","Mariana","Diego","Lucía","Gabriel","Elena","Daniel","Paula","Javier","Andrea","Ricardo","Valeria","Manuel"
+  const names: string[] = ["Sofía","Ariel", "Angela", "Bruno","","Ezequiel","Sandra","Romina","Cristian","Valeria","Alejandro","Valentina","Sebastián","Camila","Mateo","Isabella","Nicolás","Mariana","Diego","Lucía","Gabriel","Elena","Daniel","Paula","Javier","Andrea","Ricardo","Valeria","Manuel"
 ];
-  const surnames: string[] = ["García","Rodríguez","González","Fernández","López","Martínez","Sánchez","Pérez","Gómez","Martín","Jiménez","Ruiz","Hernández","Díaz","Moreno","Muñoz","Álvarez","Romero","Alonso","Gutiérrez"
+  const surnames: string[] = ["García","Rodríguez","González","Godoy","Fernández","López","Martínez","Sánchez","Pérez","Gómez","Martín","Jiménez","Ruiz","Hernández","Díaz","Moreno","Muñoz","Álvarez","Romero","Alonso","Gutiérrez"
 ];
 
 const typesStreet: string[] = [
@@ -68,11 +68,7 @@ const typesStreet: string[] = [
 
   const {id} = await storeService.getWhenExist<Companies>("company-default-selected");
 
-  const getprobability = (p:number) => {
-
-  }
-
-  for (let i = 1; i <= 300; i++) {
+  for (let i = 1; i <= 120; i++) {
     const surname = getRandomItem(surnames);
     const name = getRandomItem(names);
 
@@ -90,7 +86,7 @@ const typesStreet: string[] = [
       estado: getRandomItem(statuses),
       turno: getRandomItem(schedules),
       imagen: "datos/employee.jpg",
-      fecha_ingreso:getRandomDate(15,1960),
+      fecha_ingreso:getRandomDate(15,1995),
       fecha_egreso: Math.random() < 0.08 ? getRandomDate(20,1980): undefined,
       activo:true,
       created_at:getRandomDate(2025,1997),

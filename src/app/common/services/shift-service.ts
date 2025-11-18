@@ -9,6 +9,7 @@ import { EmployeeService } from './employee';
 import { ShiftItem } from '../../interfaces/shift-item';
 import { CreateShift } from '../../interfaces/create-shift';
 import { SchedulesData } from '../../interfaces/schedules';
+import { UserData } from '../../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class ShiftService {
    private http = inject(HttpClient);
    private employeeService = inject(EmployeeService);
 
-async getShifts(req:ShiftRequest, id:number ):Promise<PromiseResult<ShiftItem>>{
+async getShifts(req:ShiftRequest, user:UserData ):Promise<PromiseResult<ShiftItem>>{
 
   return promiseHandler(this.http.post<ShiftResponse[]>("http://localhost:3000/api/marcajes/list",req).pipe(
     map((res)=> {
@@ -29,17 +30,17 @@ async getShifts(req:ShiftRequest, id:number ):Promise<PromiseResult<ShiftItem>>{
         Mañana: []
       }
       res.forEach((shift)=>{
-        if(shift.empleado_id !== id) return;
-      const turno = this.clasificarTurno(shift.hora_inicio);
-      const shiftEmployee = this.employeeService.getShiftEmployee(shift.empleado_id);
-      shiftEmployee && response[turno].push({...shiftEmployee, turno_id:shift.id})
+        if(user.rol === 'empleado' && shift.empleado_id !== user.empleado_id) return;
+        const turno = this.clasificarTurno(shift.hora_inicio);
+        const shiftEmployee = this.employeeService.getShiftEmployee(shift.empleado_id);
+        shiftEmployee && response[turno].push({...shiftEmployee, turno_id:shift.id})
     })
     return response;
     })
   ));
 }
 
-async getScheduleShifts(req:ShiftRequest,id:number):Promise<PromiseResult<SchedulesData>>{
+async getScheduleShifts(req:ShiftRequest,user:UserData):Promise<PromiseResult<SchedulesData>>{
  return promiseHandler(this.http.post<ShiftResponse[]>("http://localhost:3000/api/marcajes/list",req).pipe(
     map((res)=> {
       const response:SchedulesData  = {
@@ -48,7 +49,7 @@ async getScheduleShifts(req:ShiftRequest,id:number):Promise<PromiseResult<Schedu
           Mañana: []
       }
       res.forEach((item)=>{
-        if(item.empleado_id !== id) return;
+        if(user.rol === 'empleado' && item.empleado_id !== user.empleado_id) return;
         let shift = item;
       const turno = this.clasificarTurno(shift.hora_inicio);
       const shiftEmployee = this.employeeService.getShiftEmployee(shift.empleado_id);
