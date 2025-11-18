@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, inject, input, output, signal, WritableSignal } from '@angular/core';
-import { EmployeeProfile } from '../../../interfaces/employee-profile';
+import { AfterViewInit, Component, inject, input, output, signal } from '@angular/core';
 import { DividerModule } from 'primeng/divider';
 import { AvatarModule } from 'primeng/avatar';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -7,14 +6,20 @@ import { debounceTime } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { ROLS } from '../../../common/constants/rols';
 import { EMPLOYEE_STATUS } from '../../../common/constants/status';
 import { SelectModule } from 'primeng/select';
 import { calculateIntervalTime } from '../../../common/utils/functions/get-interval-time';
-import { CommonModule } from '@angular/common';
+import { CommonModule, PercentPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { getCurrentAge } from '../../../common/utils/functions/get-age';
 import { defaultEmployee } from '../../../common/constants/employee-default';
+import { EmployeeResponse } from '../../../interfaces/employee-response';
+import { EmployeeService } from '../../../common/services/employee';
+import { Companies } from '../../../interfaces/company';
+import storeService from '../../../common/services/store-service';
+import { UserData } from '../../../interfaces/user';
+import { Rols } from '../../../interfaces/rols';
+import { ToastService } from '../../../common/services/toast';
 
 @Component({
   selector: 'app-employee-form',
@@ -28,112 +33,105 @@ import { defaultEmployee } from '../../../common/constants/employee-default';
     SelectModule,
     CommonModule,
     ButtonModule,
+    PercentPipe
   ],
   templateUrl: './employee-form.html',
   styleUrl: './employee-form.css',
 })
 export class EmployeeForm implements AfterViewInit {
-  protected employee = signal<EmployeeProfile>(defaultEmployee);
-  protected rols = ROLS;
+  protected user;
+  protected employee = signal<EmployeeResponse>(defaultEmployee);
+  protected rols;
   protected status = EMPLOYEE_STATUS;
+  protected attendance = 0;
+  protected punctuality = 0;
 
-  disableItems = input<boolean>(true);
+  editEmployee = input<EmployeeResponse>();
+  protected add = output<EmployeeResponse>();
+  protected cancel = output<void>();
 
-  editEmployee = input<EmployeeProfile>();
-  add = output<EmployeeProfile>();
-  cancel = output<void>();
+  protected fb = inject(FormBuilder);
+  private employeeService = inject(EmployeeService);
+  private toast = inject(ToastService);
 
-  fb = inject(FormBuilder);
-
-  employeeForm;
+  protected employeeForm;
 
   constructor() {
+    this.user = signal<UserData>(storeService.get<UserData>("user-data"))
+    this.rols = this.user().rol == Rols.SUPERADMIN ? ["admin", "empleado"] : ["empleado"];
     this.employeeForm = this.fb.group({
-      name: [undefined as string | undefined, [Validators.required]],
+      nombre: [undefined as string | undefined, [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      phone_number: [
+      telefono: [
         undefined as number | undefined,
         [Validators.required, Validators.pattern(/^\d{10}$/)],
       ],
       dni: [
-        undefined as number | undefined,
+        undefined as string | undefined,
         [Validators.required, Validators.pattern(/^\d{7,8}$/)],
       ],
-      birthday: [undefined as Date | undefined, [Validators.required]],
-      workstation: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      status: ['Activo', [Validators.required]],
-      rol: ['', [Validators.required]],
-      start_work: ['', [Validators.required]],
-      end_work: ['', [Validators.required]],
-      entry_date: [new Date(), [Validators.required]],
-      discharge_date: [new Date() , [Validators.required]],
+      fecha_nac: [undefined as Date | undefined, [Validators.required]],
+      puesto: ['', [Validators.required]],
+      direccion: ['', [Validators.required]],
+      rol: ['empleado', [Validators.required]],
+      turno: ['', [Validators.required]],
+      fecha_ingreso: [new Date(), [Validators.required]],
+      fecha_egreso: [undefined as Date | undefined],
     });
-
 
 
     this.employeeForm.valueChanges.pipe(debounceTime(300)).subscribe({
       next: (v: any) => {
-        let work_schedule = typeof v['start_work'] === 'object' ?
-         this.getSchedule(new Date(v['start_work']), new Date(v['end_work'])):
-          `${v['start_work']} - ${v['end_work']}`;
 
-          const workstation = this.disableItems() ? this.employee().workstation : v['workstation'];
-          const email = this.disableItems() ? this.employee().email : v['email'];
-
+        const fecha_egreso = !this.editEmployee() ? undefined : v["fecha_egreso"]
         this.employee.update((e) => ({
           ...e,
-          name: v['name'],
-          email,
-          phone_number: v['phone_number'] ? `+549 ${v['phone_number']}` : '',
+          nombre: v['nombre'],
+          email:v['email'],
+          telefono: v['telefono'] ? `+549 ${v['telefono']}` : '',
           dni: v['dni'],
-          birthday: v['birthday'],
-          workstation,
-          address: v['address'],
-          status: v['status'],
+          fecha_nac: v['fecha_nac'],
+          puesto:v['puesto'],
+          direccion: v['direccion'],
           rol: v['rol'],
-          work_schedule,
-          entry_date: v['entry_date'],
-          discharge_date: v['discharge_date'],
+          turno: v['turno'],
+          fecha_ingreso: v['fecha_ingreso'],
+          fecha_egreso
         }));
       },
     });
   }
 
   ngAfterViewInit(): void {
+    this.getStatics();
+
     if(this.editEmployee()){
 
       this.employee.set(this.editEmployee()!);
 
-      const { id,image,work_schedule, email, punctuality, attendance, phone_number, checked, ...obj } = this.editEmployee()!;
-
-      let start_work = work_schedule.split('-')[0].trim();
-      let end_work = work_schedule.split('-')[1].trim();
-      let number = phone_number.length - 10;
-      const pn = phone_number.slice(number);
+      const { id,empresa_id,created_at,activo,imagen, telefono, checked, ...obj } = this.editEmployee()!;
+      let number = telefono.length - 10;
+      const pn = telefono.slice(number);
 
       this.employeeForm.patchValue({ ...obj,
-        email,
-        start_work,
-        end_work,
-        phone_number: parseInt(pn),
+        telefono: parseInt(pn),
       });
-      this.disableItems() && this.employeeForm.controls.email.disable();
-      this.disableItems() && this.employeeForm.controls.workstation.disable();
+
       this.employeeForm.updateValueAndValidity();
+    } else {
+      const {id} = storeService.get<Companies>("company-default-selected");
+      this.employee.update((e)=>({...e,empresa_id:id}))
     }
   }
 
-  getSchedule(dateStart: Date, dateEnd: Date) {
-    const options: Intl.DateTimeFormatOptions = {
-      hour: '2-digit', // Muestra la hora con dos dígitos (ej: 07, 23)
-      minute: '2-digit', // Muestra el minuto con dos dígitos (ej: 00, 30)
-      hour12: false, // ¡Importante! Asegura el formato de 24 horas (00-23)
-      timeZone: 'America/Argentina/Buenos_Aires',
-    };
-    const start = dateStart.toLocaleTimeString('es-AR', options);
-    const end = dateEnd.toLocaleTimeString('es-AR', options);
-    return `${start} - ${end}`;
+  private async getStatics(){
+    if(!this.editEmployee()) return;
+    const { id, empresa_id } = this.editEmployee()!;
+
+    const {data, error} = await this.employeeService.getStatics(id,empresa_id)
+    if(!data) return;
+    this.attendance = this.getPorcentage(data.dias_asistidos,data.total)
+    this.punctuality = this.getPorcentage(data.dias_puntuales,data.total)
   }
 
   loadFile(event: Event) {
@@ -141,27 +139,43 @@ export class EmployeeForm implements AfterViewInit {
     const file: File = input.files?.[0]!;
     const reader = new FileReader();
     reader.onload = () =>
-      this.employee.update((emp) => ({ ...emp, image: reader.result as string }));
+      this.employee.update((emp) => ({ ...emp,imagen: reader.result as string }));
     reader.readAsDataURL(file);
   }
 
-  getAge(bornDate: Date): number {
-    return getCurrentAge(bornDate);
-  }
+  getAge = () => getCurrentAge(this.employee().fecha_nac);
 
-  exit() {
-    this.cancel.emit();
-  }
+  getPorcentage = (dato: number, total: number): number => total === 0 ? 0 : (dato / total);
+
+  exit = () =>this.cancel.emit();
 
   submit() {
     if (this.employeeForm.invalid) return;
+    const {checked,...requestBody} = this.employee()
+    this.editEmployee() ? this.updateEmployee(requestBody) : this.createEmployee(requestBody);
+  }
+
+  private async createEmployee(requestBody:EmployeeResponse){
+    const {data, error} = await this.employeeService.createEmployee(requestBody,this.user().id);
+    if(!data) return this.toast.show("employee-create-error");
+    if(this.user().email === requestBody.email){
+      this.user.update((user)=> ({...user,empleado_id:data.id}))
+      localStorage.setItem("user-data", JSON.stringify(this.user()));
+    storeService.set("user-data", this.user());
+    }
     this.add.emit(this.employee());
+    this.toast.show("employee-create-success");
+  }
+
+  private async updateEmployee(requestBody:EmployeeResponse){
+    const {data, error} = await  this.employeeService.editEmployee(requestBody);
+    if(error) return this.toast.show("employee-update-error");
+    this.toast.show("employee-update-success");
   }
 
   getTimeInCompany() {
-    if (!this.employee().entry_date || !this.employee().discharge_date) return '';
-    const initDate = new Date(this.employee().entry_date);
-    const endDate = new Date(this.employee().discharge_date);
-    return calculateIntervalTime(initDate, endDate);
+    const {fecha_egreso, fecha_ingreso} = this.employee()
+    if (!fecha_ingreso || !fecha_egreso) return '';
+    return calculateIntervalTime(fecha_ingreso, fecha_egreso);
   }
 }

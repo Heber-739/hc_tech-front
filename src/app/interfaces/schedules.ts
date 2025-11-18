@@ -1,17 +1,10 @@
-import { EmployeeProfile } from "./employee-profile";
+import { EmployeeResponse } from "./employee-response";
+import { ShiftResponse } from "./shift-response";
 
 export interface SchedulesData {
-  day: Date;
-  shift: SchedulesShiftData[];
+  Mañana: ScheduleShiftItem[];
+  Tarde: ScheduleShiftItem[];
+  Noche: ScheduleShiftItem[];
 }
 
-export interface SchedulesShiftData {
-  shift: "Mañana" | "Tarde" | "Noche",
-  employees: SchedulesEmployees[],
-  schedule_options: Date[]
-}
-
-export type SchedulesEmployees = Pick<EmployeeProfile, 'name' | 'rol' | 'image' | 'id'> & {
-  entry?: Date;
-  discharge?: Date;
-};
+export type ScheduleShiftItem = (Pick<EmployeeResponse, 'id' |'nombre' |'puesto' |'imagen' > & { marcaje:ShiftResponse});

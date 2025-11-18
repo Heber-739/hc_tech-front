@@ -1,4 +1,4 @@
-import { CalendarItem, CalendarItemData, CalendarItemType } from "../../../interfaces/calendar-item";
+import { CalendarItem, CalendarItemType } from "../../../interfaces/calendar-item";
 import { getCurrentWeek } from "./generate-shifts";
 
 function getRandomInt(min: number, max: number): number {
@@ -14,13 +14,13 @@ function getRandomEnumValue(): CalendarItemType {
     return enumValues[randomIndex] ;
 }
 
-function generateCalendarItems(startDate: Date = new Date()): CalendarItemData[] {
+function generateCalendarItems(startDate: Date = new Date()): any[] {
 
         const currentDate = new Date(startDate);
 
         // Generar un número aleatorio de items para este día (0 a 3)
         const numItems = getRandomInt(0, 4);
-        let items: CalendarItemData[] = [];
+        let items: any[] = [];
 
         for (let i = 0; i < numItems; i++) {
           const type = getRandomEnumValue();
@@ -39,7 +39,7 @@ function generateCalendarItems(startDate: Date = new Date()): CalendarItemData[]
             scheduleEnd.setHours(endHour, 0, 0, 0);
 
             // Generar el item de datos
-            const data: CalendarItemData = {
+            const data: any = {
                 type,
                 schedule: [scheduleStart, scheduleEnd],
                 description: "Actividad del dia " + currentDate.toLocaleDateString('es')
@@ -51,16 +51,16 @@ function generateCalendarItems(startDate: Date = new Date()): CalendarItemData[]
     return items;
 }
 
-export const getCalendarItems = (date: Date = new Date()): CalendarItem[] => {
-  const days: CalendarItem[] = [];
-  const currentDate = new Date(date);
-  currentDate.setDate(1);
-  for (let i = 0; i < 5; i++) {
-    getCurrentWeek(currentDate).forEach((day)=> days.push({
-      date:day,
-      items:generateCalendarItems(day)
-    })  )
-    currentDate.setDate(currentDate.getDate() + 7)
-  }
-  return days;
-}
+// export const getCalendarItems = (date: Date = new Date()): CalendarItem[] => {
+//   const days: CalendarItem[] = [];
+//   const currentDate = new Date(date);
+//   currentDate.setDate(1);
+//   for (let i = 0; i < 5; i++) {
+//     getCurrentWeek(currentDate).forEach((day)=> days.push({
+//       date:day,
+//       items:generateCalendarItems(day)
+//     })  )
+//     currentDate.setDate(currentDate.getDate() + 7)
+//   }
+//   return days;
+// }

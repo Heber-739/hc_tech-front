@@ -1,12 +1,11 @@
 export interface CalendarItem {
-  date:Date;
+  fecha:Date;
   items: CalendarItemData[];
 }
 
 export interface CalendarItemData {
+    id:number;
     type: CalendarItemType;
-    schedule: [Date,Date];
-    description:string;
 }
 
 export enum CalendarItemType {
@@ -14,4 +13,8 @@ export enum CalendarItemType {
   ASSIST = "Asistencia",
   OFF = "Dia Libre",
   OTHER = "Otro",
+  ILL = 'Enfermedad',
+  LICENSE = 'Licencia',
+  TRAINING = 'Capacitación',
+
 }

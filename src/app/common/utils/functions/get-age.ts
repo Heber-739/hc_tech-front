@@ -1,4 +1,5 @@
-export const getCurrentAge = (bornDate: Date): number => {
+export const getCurrentAge = (bornDate: Date): string | null => {
+  if (new Date(bornDate).toDateString() === new Date().toDateString()) return "";
     const today = new Date();
     let age = today.getFullYear() - bornDate.getFullYear();
 
@@ -14,5 +15,5 @@ export const getCurrentAge = (bornDate: Date): number => {
         diaActual < diaNacimiento && age--;
     }
 
-    return age;
+    return `${age} años`;
 }

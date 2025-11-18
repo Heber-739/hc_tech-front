@@ -4,8 +4,10 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { debounceTime } from 'rxjs';
+import { debounceTime, filter } from 'rxjs';
 import { ShiftEmployeesItem } from '../../../interfaces/shift-item';
+import { ShiftFilters } from '../../../interfaces/shift-filters';
+import storeService from '../../../common/services/store-service';
 
 @Component({
   selector: 'app-shift-header',
@@ -15,10 +17,10 @@ import { ShiftEmployeesItem } from '../../../interfaces/shift-item';
 })
 export class ShiftHeader {
 
-  protected shifts;
+  protected shifts: {[key:string]:any};
   protected shiftSelected = signal<{shift:string,text:string}>({shift:'',text:''});
 
-  setShift = output<keyof ShiftEmployeesItem>()
+  protected filterConfigs = signal<ShiftFilters>({name:"",rol:"",shift:'Mañana'})
 
   fb = inject(FormBuilder);
   filtersForm;
@@ -28,30 +30,44 @@ export class ShiftHeader {
       name: [""],
       rol: [""]
     })
-    this.shifts = signal([{
+
+    this.shifts = {
+      Mañana:{
       shift: "Mañana",
-      text: "Mañana 7:00 a 15:00 hs"
+      text: "Mañana 6:00 a 14:00 hs"
     },
-    {
+    Tarde:{
       shift:"Tarde",
-      text: "Tarde 15:00 a 23:00 hs"
+      text: "Tarde 14:00 a 22:00 hs"
     },
-    {
+    Noche:{
       shift:"Noche",
-      text: "Noche 23:00 a 07:00 hs"
+      text: "Noche 22:00 a 06:00 hs"
     }
-  ])
-  this.filtersForm.valueChanges.pipe(
-    debounceTime(300)
-  ).subscribe({
-    next:(v)=> (()=> {})()
-  })
   }
 
-  setStatusSelected = (e:SelectChangeEvent)=>{
-    this.shiftSelected.set(e.value || "")
-    this.setShift.emit(e.value?.shift || "");
-  }
+  const selected = this.shifts["Mañana"];
+  this.shiftSelected.set(selected);
+
+  this.filtersForm.valueChanges.pipe(
+    debounceTime(300),
+  ).subscribe({
+    next:(v)=> {
+      const name = v.name || ""
+      const rol = v.rol || ""
+      this.filterConfigs.update((e)=> ({...e,name,rol}) )
+      storeService.set<ShiftFilters>("change-shift-filters",this.filterConfigs())
+    }
+  })
+}
+
+setStatusSelected = (event:{value:keyof ShiftEmployeesItem})=>{
+  const selected = this.shifts[event.value];
+  if(!selected) return;
+  this.shiftSelected.set(selected);
+  this.filterConfigs.update((e)=> ({...e,shift:event.value}) )
+  storeService.set<ShiftFilters>("change-shift-filters",this.filterConfigs())
+}
 
 
 }

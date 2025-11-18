@@ -1,29 +1,29 @@
  <div class="grid m-0 w-full div-filters align-items-center">
 
       <div class="col-3 text-base py-0 flex  items-center align-items-center">
-        @if (employee().employee.image){
-        <p-avatar [image]="employee().employee.image"  class="mr-2" size="normal" shape="circle" />
+        @if (employee().imagen){
+        <p-avatar [image]="employee().imagen"  class="mr-2" size="normal" shape="circle" />
       } @else {
         <p-avatar icon="pi pi-user" class="mr-2" size="normal" shape="circle" />
       }
-        <span >{{ employee().employee.name }}</span>
+        <span >{{ employee().nombre }}</span>
     </div>
   <div class="col-2 text-sm text-center">
-      <span>{{ employee().employee.workstation }}</span>
+      <span>{{ employee().puesto }}</span>
     </div>
 
     <div class="col-2 text-sm text-center">
-      <span>{{ employee().employee.work_schedule }}</span>
+      <span>{{ employee().turno }}</span>
     </div>
 
     <div class="col-2 text-sm text-center">
       <span class="btn"
       [ngClass]="{
-    'active': employee().employee.status == 'Activo',
-    'inactive': employee().employee.status == 'Inactivo',
-    'absent': employee().employee.status == 'Ausente',
-    'vacation': employee().employee.status == 'Vacaciones',
-  }" >{{ employee().employee.status }}</span>
+    'active': employee().estado == 'Activo',
+    'inactive': employee().estado == 'Inactivo',
+    'absent': employee().estado == 'Ausente',
+    'vacation': employee().estado == 'Vacaciones',
+  }" >{{ employee().estado }}</span>
     </div>
     <div class="col-2 text-xs text-center">
       <span>{{ getTimeInCompany() }}</span>

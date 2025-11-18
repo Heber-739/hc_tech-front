@@ -1,19 +1,17 @@
 <div class="w-full">
-  <form class="grid m-0 w-full div-filters" [formGroup]="filtersForm">
+  <form class="grid m-0 w-full div-filters align-items-center" [formGroup]="filtersForm">
 
     <div class="col-2 ml-3">
       <p-select
         class="w-full"
-        [options]="shifts()"
-        optionLabel="shift"
+        [options]="['Mañana','Tarde', 'Noche']"
         (onChange)="setStatusSelected($event)"
         size="small"
-        placeholder="Turno"
-        showClear
+        placeholder="Mañana"
       />
     </div>
 
-    <div class="col-2 px-1 flex align-content-center">
+    <div class="col-2 px-1 m-0 py-0 h-fit flex align-content-center">
       @if(shiftSelected().shift){
       <span
         class="btn text-xs"

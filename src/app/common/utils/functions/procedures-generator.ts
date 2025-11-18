@@ -1,5 +1,9 @@
+import { Companies } from "../../../interfaces/company";
+import { EmployeeProfile } from "../../../interfaces/employee-profile";
+import { EmployeeResponse } from "../../../interfaces/employee-response";
 import { ProcedureItemData } from "../../../interfaces/procedures-item";
-import { generateEmployeeData } from "./generate-employees";
+import { ProcedureCreateRequest } from "../../../interfaces/procedures-req-res";
+import storeService from "../../services/store-service";
 
 export const STATUS_OPTIONS: string[] = [
   'Pendiente',
@@ -16,6 +20,7 @@ export const METTER_OPTIONS: string[] = [
   'Capacitación',
   'Horario',
   'Pagos',
+  'Otro'
 ];
 
 function getRandomElement<T>(arr: T[]): T {
@@ -35,37 +40,62 @@ function generateRandomDate(startOffsetDays: number, endOffsetDays: number): Dat
   return new Date(time);
 }
 
-export function generateProcedureItem(): ProcedureItemData[] {
+export async function generateProcedureItem(): Promise<ProcedureCreateRequest[]> {
   const response = [];
-  const employees = generateEmployeeData();
-  const iterations = Math.floor(Math.random() * 12) + 17;
+  const employees = await storeService.getWhenExist<EmployeeResponse[]>("list-complete-employees");
+  const iterations = Math.floor(Math.random() * 50) + 200;
+
+  for (let i = 0; i < iterations; i++) {
+
+    const employee = getRandomElement(employees);
+    const {id} = employee;
+    const {id:empresa_id} = storeService.get<Companies>("company-default-selected");
+
+  const procedure: ProcedureCreateRequest = {
+    empleado_id: id,
+    empresa_id,
+    asunto: getRandomElement(METTER_OPTIONS),
+    descripcion: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  };
+
+  response.push(procedure)
+  }
+
+  return response;
+}
+
+export async function takesProcedureItem(): Promise<any[]> {
+  const response = [];
+  const employees = await storeService.getWhenExist<EmployeeResponse[]>("list-complete-employees");
+  const admins = employees.filter((e)=> e.rol != "empleado")
+  const iterations = Math.floor(Math.random() * 50) + 200;
 
   for (let i = 0; i < iterations; i++) {
     const status = getRandomElement(STATUS_OPTIONS);
-  const entryDate = generateRandomDate(-30, -5);
+    const entryDate = generateRandomDate(-30, -5);
 
-  const hasFeedback = Math.random() < 0.5 && status !== 'Pendiente';
-  const {id,rol,image,name} = employees[Math.floor(Math.random() * employees.length-1)]
+    const employee = getRandomElement(employees);
+    const {id} = employee;
+    const {id:empresa_id} = storeService.get<Companies>("company-default-selected");
 
-  const procedure: ProcedureItemData = {
-    employee: {id,rol,image,name},
-    status: status,
-    entry_date: entryDate,
-    metter: getRandomElement(METTER_OPTIONS),
-    description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+  const procedure: any = {
+    empleado_id: id,
+    empresa_id,
+    asunto: getRandomElement(METTER_OPTIONS),
+    descripcion: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   };
 
-  if (['Aprobado', 'Rechazado', 'Completado', 'Archivado'].includes(status)) {
-    procedure.discharge_date = generateRandomDate(entryDate.getDate() - new Date().getDate() + 5, entryDate.getDate() - new Date().getDate() + 15);
+  if (status != 'Pendiente') {
+    let admin = getRandomElement(admins);
+    const {id, nombre:name} = admin;
+    procedure.owner = {id, name};
   }
 
-  if (hasFeedback) {
+  if (['Aprobado', 'Rechazado'].includes(status)) {
+    procedure.discharge_date = generateRandomDate(entryDate.getDate() - new Date().getDate() + 5, entryDate.getDate() - new Date().getDate() + 15);
     procedure.feedback = 'Feedback: Proceso revisado y gestionado con éxito.';
   }
 
-  if (status !== 'Pendiente') {
-    procedure.owner = getRandomElement(employees).name;
-  }
   response.push(procedure)
   }
 

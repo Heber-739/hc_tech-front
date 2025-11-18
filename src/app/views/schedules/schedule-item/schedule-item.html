@@ -1,0 +1,46 @@
+<div class="flex align-items-center justify-content-between bg-white border-round-sm gap-1 py-2">
+  <div class="flex flex-shrink-0 gap-1">
+    @if (item().imagen){
+    <p-avatar [image]="item().imagen" class="flex-shrink-0" shape="circle" />
+    } @else {
+    <p-avatar icon="pi pi-user" class="flex-shrink-0" shape="circle" />
+    }
+
+    <div class="flex flex-column flex-grow-1">
+      <p class="text-xs">{{ item().nombre }}</p>
+      <p class="text-xs t-gray">{{ item().puesto }}</p>
+    </div>
+  </div>
+
+  <div action="" class="flex w-6">
+    <p-datepicker
+      class="w-6 custom-panel"
+      [disabled]="!!item().marcaje.entrada"
+      size="small"
+      fluid
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+      [(ngModel)]="entrada"
+      [timeOnly]="true"
+      (onClose)="saveDate('entrada')"
+    />
+    <p-datepicker
+      class="w-6 custom-panel"
+      [disabled]="!!item().marcaje.salida"
+      size="small"
+      fluid
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+      [(ngModel)]="salida"
+      [timeOnly]="true"
+      (onClose)="saveDate('salida')"
+    />
+  </div>
+</div>
+
+@if (!!showConfirm()) {
+<div
+  class="flex curtain fixed w-full h-full top-0 left-0 z-1 justify-content-center align-items-center"
+></div>
+<app-modal-actions [modalKey]="showConfirm()" (actionResult)="confirm($event)"> </app-modal-actions>
+}

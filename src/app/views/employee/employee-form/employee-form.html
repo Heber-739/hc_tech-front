@@ -1,30 +1,30 @@
 <div class="flex justify-content-center align-items-center curtain absolute left-0 top-0 w-screen h-screen z-1">
   <div class="flex w-6 h-auto bg-white z-2 py-5 px-3">
-    <div class="text-center flex flex-column w-5 h-auto gap-3 py-1 px-2">
+    <div class="text-center flex flex-column w-5 h-auto gap-2 py-1 px-2">
 
-      @if (employee().image){
-        <p-avatar [image]="employee().image"  class="mx-auto" size="xlarge" shape="circle" />
+      @if (employee().imagen){
+        <p-avatar [image]="employee().imagen"  class="mx-auto" size="xlarge" shape="circle" />
       } @else {
         <p-avatar icon="pi pi-user" class="mx-auto" size="xlarge" shape="circle" />
       }
       <div class="text-center">
-        <p class="font-bold"> {{employee().name}} </p>
-        <p class="text-xs t-gray"> {{employee().workstation}} </p>
+        <p class="font-bold"> {{employee().nombre}} </p>
+        <p class="text-xs t-gray"> {{employee().puesto}} </p>
       </div>
       <p class="text-sm"> {{employee().email}} </p>
       <p class="text-sm"> {{ employee().dni ? `DNI ${employee().dni}` : "" }} </p>
-      <p class="text-sm"> {{ employee().birthday ? `${getAge(employee().birthday)} años` : '' }} </p>
-      <p class="text-sm"> {{ employee().phone_number }} </p>
+      <p class="text-sm"> {{ employee().fecha_nac ? getAge():"" }} </p>
+      <p class="text-sm"> {{ employee().telefono }} </p>
       <p class="text-sm"> {{ getTimeInCompany() }} </p>
-      <p class="text-sm"> {{ employee().address }} </p>
+      <p class="text-sm"> {{ employee().direccion }} </p>
       <div class="progressDataContainer gap-4 mt-auto w-full">
         <div class="progressData mt-4 mb-3">
           <p class="text-xs text-left">Puntualidad</p>
           <div class="flex w-full align-items-center" >
             <div class="w-9 bg-gray progress border-round-xl ">
-              <div class="progress bg-primary border-round-xl" [ngStyle]="{'width.%': employee().punctuality }" ></div>
+              <div class="progress bg-primary border-round-xl" [ngStyle]="{'width.%': punctuality * 100 }" ></div>
             </div>
-            <p class="w-3 text-xs text-right" >{{ employee().punctuality }} %</p>
+            <p class="w-3 text-xs text-right" >{{ punctuality | percent:'1.1-1' }}</p>
 
           </div>
         </div>
@@ -32,9 +32,9 @@
           <p class="text-xs text-left">Asistencia</p>
           <div class="flex w-full align-items-center" >
             <div class="w-9 bg-gray progress border-round-xl ">
-              <div class="progress bg-primary border-round-xl" [ngStyle]="{'width.%': employee().attendance }" ></div>
+              <div class="progress bg-primary border-round-xl" [ngStyle]="{'width.%': attendance * 100 }" ></div>
             </div>
-            <p class="w-3 text-xs text-right" >{{ employee().attendance }} %</p>
+            <p class="w-3 text-xs text-right" >{{ attendance | percent:'1.1-1' }}</p>
 
           </div>
         </div>
@@ -46,38 +46,34 @@
     <div class="w-full flex">
       <div class="relative w-fit h-fit px-1">
         <input (change)="loadFile($event)" type="file" style="display: none;" id="file-input" accept="image/*" >
-        @if (employee().image){
-        <p-avatar [image]="employee().image"  class="mx-auto" size="xlarge" shape="circle" />
+        @if (employee().imagen){
+        <p-avatar [image]="employee().imagen"  class="mx-auto" size="xlarge" shape="circle" />
       } @else {
         <p-avatar icon="pi pi-user" class="mx-auto" size="xlarge" shape="circle" />
       }
         <label for="file-input"><i class="text-xs p-1 pi pi-pencil absolute bottom-0 right-0 bg-light-gray border-circle"></i></label>
       </div>
       <form class=" flex flex-column gap-2 px-3 w-full" action="" [formGroup]="employeeForm">
-        <input class="w-full" pSize="small" pInputText formControlName="name" type="text" placeholder="Nombre completo" />
-        <input class="w-full" pSize="small" pInputText formControlName="email" type="email" placeholder="Email" />
-        <p-inputnumber [maxlength]="10" size="small" [useGrouping]="false" formControlName="phone_number" placeholder="Teléfono"/>
+        <input class="w-full" pSize="small" pInputText formControlName="nombre" type="text" placeholder="Nombre completo" />
+        <input class="w-full" pSize="small" pInputText formControlName="email" type="email" placeholder="Email"/>
+        <p-inputnumber [maxlength]="10" size="small" [useGrouping]="false" formControlName="telefono" placeholder="Teléfono"/>
         <div class="w-full flex gap-1">
           <p-inputnumber [maxlength]="8" size="small" fluid class="w-6" formControlName="dni" placeholder="DNI"/>
-          <p-datepicker class="w-6" size="small" formControlName="birthday" fluid placeholder="Cumpleaños" />
+          <p-datepicker class="w-6" size="small" formControlName="fecha_nac" fluid placeholder="Cumpleaños" />
         </div>
-        <input class="w-full" pSize="small" pInputText formControlName="workstation" type="text" placeholder="Puesto" />
-        <input class="w-full" pSize="small" pInputText formControlName="address" type="text" placeholder="Dirección" />
+        <input class="w-full" pSize="small" pInputText formControlName="puesto" type="text" placeholder="Puesto" />
+        <input class="w-full" pSize="small" pInputText formControlName="direccion" type="text" placeholder="Dirección" />
         <div class="w-full flex gap-1">
-          <p-select class="w-6" size="small" [options]="status" formControlName="status" placeholder="Estado" [disabled]="disableItems()" />
-          <p-select class="w-6" size="small" [options]="rols" formControlName="rol" placeholder="Rol" [disabled]="disableItems()" />
-        </div>
-        <div class="w-full flex gap-1">
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="entry_date" placeholder="Fecha de ingreso" [disabled]="disableItems()" />
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="discharge_date" placeholder="Fecha de egreso" [disabled]="disableItems()" />
+          <p-select class="w-6" size="small" [options]="['Mañana', 'Tarde', 'Noche']" formControlName="turno" placeholder="Turno" />
+          <p-select class="w-6" size="small" [options]="rols" formControlName="rol" placeholder="Rol" />
         </div>
         <div class="w-full flex gap-1">
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'"  [showIcon]="true" formControlName="start_work" [timeOnly]="true" placeholder="Inicio jornada" [disabled]="disableItems()"/>
-          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="end_work" [timeOnly]="true" placeholder="Fin jornada" [disabled]="disableItems()"/>
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="fecha_ingreso" placeholder="Fecha de ingreso" />
+          <p-datepicker class="w-6" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="fecha_egreso" placeholder="Fecha de egreso" [disabled]="!editEmployee()" />
         </div>
         <div class="flex mt-3 justify-content-end gap-3">
           <p-button (onClick)="exit()" size="small"  severity="danger" outlined label="Cancelar"  />
-          <p-button (onClick)="submit()" [disabled]="employeeForm.invalid" size="small"  severity="primary" label="Guardar"  />
+          <p-button (onClick)="submit()" [disabled]="employeeForm.invalid || employeeForm.pristine" size="small"  severity="primary" label="Guardar"  />
         </div>
       </form>
     </div>

@@ -1,23 +1,28 @@
-<aside class="aside" [ngClass]="expanded() ? 'expanded-aside' : 'short-aside'">
+<aside class="h-full flex flex-column relative aside" [ngClass]="expanded() ? 'expanded-aside' : 'short-aside'">
   <!-- Toggle menu -->
-  <div class="toogle-btn" (click)="toggleMenu()">
+  <div class="toogle-btn flex flex-shrink-0" (click)="toggleMenu()">
     <i
       class="pi pi-angle-double-left icon primary-icon text-2xl"
       [ngClass]="expanded() ? 'pi-angle-double-left' : 'pi-angle-double-right'"
     ></i>
   </div>
+  @if (user().rol !== 'empleado') {}
 
   <!-- Header -->
-  <div class="flex flex-column py-3 px-3">
-    <div class="flex gap-1 w-full gap-2 justify-center">
-      <p-avatar
-       size="large" shape="circle" [image]="company().img"
-       [ngClass]="expanded() ? 'mr-2':'m-auto' "
-       />
+  <div class="flex flex-column py-3 px-3 flex-grow-1">
+    <div class="flex gap-1 w-full gap-2 justify-center" style="height: 3rem;">
+      <div>
+        @if (company().imagen) {
+          <p-avatar  shape="circle" [image]="company().imagen" [ngClass]="expanded() ? 'mr-1':'mx-auto' "/>
+        } @else {
+          <p-avatar shape="circle" icon="pi pi-user" [ngClass]="expanded() ? 'mr-1':'mx-auto' " />
+        }
+
+      </div>
       @if(expanded()){
         <div class="mr-auto">
-          <p class="text-lg text-white font-bold">{{ company().companyName }}</p>
-          <p class="text-sm t-gray">{{ company().userName }}</p>
+          <p class="text-sm text-white font-bold">{{ company().nombre || "Sin información" }}</p>
+          <p class="text-sm t-gray">{{ user().nombre }}</p>
         </div>
       }
     </div>
@@ -38,7 +43,7 @@
 
 
       <a routerLink="/panel/shifts" pButton [severity]="getSeverity('shifts')"
-      class="w-full justify-content-start border-round-sm"
+      class="w-full inline-flex justify-content-start border-round-sm align-content-center"
       [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
       >
       <i class="pi pi-book text-xl" pButtonIcon></i>
@@ -74,20 +79,32 @@
       <i class="pi pi-copy text-xl" pButtonIcon></i>
       @if(expanded()){ <p pButtonLabel >Tramites</p> }
 
-      </a>
+    </a>
 
 
-      <a routerLink="/panel/reports" pButton [severity]="getSeverity('reports')"
-      class="w-full border-round-sm"
-      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
-      >
-      <i class="pi pi-chart-line text-xl" pButtonIcon></i>
-      @if(expanded()){ <p pButtonLabel >Reportes</p> }
+    @if (user().rol !== 'empleado') {
+<a routerLink="/panel/reports" pButton [severity]="getSeverity('reports')"
+class="w-full border-round-sm"
+[ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+>
+<i class="pi pi-chart-line text-xl" pButtonIcon></i>
+@if(expanded()){ <p pButtonLabel >Reportes</p> }
 
-      </a>
+</a>
+}
 
 
     </div>
+  </div>
+
+  <div class="flex flex-column py-3 px-3 flex-shrink-0">
+    <a (click)="exit()" pButton [severity]="'contrast'"
+      class="w-full border-round-sm"
+      [ngClass]="expanded() ? 'justify-content-start':'justify-content-center' "
+      >
+      <i class="pi pi-sign-in" pButtonIcon></i>
+      @if(expanded()){ <p pButtonLabel >Cerrar sesión</p> }
+      </a>
   </div>
 
 </aside>

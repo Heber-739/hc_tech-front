@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CalendarHeader } from './calendar-header';
+import { ProcedureForm } from './procedure-form';
 
-describe('CalendarHeader', () => {
-  let component: CalendarHeader;
-  let fixture: ComponentFixture<CalendarHeader>;
+describe('ProcedureForm', () => {
+  let component: ProcedureForm;
+  let fixture: ComponentFixture<ProcedureForm>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CalendarHeader]
+      imports: [ProcedureForm]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CalendarHeader);
+    fixture = TestBed.createComponent(ProcedureForm);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
-export const calculateIntervalTime = (initDate: Date,endDate: Date): string  => {
-  if(!initDate || !endDate) return "";
+export const calculateIntervalTime = (initDate: Date,endDate: Date = new Date()): string  => {
+  if(!initDate) return "";
     let years = endDate.getFullYear() - initDate.getFullYear();
     let months = endDate.getMonth() - initDate.getMonth();
 

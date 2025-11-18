@@ -1,20 +1,19 @@
-import { v4 } from "uuid";
-import { EmployeeProfile } from "../../../interfaces/employee-profile";
-import { ROLS } from "../../constants/rols";
 import { EMPLOYEE_STATUS } from "../../constants/status";
+import { EmployeeResponse } from "../../../interfaces/employee-response";
+import storeService from "../../services/store-service";
+import { Companies } from "../../../interfaces/company";
 
-let listEmployes: EmployeeProfile[] | null = null;
+let listEmployes: EmployeeResponse[] | null = null;
 
-export const generateEmployeeData = (): EmployeeProfile[] => {
+export const generateEmployeeData = async (): Promise<EmployeeResponse[]> => {
   if(listEmployes) return listEmployes;
-  const data: EmployeeProfile[] = [];
-  const roles: string[] = ROLS;
-  const workstations: string[] = ["Desarrollador Frontend", "Desarrollador Backend", "Diseñador UX/UI", "Gerente de Proyecto", "Analista de Datos", "Especialista en QA"];
-  const schedules: string[] = ["7:00 - 15:00", "15:00 - 23:00", "23:00 - 07:00"];
+  const data: EmployeeResponse[] = [];
+  const workstations: string[] = ["Desarrollador Frontend", "Desarrollador Backend", "Diseñador UX/UI", "Gerente de Proyecto", "Analista de Datos", "Especialista en QA", "Recursos Humanos"];
+  const schedules: string[] = ["Mañana", "Tarde", "Noche"];
   const statuses: string[] = EMPLOYEE_STATUS;
-  const names: string[] = ["Sofía","Alejandro","Valentina","Sebastián","Camila","Mateo","Isabella","Nicolás","Mariana","Diego","Lucía","Gabriel","Elena","Daniel","Paula","Javier","Andrea","Ricardo","Valeria","Manuel"
+  const names: string[] = ["Sofía","Ariel", "Angela", "Bruno","","Ezequiel","Sandra","Romina","Cristian","Valeria","Alejandro","Valentina","Sebastián","Camila","Mateo","Isabella","Nicolás","Mariana","Diego","Lucía","Gabriel","Elena","Daniel","Paula","Javier","Andrea","Ricardo","Valeria","Manuel"
 ];
-  const surnames: string[] = ["García","Rodríguez","González","Fernández","López","Martínez","Sánchez","Pérez","Gómez","Martín","Jiménez","Ruiz","Hernández","Díaz","Moreno","Muñoz","Álvarez","Romero","Alonso","Gutiérrez"
+  const surnames: string[] = ["García","Rodríguez","González","Godoy","Fernández","López","Martínez","Sánchez","Pérez","Gómez","Martín","Jiménez","Ruiz","Hernández","Díaz","Moreno","Muñoz","Álvarez","Romero","Alonso","Gutiérrez"
 ];
 
 const typesStreet: string[] = [
@@ -66,27 +65,31 @@ const typesStreet: string[] = [
   }
 
   const getNumbers = (len:string) => len.replace(/[*]/g,()=>`${Math.floor(Math.random() * 9)}` )
-  for (let i = 1; i <= 300; i++) {
+
+  const {id} = await storeService.getWhenExist<Companies>("company-default-selected");
+
+  for (let i = 1; i <= 120; i++) {
     const surname = getRandomItem(surnames);
     const name = getRandomItem(names);
 
-    const employee: EmployeeProfile = {
-      id: v4(),
-      name: ` ${surname} ${name}`,
+    const employee: EmployeeResponse = {
+      id: 0,
+      empresa_id: id,
+      nombre: ` ${surname} ${name}`,
       email: `${name[0]}${surname}@gmail.com`,
-      workstation: getRandomItem(workstations),
-      rol: getRandomItem(roles),
-      dni: Math.floor(Math.random() * (15000000) + 35000000),
-      phone_number:`+549${getNumbers('**********')}`,
-      work_schedule: getRandomItem(schedules),
-      address: `${getRandomItem(typesStreet)} ${getRandomItem(streets)} ${getNumbers('****')}, ${getRandomItem(cities)}`,
-      birthday:getRandomDate(75,18),
-      status: getRandomItem(statuses),
-      image: "datos/employee.jpg",
-      entry_date:getRandomDate(15,1960),
-      discharge_date:getRandomDate(20,1980),
-      punctuality:Number(getNumbers('**')),
-      attendance:Number(getNumbers('**')),
+      telefono:`+549${getNumbers('**********')}`,
+      rol: getRandomItem(["admin", "empleado", "empleado", "empleado", "empleado", "empleado", "empleado"]),
+      dni: `${Math.floor(Math.random() * (15000000) + 35000000)}`,
+      fecha_nac:getRandomDate(75,18),
+      puesto: getRandomItem(workstations),
+      direccion: `${getRandomItem(typesStreet)} ${getRandomItem(streets)} ${getNumbers('****')}, ${getRandomItem(cities)}`,
+      estado: getRandomItem(statuses),
+      turno: getRandomItem(schedules),
+      imagen: "datos/employee.jpg",
+      fecha_ingreso:getRandomDate(15,1995),
+      fecha_egreso: Math.random() < 0.08 ? getRandomDate(20,1980): undefined,
+      activo:true,
+      created_at:getRandomDate(2025,1997),
       checked:false
     };
     data.push(employee);

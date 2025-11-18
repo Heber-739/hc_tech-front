@@ -4,29 +4,29 @@
      <div class="w-full flex">
       <div class="relative w-fit h-fit px-1">
         <input (change)="loadFile($event)" type="file" style="display: none;" id="file-input" accept="image/*" >
-        @if (currentCompany().image){
-          <p-avatar [image]="currentCompany()!.image"  class="mx-auto" size="xlarge" shape="circle" />
+        @if (currentCompany().imagen){
+          <p-avatar [image]="currentCompany().imagen!"  class="mx-auto" size="xlarge" shape="circle" />
         } @else {
           <p-avatar icon="pi pi-user" class="mx-auto" size="xlarge" shape="circle" />
         }
         <label for="file-input"><i class="text-xs p-1 pi pi-pencil absolute bottom-0 right-0 bg-light-gray border-circle"></i></label>
       </div>
       <form class=" flex flex-column gap-2 px-3 w-full" action="" [formGroup]="companyForm" >
-        <p-select [options]="companies()" size="small" formControlName="name" optionLabel="name" placeholder="Compañia" [editable]="true" class="w-full" />
-        <input class="w-full" pSize="small" pInputText formControlName="web_page" type="text" placeholder="Página web" />
-        <input class="w-full" pSize="small" pInputText formControlName="address" type="text" placeholder="Dirección" />
-        <input class="w-full" pSize="small" pInputText formControlName="company_name" type="text" placeholder="Razón social" />
+        <p-select [options]="companies()" size="small" formControlName="nombre" optionLabel="nombre" placeholder="Compañia" [editable]="true" class="w-full" />
+        <input class="w-full" pSize="small" pInputText formControlName="pag_web" type="text" placeholder="Página web" />
+        <input class="w-full" pSize="small" pInputText formControlName="direccion" type="text" placeholder="Dirección" />
+        <input class="w-full" pSize="small" pInputText formControlName="razon_social" type="text" placeholder="Razón social" />
         <div class="w-full flex gap-1">
-          <p-datepicker class="w-4" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="fundation_year" placeholder="Año fundación" />
+          <p-datepicker class="w-4" size="small" fluid [iconDisplay]="'input'" [showIcon]="true" formControlName="created_at" placeholder="Año fundación" />
           <input class="w-8" pSize="small" pInputText formControlName="email" type="email" placeholder="Email" />
         </div>
         <div class="w-full flex gap-1">
-          <input class="w-4" pSize="small" pInputText formControlName="id" type="text" placeholder="CUIT" />
-          <input class="w-8" pSize="small" pInputText formControlName="phone_number" type="number" placeholder="Teléfono" />
+          <input class="w-4" pSize="small" pInputText formControlName="cuit" type="text" placeholder="CUIT" />
+          <input class="w-8" pSize="small" pInputText formControlName="telefono" type="text" placeholder="Teléfono" />
         </div>
 
         <div class="flex my-3 justify-content-end gap-3">
-          <p-button (onClick)="delete()" [disabled]="!includesCompany()" size="small"  severity="danger" label="Eliminar"  />
+          <p-button (onClick)="openConfirmModal()" [disabled]="!includesCompany()" size="small"  severity="danger" label="Eliminar"  />
           <p-button (onClick)="closeForm()"  size="small"  severity="danger" outlined label="Cancelar"  />
           <p-button (onClick)="submit()"  size="small"  severity="primary" [label]="labelAction()"  />
         </div>
@@ -34,3 +34,7 @@
     </div>
   </div>
 </div>
+<app-modal-actions
+[modalKey]="modalKey()"
+(actionResult)="closeModal($event)"
+ ></app-modal-actions>

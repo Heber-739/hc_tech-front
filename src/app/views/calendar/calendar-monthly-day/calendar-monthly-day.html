@@ -1,21 +1,43 @@
-<div class="w-full flex flex-column flex-shrink-0">
+@if (itemData().fecha) {
+
+<div class="relative">
+  <div class="w-full flex flex-column flex-shrink-0 scrollable">
     <div class="w-full text-xs flex justify-content-between align-items-center">
       <p class="t-gray">
-        {{ item().date.getDate() }}
+        {{ item().fecha.getDate() }}
       </p>
-      <i class="pi pi-plus-circle primary-color mx-1"> </i>
+      <i class="pi pi-plus-circle primary-color mx-1" (click)="openSelect()"> </i>
     </div>
-    <div class="scrollable ">
-      @for (item of item().items; track $index) {
-        <p
+    <div class="">
+      @for (item of itemData().items; track $index) {
+      <p
         [ngClass]="{
-    'vacation': item.type == 'Vacaciones',
-    'active': item.type == 'Asistencia',
-    'absent': item.type == 'Dia Libre',
-    'primary-btn': item.type == 'Otro',
+          'vacation': item.type == 'Vacaciones' || item.type == 'Licencia',
+          'active': item.type == 'Asistencia',
+          'absent': item.type == 'Dia Libre' || item.type == 'Enfermedad',
+          'primary-btn': item.type == 'Otro' || item.type == 'Capacitación',
         }"
-        class="text-xs text-center border-round-3xl my-1 bg-white"
-        > {{item.type}} </p>
+        class="flex justify-content-between align-items-center text-xs text-center border-round-3xl my-1 bg-white px-2 py-1"
+      >
+        <i class=""></i> {{ item.type }}
+        <i class="text-xs pi pi-times delete-icon" (click)="delete(item.id)"></i>
+      </p>
       }
     </div>
   </div>
+  @if (toggleSelect()) {
+  <div class="p-1 border-round-lg absolute border-primary z-2 w-full bg-white" style="top: -270%">
+    <p-select
+      autofocus
+      [options]="calendarOptions()"
+      size="small"
+      placeholder="Asunto"
+      class="w-full"
+      (onBlur)="blur()"
+      (onChange)="onSelect($event)"
+    />
+  </div>
+  }
+</div>
+}
+<app-modal-actions [modalKey]="modalKey()" (actionResult)="closeModal($event)"> </app-modal-actions>

@@ -3,16 +3,18 @@
 [status]="status()"
 class="flex flex-shrink-0"
 (addEmployee)="openEmployeeModal()"
+(allChecked)="markAllChecked($event)"
 (confirmDelete)="deleteEmployees()"
 (filtersSelected)="filterEmployees($event)"
  ></app-employee-header>
 
 <div class="flex flex-column flex-grow-1">
 
-  <div class="flex flex-column gap-1 h-full">
+  <div class="flex flex-column h-full">
 
     @for (employee of employees(); track employee.id) {
       <app-employee-item
+      [user]="user()"
       (checked)="checkItem($event, employee.id)"
       [employee]="employee"
       (edit)="openEmployeeModal($event)"
@@ -44,7 +46,6 @@ class="flex flex-shrink-0"
   <app-employee-form
   (add)="addEmployee($event)"
   (cancel)="closeEmployeeModal()"
-  [disableItems]="!!editEmployee()"
   [editEmployee]="editEmployee()"
   ></app-employee-form>
 }

@@ -17,15 +17,18 @@
     </div>
     <div class="col-1"></div>
     <div class="col-1 flex px-4 align-items-center justify-content-end">
-      <i class="pi pi-trash text-xl mr-5" style="color:red;" (click)="deleteAction($event)"></i>
-      <p-confirmdialog />
-      <p-button (onClick)="add()" label="Agregar"  />
+      @if (user().rol !== "empleado") {
+        <i class="pi pi-trash text-xl mr-5" style="color:red;" (click)="deleteAction()"></i>
+        <app-modal-actions [modalKey]="modalKey()" (actionResult)="confirm($event)">
+        </app-modal-actions>
+        <p-button (onClick)="add()" label="Agregar" />
+      }
     </div>
   </div>
 
   <div class="grid m-0 w-full div-filters">
     <div class="col-1 flex justify-content-left">
-      <p-checkbox [binary]="true" class="ml-5" />
+      <p-checkbox [binary]="true" (onChange)="allItemsChecked($event)" class="ml-5" />
     </div>
     <div class="col-3 text-sm text-center">
       <p>Personal</p>

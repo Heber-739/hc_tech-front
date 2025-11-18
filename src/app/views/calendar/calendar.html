@@ -1,11 +1,12 @@
-<app-calendar-header class="flex flex-shrink-0" ></app-calendar-header>
-<app-monthly-calendar
+
+  <app-monthly-calendar
   [monthlyItems]="calendarItems()"
   class="flex flex-grow-1"
-></app-monthly-calendar>
+  ></app-monthly-calendar>
 
-   <div class="flex flex-shrink-0 justify-content-center py-2 align-items-center ">
+  <div class="flex flex-shrink-0 justify-content-center py-2 align-items-center ">
     <i (click)="change(false)" class="pi pi-chevron-left text-primary text-xl"> </i>
     <p class="mx-5 w-3 text-center">{{ getDay() }}</p>
     <i (click)="change(true)" class="pi pi-chevron-right text-primary text-xl"> </i>
   </div>
+
