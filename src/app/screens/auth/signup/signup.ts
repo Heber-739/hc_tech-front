@@ -21,7 +21,7 @@ export default class Signup {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private toast = inject(ToastService);
-  private router = inject(Router);
+  protected success = output<void>();
 
   signupForm =  this.fb.group({
     nombre: ["",[Validators.required]],
@@ -38,9 +38,10 @@ export default class Signup {
 
     const {data,error} = await this.authService.signUp({nombre,email,password})
     if(!data) return this.toast.show("signup-error");
-    localStorage.setItem("user-data", JSON.stringify(data));
-    storeService.set("user-data", data);
+    // localStorage.setItem("user-data", JSON.stringify(data));
+    // storeService.set("user-data", data);
     this.toast.show("signup-success");
-    this.router.navigateByUrl("/panel/employees");
+    this.success.emit();
+    // this.router.navigateByUrl("/panel/employees");
   }
 }

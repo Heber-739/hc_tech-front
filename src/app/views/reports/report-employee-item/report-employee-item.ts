@@ -17,11 +17,9 @@ export class ReportEmployeeItem {
   viewEmployeeData = output<void>()
 
 
-  getTimeInCompany() {
-      if (!this.employee().fecha_ingreso || !this.employee().fecha_egreso) return '';
-      const initDate = new Date(this.employee().fecha_ingreso);
-      const endDate = new Date(this.employee().fecha_egreso!);
-      return calculateIntervalTime(initDate, endDate);
+  getTimeInCompany(){
+      const { fecha_ingreso, fecha_egreso} = this.employee();
+      return calculateIntervalTime(fecha_ingreso, fecha_egreso);
     }
 
     setEmployeeData(){

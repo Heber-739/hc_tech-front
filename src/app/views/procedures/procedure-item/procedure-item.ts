@@ -77,7 +77,7 @@ protected fecha_fin:Date| null = null;
 
   private async takeProcedure(){
        const user = storeService.get<UserData>("user-data");
-    const {data,error} = await this.procedureService.takeProcedure(this.item().id,user.id);
+    const {data,error} = await this.procedureService.takeProcedure(this.item().id,user.empleado_id);
     if(!data) return this.toast.show("procedur-update-error")
       this.toast.show("procedur-update-success")
     this.item().owner = data.owner;
@@ -89,7 +89,9 @@ protected fecha_fin:Date| null = null;
     const req:ProcedureCloseRequest = {
     id:this.item().id,
     devolucion:this.feedback,
-    estado:this.estado
+    estado:this.estado,
+    fecha_inicio: new Date(),
+    fecha_fin: new Date(),
     }
     if(this.fecha_fin && this.fecha_inicio){
       req.fecha_fin = this.fecha_fin,

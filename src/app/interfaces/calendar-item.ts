@@ -17,6 +17,4 @@ export enum CalendarItemType {
   LICENSE = 'Licencia',
   TRAINING = 'Capacitación',
 
-
-
 }

@@ -7,7 +7,7 @@
 
     <app-signin ></app-signin>
   } @else {
-    <app-signup ></app-signup>
+    <app-signup (success)="changeForm()" ></app-signup>
   }
 
   <div

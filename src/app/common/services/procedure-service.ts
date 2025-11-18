@@ -55,7 +55,7 @@ export class ProcedureService {
         const user = storeService.get<UserData>("user-data");
         let item = procedures[index];
         item.owner = {
-          id:user.id,
+          id:user.empleado_id,
           name:user.nombre
         };
         item.status = res.estado;
